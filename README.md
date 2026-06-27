@@ -6,9 +6,9 @@ The included `task-contract` Skill converts vague, multi-step, high-impact, or i
 
 ## Status
 
-Current release target: **v0.2.0**
+Current release target: **v0.3.0**
 
-v0.2.0 stabilizes Loop Contract Mode as a core feature and applies the P0 + P1 remediation scope documented in `IMPLEMENTATION__PLAN.md`. P2 expansion items are deferred to the roadmap.
+v0.3.0 adds validation, tooling, draft schemas, CI, snapshot protocol documentation, and stronger release-readiness gates while preserving the v0.2.0 behavior contract.
 
 ## What It Provides
 
@@ -18,8 +18,9 @@ v0.2.0 stabilizes Loop Contract Mode as a core feature and applies the P0 + P1 r
 - **Full Contract** for complex, ambiguous, repo-level, public-facing, or high-impact tasks.
 - **Stable Loop Contract Mode** for iterative tasks with objective, iteration unit, observation method, adjustment strategy, validation method, stop conditions, max iterations, escalation triggers, Approval Gate, and Loop Log.
 - **Approval Gate** before broad repository changes, public behavior changes, release metadata changes, dependency changes, destructive cleanup, security posture changes, commits, pushes, tags, releases, pull requests, or high-impact loop execution.
+- **Draft schemas** for task contracts, Loop Contract Mode, expected outputs, and local plugin invariants.
+- **CI-ready validators** for repository structure, plugin package sync, loop fixtures, schemas, docs, and snapshot protocol.
 - **Codex Plugin package** with `.codex-plugin/plugin.json`.
-- **Manual fixtures and validators** for compact, full, high-impact, and stable loop requests.
 
 ## Quick Usage
 
@@ -43,10 +44,12 @@ Expected behavior:
 skills/task-contract/             Canonical Codex Skill source
 skills/task-contract/references/  Extended behavior rules
 skills/task-contract/assets/      Output templates and examples
-skills/task-contract/tests/       Manual behavior fixtures
+skills/task-contract/tests/       Manual behavior fixtures and snapshots
 plugin/codex-task-contract-skill/ Installable Codex Plugin package
 docs/                             Human-facing and maintainer documentation
+schemas/                          v0.3.0 draft schemas
 scripts/                          Maintenance, sync, and validation scripts
+.github/workflows/                CI validation workflow
 ```
 
 ## Canonical Source and Plugin Sync
@@ -69,35 +72,49 @@ Update canonical source first, then sync the plugin package:
 bash scripts/sync-plugin-package.sh
 ```
 
-Do not manually edit the packaged Skill copy unless you are updating sync tooling.
+Do not manually edit the packaged Skill copy unless you are updating sync tooling or repairing drift identified by validation.
 
 ## Validation
 
 Run the full local validation sequence before release review:
 
 ```bash
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
 git status
 ```
 
-The validators check required files, local plugin manifest invariants, canonical/plugin sync drift, version consistency, terminology consistency, fixture determinism, loop fixture coverage, and template/checklist consistency.
+The validators check required files, local plugin manifest invariants, canonical/plugin sync drift, version consistency, terminology consistency, fixture determinism, loop fixture coverage, schema structure, documentation inventory, and snapshot protocol readiness.
 
-## v0.2.0 Release Check
+## CI
 
-Before tagging v0.2.0:
+GitHub Actions validation is defined in:
+
+```text
+.github/workflows/validate.yml
+```
+
+The workflow runs the same release-readiness checks used locally.
+
+## v0.3.0 Release Check
+
+Before tagging v0.3.0:
 
 ```bash
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
 git status
 ```
 
-Then review `docs/v0.2.0-release-checklist.md`.
+Then review `docs/v0.3.0-release-checklist.md`.
 
 ## License
 
