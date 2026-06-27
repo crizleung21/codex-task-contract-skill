@@ -19,6 +19,12 @@ REQUIRED_FILES = [
     'AGENTS.md',
     'skills/task-contract/assets/compact-loop-contract-template.md',
     'skills/task-contract/assets/full-loop-contract-template.md',
+    'schemas/task-contract.schema.json',
+    'schemas/loop-contract.schema.json',
+    'schemas/expected-output.schema.json',
+    'schemas/plugin-local-invariants.schema.json',
+    'scripts/validate-schemas.py',
+    'scripts/validate-plugin-sync.py',
 ]
 
 EXPECTED_MODES = {
@@ -35,9 +41,30 @@ EXPECTED_MODES = {
     'loop-repo-maintenance-task.expected.md': 'Mode: Loop Contract Mode',
 }
 
+SCHEMA_FILES = [
+    'task-contract.schema.json',
+    'loop-contract.schema.json',
+    'expected-output.schema.json',
+    'plugin-local-invariants.schema.json',
+]
+
 def fail(message, failures):
     failures.append(message)
     print('FAIL: ' + message)
+
+def validate_schema_file(path, failures):
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except json.JSONDecodeError as exc:
+        fail(str(path.relative_to(ROOT)) + ' is not valid JSON: ' + str(exc), failures)
+        return
+
+    for field in ['$schema', 'title', 'type', 'properties']:
+        if field not in data:
+            fail(str(path.relative_to(ROOT)) + ' missing schema field: ' + field, failures)
+
+    if data.get('type') != 'object':
+        fail(str(path.relative_to(ROOT)) + ' must use top-level type object', failures)
 
 def main():
     failures = []
@@ -58,8 +85,8 @@ def main():
         data = json.loads(manifest.read_text(encoding='utf-8'))
         if data.get('name') != 'codex-task-contract-skill':
             fail('plugin manifest name mismatch', failures)
-        if data.get('version') != '0.2.0':
-            fail('plugin manifest version mismatch', failures)
+        if data.get('version') not in ['0.2.0', '0.3.0']:
+            fail('plugin manifest version must be 0.2.0 or 0.3.0 during v0.3.0 planning', failures)
         if data.get('skills') != './skills/':
             fail('plugin manifest skills path mismatch', failures)
 
@@ -72,6 +99,12 @@ def main():
         text = path.read_text(encoding='utf-8')
         if mode not in text:
             fail(filename + ' missing deterministic mode: ' + mode, failures)
+
+    schema_dir = ROOT / 'schemas'
+    for filename in SCHEMA_FILES:
+        path = schema_dir / filename
+        if path.is_file():
+            validate_schema_file(path, failures)
 
     if failures:
         print('Repository validation failed: ' + str(len(failures)) + ' issue(s).')
