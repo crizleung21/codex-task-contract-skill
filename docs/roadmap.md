@@ -20,7 +20,7 @@ Status: released.
 
 Status: release candidate.
 
-Release goal: make Loop Contract Mode a stable core feature.
+Release goal: make Loop Contract Mode a stable core feature and complete P0 + P1 remediation.
 
 - Stable loop state model.
 - Expanded loop policy reference.
@@ -28,24 +28,26 @@ Release goal: make Loop Contract Mode a stable core feature.
 - Stop condition reference.
 - Escalation rule reference.
 - Loop evaluation rubric.
-- Full and compact loop templates.
-- Stronger loop golden outputs.
+- Compact, full, and shared loop templates.
+- Stronger expected outputs.
 - Loop fixture validator.
+- Repository validator.
+- Plugin package sync policy.
 - v0.2.0 release checklist.
 
-## v0.3.0 — Validation Scripts
+## v0.3.0 — Deferred P2 Items
 
-Release goal: improve maintainer confidence.
-
-- Add plugin manifest validation.
-- Add markdown lint option.
-- Add sync drift detection.
-- Add optional loop state validation.
-- Add optional loop log summarizer.
+- CI.
+- Markdown lint option.
+- Sync drift improvements.
+- Optional loop state review.
+- Optional loop log summarizer.
+- Optional markdown table checker.
+- Machine-readable contract schema draft.
+- Plugin schema review after authoritative source confirmation.
+- Marketplace publishing guide.
 
 ## v1.0.0 — Stable Contract
-
-Release goal: freeze the public behavior contract.
 
 - Freeze core output schema.
 - Publish stable behavior spec.
