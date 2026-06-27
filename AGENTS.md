@@ -22,9 +22,39 @@ plugin/codex-task-contract-skill/skills/task-contract/
 
 Update canonical source first. Then sync the plugin package.
 
-## Validation
+## v0.3.0 Release Gates
 
-Before release review, run the repository validators and confirm the plugin package copy matches canonical source.
+Before release review, run:
+
+```bash
+bash scripts/sync-plugin-package.sh
+bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
+git status
+```
+
+The package copy must match canonical source after sync.
+
+## Schema Policy
+
+Schemas under `schemas/` are v0.3.0 draft schemas. They are not v1.0.0 frozen public contracts and are not official plugin schema compliance claims.
+
+## CI Policy
+
+The CI workflow must mirror the local validation sequence. Do not tag a release until CI is green.
+
+## Snapshot Policy
+
+Snapshot protocol files live under:
+
+```text
+skills/task-contract/tests/snapshots/
+```
+
+Snapshots validate expected structure, not exact prose, unless exact prose is intentionally part of the behavior contract.
 
 ## Approval Boundary
 
@@ -43,4 +73,4 @@ Keep repository documentation and Skill instructions English-only.
 - Prefer precise, bounded edits.
 - Update fixtures when behavior changes.
 - Keep P2 expansion work in the roadmap.
-- Do not edit packaged Skill files directly unless maintaining sync tooling.
+- Do not edit packaged Skill files directly unless maintaining sync tooling or repairing validated drift.
