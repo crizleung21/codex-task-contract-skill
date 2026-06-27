@@ -1,12 +1,21 @@
 # Loop Log Template
 
-| Iteration | Action | Observation | Repair | Status |
-|---|---|---|---|---|
-| 1 | ... | ... | ... | ... |
+| Iteration | Action | Observation | Adjustment | Validation | Status |
+|---|---|---|---|---|---|
+| 1 | ... | ... | ... | ... | ... |
+
+## Loop Stop Summary
+
+- Final status:
+- Stop reason:
+- Evidence:
+- Remaining gaps:
+- Next step:
 
 ## Rules
 
 - Keep the log concise.
-- Record only useful evidence.
+- Record only user-visible evidence.
 - Do not expose hidden reasoning.
-- Summarize remaining issues at the end.
+- Summarize remaining gaps at the end.
+- Stop when a stop condition or escalation trigger is met.
