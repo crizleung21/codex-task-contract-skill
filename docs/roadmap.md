@@ -1,31 +1,47 @@
 # Roadmap
 
-## v0.1.0 — MVP
+## v0.1.0 — Task Contract MVP
 
-- Instruction-only `task-contract` Skill.
-- Plugin package.
+Release goal: first usable public version.
+
+- Canonical `task-contract` Skill.
+- Auto-Skeleton.
+- Task Optimizer.
+- Compact Contract mode.
+- Full Contract mode.
+- Loop-aware Contract preview.
+- Plugin package scaffold.
 - Local marketplace metadata.
 - Core docs.
 - Manual fixtures.
+- v0.1.0 release checklist.
 
-## v0.2.0 — Loop Contract Mode
+## v0.2.0 — Stable Loop Contract Mode
 
-- Add Loop Contract Mode.
-- Add loop policy reference.
-- Add loop templates.
-- Add loop fixtures and expected outputs.
-- Add task-type based iteration limits.
-- Add stop conditions.
+Release goal: make Loop Contract Mode a stable core feature.
+
+- Expand loop policy reference.
+- Expand loop templates.
+- Add stronger loop golden outputs.
+- Add task-type loop evaluation rubric.
+- Add stop condition examples.
+- Add escalation examples.
 
 ## v0.3.0 — Validation Scripts
+
+Release goal: improve maintainer confidence.
 
 - Add plugin manifest validation.
 - Add markdown lint option.
 - Add sync drift detection.
 - Add optional loop state validation.
+- Add optional loop log summarizer.
 
 ## v1.0.0 — Stable Contract
+
+Release goal: freeze the public behavior contract.
 
 - Freeze core output schema.
 - Publish stable behavior spec.
 - Provide migration notes.
+- Add stable release examples.
