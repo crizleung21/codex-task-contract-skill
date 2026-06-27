@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/codex-task-contract-skill/schemas/task-contract.schema.json",
+  "title": "Task Contract Draft Schema",
+  "description": "Draft structural schema for v0.3.0 task-contract outputs. This is not a v1.0.0 frozen schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mode",
+    "auto_skeleton",
+    "optimized_task",
+    "output_contract",
+    "acceptance_criteria",
+    "next_step"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "0.3.0-draft"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "Compact Contract",
+        "Full Contract",
+        "Loop Contract Mode"
+      ]
+    },
+    "auto_skeleton": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "raw_task",
+        "optimized_task",
+        "object",
+        "context",
+        "constraints",
+        "output",
+        "acceptance"
+      ],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "raw_task": { "type": "string", "minLength": 1 },
+        "optimized_task": { "type": "string", "minLength": 1 },
+        "object": { "type": "string", "minLength": 1 },
+        "context": { "type": "string" },
+        "constraints": { "type": "string" },
+        "output": { "type": "string", "minLength": 1 },
+        "acceptance": { "type": "string", "minLength": 1 }
+      }
+    },
+    "bluf": { "type": "string" },
+    "optimized_task": { "type": "string", "minLength": 1 },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "decision_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["question", "options"],
+        "properties": {
+          "question": { "type": "string", "minLength": 1 },
+          "options": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1
+          },
+          "recommended_default": { "type": "string" },
+          "reply_template": { "type": "string" }
+        }
+      }
+    },
+    "output_contract": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["deliverable", "format", "acceptance_criteria"],
+        "properties": {
+          "deliverable": { "type": "string", "minLength": 1 },
+          "format": { "type": "string", "minLength": 1 },
+          "depth_or_length": { "type": "string" },
+          "acceptance_criteria": { "type": "string", "minLength": 1 }
+        }
+      },
+      "minItems": 1
+    },
+    "execution_plan": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "approval_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "blocked_action": { "type": "string" },
+        "recommended_safe_default": { "type": "string" },
+        "reply_template": { "type": "string" }
+      }
+    },
+    "next_step": { "type": "string", "minLength": 1 }
+  }
+}
