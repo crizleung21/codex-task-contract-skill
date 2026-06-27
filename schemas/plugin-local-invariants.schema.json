@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/codex-task-contract-skill/schemas/plugin-local-invariants.schema.json",
+  "title": "Plugin Local Invariants Draft Schema",
+  "description": "Draft schema for local plugin package invariants. This is not an official plugin manifest schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plugin_name",
+    "plugin_version",
+    "skills_path",
+    "canonical_skill_path",
+    "packaged_skill_path"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "0.3.0-draft"
+    },
+    "plugin_name": {
+      "type": "string",
+      "const": "codex-task-contract-skill"
+    },
+    "plugin_version": {
+      "type": "string",
+      "pattern": "^0\\.3\\.0(-[A-Za-z0-9.-]+)?$"
+    },
+    "skills_path": {
+      "type": "string",
+      "const": "./skills/"
+    },
+    "canonical_skill_path": {
+      "type": "string",
+      "const": "skills/task-contract/"
+    },
+    "packaged_skill_path": {
+      "type": "string",
+      "const": "plugin/codex-task-contract-skill/skills/task-contract/"
+    },
+    "manifest_path": {
+      "type": "string",
+      "const": "plugin/codex-task-contract-skill/.codex-plugin/plugin.json"
+    },
+    "local_only": {
+      "type": "boolean",
+      "const": true
+    }
+  }
+}
