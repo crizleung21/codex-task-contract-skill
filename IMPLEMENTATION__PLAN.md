@@ -1,642 +1,724 @@
 # IMPLEMENTATION__PLAN.md
 
-Status: v0.2.0 release-candidate remediation and optimization plan  
+Status: v0.3.0 implementation plan for validation, tooling, schemas, and release confidence  
 Project: `codex-task-contract-skill`  
 Primary Skill Name: `task-contract`  
 Primary Plugin Name: `codex-task-contract-skill`  
 Language Policy: English-only documentation and skill instructions  
 Repository Policy: independent from `creator-toolchain`  
-Adopted Scope: P0 + P1 implementation, P2 roadmap only
+Baseline: v0.2.0 stable Loop Contract Mode and P0/P1 remediation  
+Adopted Scope: v0.3.0 validation and tooling layer; no behavior redesign unless required by validation evidence
 
 ---
 
 ## 1. Executive Summary
 
-`codex-task-contract-skill` is an open-source Codex Skill and installable Plugin package that helps Codex clarify, bound, and contract user requests before execution.
+`codex-task-contract-skill` is a focused Codex Skill and installable Plugin package that makes Codex clarify, bound, and contract requests before execution.
 
-The project packages a reusable workflow named `task-contract`. The workflow turns vague, multi-step, high-impact, or iterative requests into explicit task contracts with visible scope, output expectations, acceptance criteria, and safe execution boundaries.
+v0.2.0 stabilizes the core behavior layer: Compact Contract, Full Contract, stable Loop Contract Mode, Approval Gate policy, loop stop conditions, deterministic fixtures, canonical/plugin packaging rules, and local validation scripts.
 
-The v0.2.0 release-candidate goal is to stabilize Loop Contract Mode and remove release-readiness drift across canonical Skill source, plugin package, documentation, fixtures, validation scripts, and release metadata.
+v0.3.0 should not redesign the Skill. It should add a stronger reliability layer around the existing behavior:
 
-This implementation plan adopts the approved remediation scope:
+1. stronger repository validation;
+2. stronger loop fixture validation;
+3. CI-ready validation commands;
+4. golden fixture snapshot workflow;
+5. machine-readable contract schema drafts;
+6. plugin package drift detection;
+7. markdown and documentation consistency checks;
+8. clearer release evidence;
+9. roadmap preparation for v1.0.0 behavior freeze.
 
-1. Complete all P0 release-blocking corrections.
-2. Complete all P1 professionalization and quality improvements.
-3. Move all P2 expansion items to the roadmap rather than implementing them in v0.2.0.
+v0.3.0 is successful when maintainers can prove that the Skill, docs, fixtures, templates, packaged plugin copy, and release metadata are internally consistent before release.
 
 ---
 
 ## 2. Product Positioning
 
-### 2.1 What This Repository Provides
+### 2.1 What the Project Is
 
-`codex-task-contract-skill` provides one focused behavior package:
+`codex-task-contract-skill` is a task-framing, scope-control, and loop-governance Skill for Codex.
+
+It provides:
+
+- visible task framing;
+- optimized task rewriting;
+- output contracts;
+- acceptance criteria;
+- decision points;
+- approval gates;
+- bounded Loop Contract Mode;
+- validation and release-readiness tooling.
+
+### 2.2 What v0.3.0 Adds
+
+v0.3.0 adds reliability infrastructure around the v0.2.0 behavior contract.
+
+It should answer:
 
 ```text
-User request -> Task Contract -> Approval-aware execution boundary
+Can this repository prove that its Skill behavior, docs, fixtures, templates, plugin package, and release metadata are consistent?
 ```
 
-The Skill is not a general autonomous agent framework. It is a task-framing, scope-control, and loop-governance Skill for Codex.
+### 2.3 What v0.3.0 Does Not Add
 
-### 2.2 Core Value
+v0.3.0 should not add:
 
-The repository should make Codex better at:
-
-1. clarifying before action;
-2. preserving user intent;
-3. rewriting vague tasks into precise bounded tasks;
-4. selecting the correct contract mode;
-5. identifying high-impact actions before execution;
-6. controlling iterative work through observable loops;
-7. stopping safely when validation, approval, or scope boundaries require it.
+- a second Skill;
+- multi-skill orchestration;
+- background execution;
+- autonomous runtime behavior;
+- official plugin schema claims without authoritative verification;
+- marketplace publishing as a release blocker;
+- v1.0.0 behavior freeze.
 
 ---
 
-## 3. Confirmed Decisions
+## 3. Baseline From v0.2.0
+
+v0.3.0 assumes the v0.2.0 baseline exists.
+
+| Area | v0.2.0 Baseline |
+|---|---|
+| Core Skill | `task-contract` defines compact, full, and loop modes. |
+| Loop Mode | Loop Contract Mode is stable and bounded. |
+| Approval Gate | High-impact work pauses before execution. |
+| Templates | Compact, full, shared loop, compact loop, and full loop templates exist. |
+| Fixtures | Compact, full, high-impact, documentation, research, destructive, and loop fixtures exist. |
+| Validation | Local repository and loop fixture validators exist. |
+| Packaging | Plugin package exists and sync policy is documented. |
+| Docs | Usage, installation, testing, release, migration, manifest, packaging, and behavior docs exist. |
+| Roadmap | v0.3.0 deferred validation/tooling items are listed. |
+
+If any baseline item is missing, v0.3.0 work must first repair the baseline before adding new tooling.
+
+---
+
+## 4. Confirmed v0.3.0 Decisions
 
 | Area | Decision |
 |---|---|
-| Skill name | `task-contract` |
-| Plugin name | `codex-task-contract-skill` |
-| Repository relationship | Independent from `creator-toolchain` |
-| Documentation language | English-only |
-| Primary behavior | Clarify before action |
-| Output modes | Compact Contract, Full Contract, Loop Contract Mode |
-| v0.2.0 release focus | Stable Loop Contract Mode |
-| Execution policy | Approval-aware execution boundary |
-| High-impact execution | Pause before execution unless approved |
-| Loop execution | Bounded iterations only |
-| Loop caps | Task-type based maximum iterations |
-| Hidden reasoning | Must not be requested or exposed |
-| Background execution | Not supported |
-| P0 scope | Implement before v0.2.0 release |
-| P1 scope | Implement before v0.2.0 release where practical |
-| P2 scope | Roadmap only |
+| Release target | v0.3.0 |
+| Release theme | Validation and tooling |
+| Core behavior | Preserve v0.2.0 behavior unless tests prove a correction is needed |
+| Primary risk | Validator drift, fixture ambiguity, and plugin package inconsistency |
+| CI | Add GitHub Actions workflow for validation commands |
+| Schema | Add draft machine-readable contract schemas, not frozen v1.0 schemas |
+| Snapshot tests | Add golden expected-output snapshot runner or snapshot protocol |
+| Markdown lint | Add optional markdown consistency check |
+| Plugin manifest | Validate local invariants; do not claim official schema compliance without source verification |
+| Marketplace docs | Roadmap or draft only, not a v0.3.0 blocker unless already verified |
+| Multi-skill expansion | Defer beyond v1.0.0 behavior freeze |
 
 ---
 
-## 4. Canonical Behavior Contract
+## 5. v0.3.0 Release Goal
 
-### 4.1 Required User-Visible Framing
+v0.3.0 should make the repository harder to regress.
 
-When `task-contract` is invoked, Codex should produce visible task framing before execution.
-
-The core output building blocks are:
-
-1. Auto-Skeleton
-2. BLUF, when the task is non-trivial
-3. Optimized Task
-4. Assumptions
-5. Constraints
-6. Decision Points, when choices may change outcome
-7. Output Contract
-8. Execution Plan, when action is requested
-9. Acceptance Criteria
-10. Approval Gate, when high-impact execution is possible
-11. Loop Contract, when bounded iteration is required
-12. Loop Log, when Loop Contract Mode is used
-13. Loop Stop Summary, when a loop stops
-14. Next Step
-
-### 4.2 Auto-Skeleton Fields
-
-The Auto-Skeleton must include:
-
-| Field | Purpose |
-|---|---|
-| Role | The role Codex should adopt. |
-| Raw Task | The user request summarized without distortion. |
-| Optimized Task | A precise, bounded, outcome-first rewrite. |
-| Object | Repository, file, codebase, document, feature, question, or workflow target. |
-| Context | Relevant background and implied state. |
-| Constraints | Requirements, exclusions, risks, and boundaries. |
-| Output | Expected deliverable shape. |
-| Acceptance | How completion will be judged. |
-
-### 4.3 Task Optimizer Requirements
-
-The Optimized Task must:
-
-1. start with a clear action verb;
-2. identify the object of work;
-3. define the target outcome;
-4. bound the scope;
-5. specify decision-use;
-6. specify output shape;
-7. include acceptance criteria;
-8. preserve user intent;
-9. avoid scope creep;
-10. surface ambiguity as Decision Points when resolving it would change the task.
-
-Template:
+Release goal:
 
 ```text
-[Action] [object] to [outcome], using [context and constraints], so that [decision-use]. Output [format and depth], and consider the task complete when [acceptance criteria].
+Add a reliable validation and tooling layer that continuously checks task-contract behavior, fixture expectations, plugin package sync, local manifest invariants, documentation consistency, and release readiness.
 ```
+
+v0.3.0 is not primarily a new feature release. It is a quality, validation, and maintainer-confidence release.
 
 ---
 
-## 5. Mode Selection
-
-Choose exactly one mode per invocation unless the user explicitly asks for a comparison.
-
-| Mode | Select When | Required Output |
-|---|---|---|
-| Compact Contract | The task is simple, low impact, and only slightly underspecified. | Auto-Skeleton, Optimized Task, Output Contract, Next Step. |
-| Full Contract | The task is multi-step, ambiguous, repo-level, public-facing, or high impact. | Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate, Next Step. |
-| Loop Contract Mode | The task requires bounded iteration through action, observation, adjustment, validation, and safe stopping. | Full Contract plus Loop Contract, Loop Procedure, Loop Log, Validation Method, Stop Conditions, Escalation Triggers, Approval Gate, Next Step. |
-
-Escalation rules:
-
-1. Escalate from Compact Contract to Full Contract when a choice may change the outcome.
-2. Escalate from Full Contract to Loop Contract Mode when progress depends on observable cycles.
-3. Use an Approval Gate before high-impact execution.
-4. Stop rather than continue when validation is blocked, approval is required, or scope drift appears.
-
----
-
-## 6. Loop Contract Mode
-
-### 6.1 Definition
-
-Loop Contract Mode is the stable v0.2.0 task-control protocol for bounded iterative work.
-
-It converts iterative requests into this state model:
-
-```text
-Goal -> Contract -> Plan Iteration -> Act -> Observe -> Adjust -> Validate -> Stop/Escalate
-```
-
-### 6.2 Non-Goals
-
-Loop Contract Mode is not:
-
-- a background worker;
-- a scheduler;
-- a CI orchestrator;
-- an unbounded autonomous runtime;
-- permission to continue indefinitely;
-- permission to expand scope without approval.
-
-### 6.3 Required Loop Contract Fields
-
-| Field | Required | Meaning |
-|---|---:|---|
-| Loop Objective | Yes | The measurable final outcome. |
-| Loop Type | Yes | Simple, coding/debug, research, documentation, repo maintenance, or high-impact. |
-| Iteration Unit | Yes | The smallest useful action per cycle. |
-| Observation Method | Yes | Evidence checked after each cycle. |
-| Adjustment Strategy | Yes | How the next step changes based on the observation. |
-| Validation Method | Yes | How completion is verified. |
-| Stop Conditions | Yes | Success, safety, and failure stop rules. |
-| Max Iterations | Yes | Maximum allowed cycles. |
-| Escalation Triggers | Yes | Conditions requiring user input. |
-| Approval Gate | Yes | Whether execution may proceed. |
-| Loop Log | Yes | Concise user-visible evidence of iterations. |
-
-### 6.4 Default Iteration Limits
-
-| Loop Type | Default Max Iterations |
-|---|---:|
-| Simple loop | 3 |
-| Coding/debug loop | 5 |
-| Research loop | 3 |
-| Documentation loop | 3 |
-| Repo maintenance loop | 3 |
-| High-impact loop | 1 before approval |
-
-### 6.5 Mandatory Stop Conditions
-
-A loop must stop when:
-
-1. acceptance criteria are met;
-2. max iterations are reached;
-3. the same failure repeats twice;
-4. required context is missing;
-5. validation is not possible with available tools;
-6. a high-impact change becomes necessary;
-7. scope drift appears;
-8. user approval is required;
-9. the loop objective is no longer valid;
-10. continuing would produce low-confidence or misleading output.
-
----
-
-## 7. Approval Gate Policy
-
-### 7.1 Required Approval Gate Cases
-
-Use an Approval Gate before execution when the task may involve:
-
-1. broad repository changes;
-2. public behavior changes;
-3. release metadata changes;
-4. dependency installation or dependency updates;
-5. destructive cleanup or file deletion;
-6. security posture changes;
-7. large refactors;
-8. commits, pushes, tags, releases, or pull requests;
-9. loop scope expansion;
-10. any high-impact loop execution.
-
-### 7.2 Approval Gate Format
-
-```md
-## Approval Gate
-
-This action requires approval before execution because [reason].
-
-Blocked action: [specific action]
-Recommended safe default: [inspection-only / contract-only / limited edit scope]
-Reply template: Approved: [bounded scope]
-```
-
-### 7.3 Safe Default
-
-The safe default is always the narrowest useful action:
-
-```text
-Inspect and contract first; do not execute high-impact changes until approved.
-```
-
----
-
-## 8. Repository Architecture
-
-### 8.1 Target Repository Structure
+## 6. Target Repository Architecture
 
 ```text
 codex-task-contract-skill/
 ├── README.md
 ├── IMPLEMENTATION__PLAN.md
-├── LICENSE
 ├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── CODE_OF_CONDUCT.md
 ├── AGENTS.md
-├── .gitignore
-├── .editorconfig
 ├── skills/task-contract/
 │   ├── SKILL.md
 │   ├── references/
-│   │   ├── loop-contract-policy.md
-│   │   ├── loop-observation-methods.md
-│   │   ├── loop-stop-conditions.md
-│   │   ├── loop-escalation-rules.md
-│   │   └── loop-evaluation-rubric.md
 │   ├── assets/
-│   │   ├── compact-contract-template.md
-│   │   ├── full-contract-template.md
-│   │   ├── loop-contract-template.md
-│   │   ├── compact-loop-contract-template.md
-│   │   └── full-loop-contract-template.md
 │   └── tests/
 │       ├── fixtures/
-│       └── expected/
+│       ├── expected/
+│       └── snapshots/
 ├── plugin/codex-task-contract-skill/
 │   ├── .codex-plugin/plugin.json
 │   └── skills/task-contract/
-├── .agents/plugins/marketplace.json
 ├── docs/
-│   ├── installation.md
-│   ├── usage.md
-│   ├── testing.md
-│   ├── release-process.md
-│   ├── roadmap.md
-│   ├── loop-contract-mode.md
-│   ├── migration-v0.1-to-v0.2.md
 │   ├── behavior-contract.md
 │   ├── plugin-packaging.md
 │   ├── plugin-manifest.md
 │   ├── validator-design.md
-│   └── v0.2.0-release-checklist.md
-└── scripts/
-    ├── sync-plugin-package.sh
-    ├── validate-repo.sh
-    ├── validate-repo.py
-    ├── validate-loop-contract-fixtures.sh
-    └── validate-loop-contract-fixtures.py
+│   ├── schema-design.md
+│   ├── snapshot-testing.md
+│   ├── ci.md
+│   ├── testing.md
+│   ├── release-process.md
+│   ├── roadmap.md
+│   └── v0.3.0-release-checklist.md
+├── schemas/
+│   ├── task-contract.schema.json
+│   ├── loop-contract.schema.json
+│   ├── expected-output.schema.json
+│   └── plugin-local-invariants.schema.json
+├── scripts/
+│   ├── validate-repo.sh
+│   ├── validate-repo.py
+│   ├── validate-loop-contract-fixtures.sh
+│   ├── validate-loop-contract-fixtures.py
+│   ├── validate-plugin-sync.py
+│   ├── validate-docs.py
+│   ├── validate-schemas.py
+│   ├── run-snapshots.py
+│   └── sync-plugin-package.sh
+└── .github/workflows/
+    └── validate.yml
 ```
-
-### 8.2 Canonical Source Rule
-
-Canonical Skill source lives under:
-
-```text
-skills/task-contract/
-```
-
-The plugin package copy lives under:
-
-```text
-plugin/codex-task-contract-skill/skills/task-contract/
-```
-
-Canonical source must be updated first. The plugin package copy must then be synchronized using:
-
-```bash
-bash scripts/sync-plugin-package.sh
-```
-
-Manual edits inside the plugin Skill copy should be avoided unless the edit is part of sync tooling maintenance.
 
 ---
 
-## 9. P0 Implementation Scope — Release Blockers
+## 7. v0.3.0 Scope Overview
 
-P0 items must be completed before v0.2.0 release readiness can be claimed.
+### 7.1 P0 — Release Blockers
+
+P0 items must be completed before v0.3.0 can be released.
 
 | ID | Area | Required Change | Acceptance Criteria |
 |---|---|---|---|
-| P0-01 | Plugin sync | Ensure packaged Skill mirrors canonical `skills/task-contract/` source. | Canonical and plugin Skill package have no unintended drift after sync. |
-| P0-02 | Terminology consistency | Standardize on `Approval Gate`, `Adjustment Strategy`, `Stop Conditions`, and `Escalation Triggers`. | No current v0.2.0 docs or fixtures use legacy terms as active behavior. |
-| P0-03 | Implementation plan alignment | Rewrite implementation plan as v0.2.0 release-candidate remediation plan. | Plan reflects v0.2.0 status, P0/P1 adoption, and P2 roadmap deferral. |
-| P0-04 | Validator depth | Add a zero-dependency repository validator. | Validator checks file inventory, plugin sync drift, version consistency, terminology, fixtures, and template/checklist consistency. |
-| P0-05 | Loop fixture validation | Strengthen loop fixture validator beyond required terms. | Validator checks mode, required sections, required fields, forbidden patterns, approval requirements, and stop-condition coverage. |
-| P0-06 | Template/checklist consistency | Align release checklist, changelog, and assets. | If compact and full loop templates are claimed, those files exist and are referenced. |
-| P0-07 | Plugin manifest caveat | Document local manifest invariants and official-schema verification limits. | Repo does not claim official schema compliance without verification. |
-| P0-08 | Fixture determinism | Remove ambiguous expected modes where possible. | Each fixture has one expected mode unless ambiguity is the behavior being tested. |
-| P0-09 | Release metadata consistency | Align README, CHANGELOG, release process, roadmap, and checklist. | v0.2.0 status and release target are consistent across repo files. |
+| V3-P0-01 | Repository validator | Expand `validate-repo.py` into the primary release-readiness validator. | Checks required files, core Skill metadata, docs, templates, schemas, fixtures, plugin manifest, and release metadata. |
+| V3-P0-02 | Plugin sync validator | Add `validate-plugin-sync.py` or equivalent logic. | Fails when `plugin/codex-task-contract-skill/skills/task-contract/` differs from `skills/task-contract/`. |
+| V3-P0-03 | Loop fixture validator | Harden `validate-loop-contract-fixtures.py`. | Checks all required loop fields, log columns, stop conditions, escalation triggers, Approval Gate requirements, and forbidden open-ended phrases. |
+| V3-P0-04 | CI workflow | Add `.github/workflows/validate.yml`. | Runs validation scripts on push and pull request. |
+| V3-P0-05 | Schema draft | Add initial JSON schemas under `schemas/`. | Schemas cover task contract, loop contract, expected output, and local plugin invariants. |
+| V3-P0-06 | Schema validator | Add `validate-schemas.py`. | Confirms schema files parse as JSON and include required top-level metadata. |
+| V3-P0-07 | Snapshot protocol | Add snapshot testing docs and runner or manual protocol. | Maintainers can compare expected outputs against stable snapshot files or snapshot rules. |
+| V3-P0-08 | v0.3.0 release checklist | Add `docs/v0.3.0-release-checklist.md`. | Checklist matches actual v0.3.0 release blockers. |
+| V3-P0-09 | Release process update | Update `docs/release-process.md`. | Release process includes CI, schema validation, plugin sync validation, and snapshot review. |
+| V3-P0-10 | Roadmap update | Update `docs/roadmap.md`. | v0.3.0 scope is current; v1.0.0 behavior freeze remains future scope. |
 
----
+### 7.2 P1 — Strongly Recommended
 
-## 10. P1 Implementation Scope — Professionalization
-
-P1 items should be completed as part of the v0.2.0 quality pass unless they become unexpectedly large.
+P1 items should be completed in v0.3.0 if they do not block P0.
 
 | ID | Area | Required Change | Acceptance Criteria |
 |---|---|---|---|
-| P1-01 | `AGENTS.md` | Add repo-level agent operating rules. | Codex can identify canonical source, sync policy, validation commands, and safety boundaries. |
-| P1-02 | Behavior contract docs | Add `docs/behavior-contract.md`. | Mode selection, output order, Approval Gate policy, and anti-patterns are documented in one stable spec. |
-| P1-03 | Plugin packaging docs | Add `docs/plugin-packaging.md`. | Maintainers can sync, validate, and release plugin package without guessing. |
-| P1-04 | Plugin manifest docs | Add `docs/plugin-manifest.md`. | Current manifest fields and validation boundaries are documented. |
-| P1-05 | Validator design docs | Add `docs/validator-design.md`. | Validator purpose, checks, and failure modes are documented. |
-| P1-06 | Security alignment | Align `SECURITY.md` and Skill Approval Gate taxonomy. | Security-sensitive behavior is consistently blocked before approval. |
-| P1-07 | Expected output format | Normalize all expected fixtures. | Each expected file uses consistent Required Sections, Quality Checks, Forbidden Terms, and Approval Gate expectations. |
-| P1-08 | v0.1.0 historical docs | Mark v0.1.0 checklist as historical or move to archive. | Maintainers cannot mistake v0.1.0 checklist for v0.2.0 release readiness. |
-| P1-09 | Release process quality | Add sync drift and validator steps to release process. | Release process prevents stale plugin packages and inconsistent metadata. |
-| P1-10 | Template quality | Standardize template column names and section ordering. | Compact, Full, and Loop templates match Skill output rules. |
+| V3-P1-01 | Markdown consistency | Add `validate-docs.py` or documented markdown lint command. | Checks duplicate headings, missing titles, and required docs inventory. |
+| V3-P1-02 | Fixture matrix | Add `docs/fixture-matrix.md`. | Maps every fixture to mode, risk class, required sections, and validator coverage. |
+| V3-P1-03 | Validator test fixtures | Add valid and invalid validator samples. | Validators can be tested against known pass/fail examples. |
+| V3-P1-04 | Snapshot directory | Add `skills/task-contract/tests/snapshots/`. | Snapshot files or protocol are documented and versioned. |
+| V3-P1-05 | Local plugin manifest schema | Add `schemas/plugin-local-invariants.schema.json`. | Local manifest invariants are machine-readable. |
+| V3-P1-06 | Release evidence template | Add `docs/release-evidence-template.md`. | Release reviewers can record command output, diffs, and unresolved risks. |
+| V3-P1-07 | Changelog discipline | Update `CHANGELOG.md`. | v0.3.0 changes are grouped as Added, Changed, Fixed, and Deferred. |
+| V3-P1-08 | README validation section | Update README. | README lists the v0.3.0 validation command sequence. |
+| V3-P1-09 | AGENTS update | Update `AGENTS.md`. | Agent rules include schema, CI, and snapshot expectations. |
+| V3-P1-10 | Failure messages | Improve validator error messages. | Failures include file path, missing term, and suggested fix where practical. |
 
----
+### 7.3 P2 — Roadmap Only
 
-## 11. P2 Roadmap Scope — Deferred
-
-P2 items are useful but should not block v0.2.0.
+P2 items should not block v0.3.0.
 
 | ID | Roadmap Item | Target Version | Reason for Deferral |
 |---|---|---|---|
-| P2-01 | GitHub Actions CI | v0.3.0 | Local validators should stabilize first. |
-| P2-02 | Markdown lint option | v0.3.0 | Useful quality layer, not a behavior blocker. |
-| P2-03 | JSON Schema or YAML Schema for contracts | v0.3.0 | Requires stable public schema decisions. |
-| P2-04 | Golden output snapshot runner | v0.3.0+ | Needs a reliable output harness. |
-| P2-05 | Official plugin schema validation | v0.3.0+ | Requires verified official schema source. |
-| P2-06 | Marketplace publishing guide | v0.3.0+ | Should follow stable local plugin package behavior. |
-| P2-07 | Multi-skill expansion | v1.0.0+ | Avoids scope creep before `task-contract` stabilizes. |
-| P2-08 | Loop log summarizer | v0.3.0+ | Useful convenience, not required for v0.2.0. |
-| P2-09 | Optional markdown table validator | v0.3.0+ | Adds robustness after fixture format stabilizes. |
+| V3-P2-01 | Official plugin schema validation | v0.4.0+ | Requires authoritative schema source. |
+| V3-P2-02 | Marketplace publishing guide | v0.4.0+ | Should follow stable plugin validation. |
+| V3-P2-03 | Full golden output execution harness | v0.4.0+ | Needs stable runtime integration. |
+| V3-P2-04 | Contract schema freeze | v1.0.0 | v0.3.0 schemas are drafts. |
+| V3-P2-05 | Multi-skill expansion | post-v1.0.0 | Avoids scope creep before behavior freeze. |
+| V3-P2-06 | Automated changelog generator | v0.4.0+ | Convenience tooling, not release-critical. |
+| V3-P2-07 | Marketplace install smoke test | v0.4.0+ | Depends on marketplace publishing path. |
 
 ---
 
-## 12. File-Level Change Plan
+## 8. Detailed Implementation Plan
 
-### 12.1 Existing Files to Update
+### Phase 1 — Baseline Audit
 
-| File | Required Update | Priority |
-|---|---|---:|
-| `README.md` | Add plugin sync warning, validator commands, and v0.2.0 readiness wording. | P0 |
-| `IMPLEMENTATION__PLAN.md` | Replace starter plan with this v0.2.0 remediation and optimization plan. | P0 |
-| `CHANGELOG.md` | Add remediation notes and align template claims with actual assets. | P0 |
-| `CONTRIBUTING.md` | Standardize terminology and add canonical-source/sync rule. | P0 |
-| `SECURITY.md` | Align high-impact cases with Skill Approval Gate policy. | P1 |
-| `skills/task-contract/SKILL.md` | Strengthen mode determinism, Approval Gate taxonomy, and loop stop rules. | P1 |
-| `skills/task-contract/assets/compact-contract-template.md` | Standardize output contract column naming and compact constraints. | P1 |
-| `skills/task-contract/assets/full-contract-template.md` | Replace legacy gate wording and align section order. | P0 |
-| `skills/task-contract/assets/loop-contract-template.md` | Keep as shared loop template or reference it from compact/full loop variants. | P0 |
-| `skills/task-contract/tests/expected/*.expected.md` | Normalize expected format and remove avoidable ambiguous modes. | P0 |
-| `scripts/validate-repo.sh` | Keep as shell wrapper and call Python validator. | P0 |
-| `scripts/validate-loop-contract-fixtures.py` | Expand checks for sections, modes, fields, forbidden terms, and Approval Gate coverage. | P0 |
-| `scripts/sync-plugin-package.sh` | Add post-sync evidence or drift summary. | P0 |
-| `docs/testing.md` | Document deterministic fixture expectations and validator scope. | P1 |
-| `docs/release-process.md` | Add plugin sync drift check and manifest verification caveat. | P1 |
-| `docs/v0.2.0-release-checklist.md` | Align checklist with assets, validators, and release metadata. | P0 |
-| `docs/migration-v0.1-to-v0.2.md` | Add legacy term mapping and migration checklist. | P1 |
-| `docs/roadmap.md` | Move P2 expansion items into v0.3.0+ roadmap. | P1 |
+Goal: prove the v0.2.0 baseline is ready for v0.3.0 tooling.
 
-### 12.2 New Files to Add
+Tasks:
 
-| File | Purpose | Priority |
-|---|---|---:|
-| `AGENTS.md` | Repo-level Codex operating rules. | P1 |
-| `docs/behavior-contract.md` | Stable behavior contract for Skill outputs. | P1 |
-| `docs/plugin-packaging.md` | Canonical-to-plugin sync and packaging guide. | P1 |
-| `docs/plugin-manifest.md` | Local manifest invariants and schema-verification caveat. | P0 |
-| `docs/validator-design.md` | Validator architecture and failure criteria. | P1 |
-| `skills/task-contract/assets/compact-loop-contract-template.md` | Compact loop output template. | P0 |
-| `skills/task-contract/assets/full-loop-contract-template.md` | Full loop output template. | P0 |
-| `scripts/validate-repo.py` | Main zero-dependency repository validator. | P0 |
+1. Run existing validators.
+2. Confirm canonical and packaged Skill directories exist.
+3. Confirm current templates exist.
+4. Confirm expected fixtures have deterministic modes.
+5. Confirm `docs/roadmap.md` contains v0.3.0 validation/tooling scope.
+6. Confirm no active docs use legacy v0.1/v0.2 terminology as current behavior.
 
----
+Deliverables:
 
-## 13. Validator Requirements
+- Updated `docs/validator-design.md` baseline section.
+- Audit notes in `docs/v0.3.0-release-checklist.md`.
 
-### 13.1 `scripts/validate-repo.py`
+Acceptance criteria:
 
-The repository validator should be zero-dependency and should check:
+- Baseline failures are either fixed or explicitly listed as v0.3.0 blockers.
 
-1. required file inventory;
-2. canonical Skill frontmatter;
-3. plugin manifest local invariants;
-4. plugin package sync drift;
-5. release version consistency;
-6. forbidden active legacy terminology;
-7. required references and assets;
-8. release checklist and asset consistency;
-9. expected fixture mode determinism;
-10. required validation scripts.
+### Phase 2 — Validator Hardening
 
-### 13.2 `scripts/validate-loop-contract-fixtures.py`
+Goal: make validators the source of release-readiness truth.
 
-The loop fixture validator should check:
+Tasks:
 
-1. required loop expected files exist;
-2. required sections are present;
-3. required Loop Contract fields are present;
-4. required Loop Log columns are present;
-5. Stop Conditions are present;
-6. Escalation Triggers are present;
-7. Approval Gate appears for high-impact fixtures;
-8. forbidden open-ended patterns are absent;
-9. hidden reasoning is not requested;
-10. max iteration expectations are present.
+1. Expand `scripts/validate-repo.py`.
+2. Add or expand `scripts/validate-plugin-sync.py`.
+3. Expand `scripts/validate-loop-contract-fixtures.py`.
+4. Add `scripts/validate-docs.py`.
+5. Add `scripts/validate-schemas.py`.
+6. Update shell wrappers to call the correct validators.
+7. Ensure validation scripts are zero-dependency unless documented otherwise.
 
-### 13.3 Forbidden Active Patterns
+Deliverables:
 
-Validators should reject active behavioral language that implies:
+- `scripts/validate-repo.py`
+- `scripts/validate-plugin-sync.py`
+- `scripts/validate-docs.py`
+- `scripts/validate-schemas.py`
+- updated `scripts/validate-loop-contract-fixtures.py`
+- updated `docs/validator-design.md`
 
-- unlimited iteration;
-- open-ended execution;
-- background execution;
-- continuing without approval;
-- hidden reasoning exposure;
-- destructive actions without approval;
-- plugin package edits that bypass canonical source.
+Acceptance criteria:
 
----
+- Validators fail on missing required files.
+- Validators fail on plugin sync drift.
+- Validators fail on malformed schema JSON.
+- Validators fail on ambiguous fixture modes.
+- Validators produce readable error messages.
 
-## 14. Fixture Strategy
+### Phase 3 — Schema Drafts
 
-### 14.1 Fixture Coverage
+Goal: document the expected structure of task contracts in machine-readable form.
 
-The fixture set should cover:
+Tasks:
 
-| Fixture | Expected Mode |
-|---|---|
-| `simple-writing-task.md` | Compact Contract |
-| `vague-repo-task.md` | Full Contract |
-| `high-risk-refactor-task.md` | Full Contract with Approval Gate |
-| `documentation-task.md` | Full Contract |
-| `research-task.md` | Full Contract |
-| `destructive-file-task.md` | Full Contract with Approval Gate |
-| `loop-debug-task.md` | Loop Contract Mode |
-| `loop-research-task.md` | Loop Contract Mode |
-| `loop-documentation-task.md` | Loop Contract Mode |
-| `loop-dangerous-task.md` | Loop Contract Mode with Approval Gate |
-| `loop-repo-maintenance-task.md` | Loop Contract Mode |
+1. Add `schemas/task-contract.schema.json`.
+2. Add `schemas/loop-contract.schema.json`.
+3. Add `schemas/expected-output.schema.json`.
+4. Add `schemas/plugin-local-invariants.schema.json`.
+5. Add `docs/schema-design.md`.
+6. Add `scripts/validate-schemas.py`.
 
-### 14.2 Expected Output File Format
+Schema constraints:
 
-Every expected output file should use this structure:
+- Schemas are drafts.
+- Schemas must not claim v1.0.0 stability.
+- Schemas should represent current v0.2.0/v0.3.0 behavior.
+- Schemas should be strict enough to guide validators but flexible enough for practical output variation.
 
-```md
-# Expected: [Fixture Name]
+Acceptance criteria:
 
-Mode: [Expected Mode]
+- All schema files parse as valid JSON.
+- Each schema has `$schema`, `title`, `type`, and required field definitions.
+- `docs/schema-design.md` explains draft status and boundaries.
 
-## Required Sections
+### Phase 4 — Snapshot Testing
 
-1. ...
+Goal: make fixture expectations easier to compare and review.
 
-## Required Fields
+Tasks:
 
-- ...
+1. Add `docs/snapshot-testing.md`.
+2. Add `skills/task-contract/tests/snapshots/`.
+3. Add `scripts/run-snapshots.py` or document a manual snapshot protocol.
+4. Define snapshot naming conventions.
+5. Define update procedure.
+6. Define review rules for expected output changes.
 
-## Required Checks
+Deliverables:
 
-- ...
+- `docs/snapshot-testing.md`
+- `skills/task-contract/tests/snapshots/README.md`
+- optional `scripts/run-snapshots.py`
 
-## Forbidden Patterns
+Acceptance criteria:
 
-- ...
-```
+- Each fixture has a clear expected mode.
+- Snapshot changes require reviewer attention.
+- Snapshot update procedure is documented.
 
-### 14.3 Determinism Rule
+### Phase 5 — CI Workflow
 
-Expected outputs should avoid allowing multiple modes unless the fixture is specifically designed to test ambiguity.
+Goal: run release-readiness checks automatically.
 
----
+Tasks:
 
-## 15. Plugin Packaging Plan
+1. Add `.github/workflows/validate.yml`.
+2. Run repository validation.
+3. Run loop fixture validation.
+4. Run schema validation.
+5. Run plugin sync validation.
+6. Run docs validation if added.
 
-### 15.1 Package Invariants
-
-The plugin package must preserve these invariants:
-
-| Invariant | Requirement |
-|---|---|
-| Manifest name | `codex-task-contract-skill` |
-| Manifest version | `0.2.0` for v0.2.0 release candidate |
-| Manifest skills path | `./skills/` |
-| Packaged Skill | Mirrors canonical `skills/task-contract/` |
-| Marketplace path | Points to `./plugin/codex-task-contract-skill` |
-
-### 15.2 Sync Workflow
-
-Release sync workflow:
+Required CI command set:
 
 ```bash
 bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
-bash scripts/sync-plugin-package.sh
-bash scripts/validate-repo.sh
-git status
+python3 scripts/validate-plugin-sync.py
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
 ```
 
-### 15.3 Manifest Caveat
+Acceptance criteria:
 
-The repository should validate local manifest invariants, but it should not claim official Codex plugin manifest schema compliance unless the schema has been verified against an authoritative source.
+- CI runs on push and pull request.
+- CI uses only committed repository files.
+- CI does not require network access unless explicitly documented.
+- CI fails on validation errors.
+
+### Phase 6 — Documentation Updates
+
+Goal: keep human docs aligned with tooling.
+
+Tasks:
+
+1. Update README validation section.
+2. Update `docs/testing.md`.
+3. Update `docs/release-process.md`.
+4. Update `docs/validator-design.md`.
+5. Add `docs/schema-design.md`.
+6. Add `docs/snapshot-testing.md`.
+7. Add `docs/ci.md`.
+8. Add `docs/v0.3.0-release-checklist.md`.
+9. Update `docs/roadmap.md`.
+10. Update `AGENTS.md`.
+
+Acceptance criteria:
+
+- Docs describe the same commands as scripts and CI.
+- v0.3.0 docs do not describe roadmap-only items as release blockers.
+- Official plugin schema validation remains a future item unless verified.
+
+### Phase 7 — Release Readiness Review
+
+Goal: confirm v0.3.0 is releasable.
+
+Tasks:
+
+1. Run all validators locally.
+2. Confirm CI passes.
+3. Confirm plugin package sync status.
+4. Confirm schema draft files parse.
+5. Confirm snapshot protocol is usable.
+6. Review CHANGELOG.
+7. Review release checklist.
+8. Record release evidence.
+
+Deliverables:
+
+- Completed `docs/v0.3.0-release-checklist.md`.
+- Optional `docs/release-evidence-template.md` filled for the release.
+
+Acceptance criteria:
+
+- All P0 items pass.
+- P1 incomplete items are documented.
+- P2 items remain in roadmap.
 
 ---
 
-## 16. Documentation Plan
+## 9. File-Level Change Plan
 
-### 16.1 Human-Facing Docs
+### 9.1 Existing Files to Update
 
-| Doc | Purpose |
-|---|---|
-| `README.md` | Explain the project, quick usage, structure, and release check. |
-| `docs/installation.md` | Explain canonical source, plugin package, marketplace metadata, and verification. |
-| `docs/usage.md` | Explain invocation, mode selection, examples, and good output criteria. |
-| `docs/testing.md` | Explain fixtures, manual testing, automated checks, and scoring. |
-| `docs/release-process.md` | Explain release validation, sync, tag, and release notes. |
-| `docs/roadmap.md` | Track v0.3.0+ deferred work. |
-| `docs/loop-contract-mode.md` | Explain stable bounded loop behavior. |
-| `docs/migration-v0.1-to-v0.2.md` | Explain behavior and terminology migration. |
+| File | Required Update | Priority |
+|---|---|---:|
+| `README.md` | Add v0.3.0 validation command sequence and CI note. | P1 |
+| `IMPLEMENTATION__PLAN.md` | Replace v0.2.0 plan with this v0.3.0 plan. | P0 |
+| `CHANGELOG.md` | Add v0.3.0 release-candidate section. | P1 |
+| `AGENTS.md` | Add schema, CI, and snapshot operating rules. | P1 |
+| `docs/testing.md` | Add snapshot testing and schema validation notes. | P0 |
+| `docs/release-process.md` | Add CI, schema, plugin sync, and snapshot review. | P0 |
+| `docs/roadmap.md` | Mark v0.3.0 as validation/tooling release. | P0 |
+| `docs/validator-design.md` | Expand validator architecture and failure model. | P0 |
+| `docs/plugin-packaging.md` | Add plugin sync validation requirement. | P0 |
+| `docs/plugin-manifest.md` | Link local invariant schema. | P1 |
+| `scripts/validate-repo.py` | Expand release-readiness checks. | P0 |
+| `scripts/validate-loop-contract-fixtures.py` | Harden loop fixture validation. | P0 |
+| `scripts/validate-repo.sh` | Call all required validators or delegate clearly. | P0 |
+| `scripts/sync-plugin-package.sh` | Keep sync deterministic and verify drift after sync. | P0 |
 
-### 16.2 Maintainer-Facing Docs
+### 9.2 New Files to Add
 
-| Doc | Purpose |
-|---|---|
-| `AGENTS.md` | Codex operating rules for the repo. |
-| `docs/behavior-contract.md` | Stable behavioral specification. |
-| `docs/plugin-packaging.md` | Plugin package sync and validation guide. |
-| `docs/plugin-manifest.md` | Manifest field expectations and caveats. |
-| `docs/validator-design.md` | Validator design and failure model. |
-| `docs/v0.2.0-release-checklist.md` | Release readiness checklist. |
+| File | Purpose | Priority |
+|---|---|---:|
+| `.github/workflows/validate.yml` | CI validation workflow. | P0 |
+| `scripts/validate-plugin-sync.py` | Detect canonical/plugin Skill drift. | P0 |
+| `scripts/validate-docs.py` | Check docs inventory and markdown consistency. | P1 |
+| `scripts/validate-schemas.py` | Validate schema JSON structure. | P0 |
+| `scripts/run-snapshots.py` | Snapshot runner or snapshot checker. | P1 |
+| `schemas/task-contract.schema.json` | Draft schema for task contracts. | P0 |
+| `schemas/loop-contract.schema.json` | Draft schema for Loop Contract Mode. | P0 |
+| `schemas/expected-output.schema.json` | Draft schema for expected fixture files. | P0 |
+| `schemas/plugin-local-invariants.schema.json` | Local plugin manifest invariant schema. | P1 |
+| `docs/schema-design.md` | Explain schema boundaries and draft status. | P0 |
+| `docs/snapshot-testing.md` | Explain snapshot testing protocol. | P0 |
+| `docs/ci.md` | Explain CI workflow and local parity. | P1 |
+| `docs/fixture-matrix.md` | Map fixtures to mode and validator coverage. | P1 |
+| `docs/v0.3.0-release-checklist.md` | v0.3.0 release checklist. | P0 |
+| `docs/release-evidence-template.md` | Release evidence capture template. | P1 |
+| `skills/task-contract/tests/snapshots/README.md` | Snapshot directory policy. | P1 |
+
+---
+
+## 10. Validator Design Requirements
+
+### 10.1 `validate-repo.py`
+
+Must check:
+
+1. required file inventory;
+2. canonical Skill metadata;
+3. required behavior terms;
+4. active legacy terminology outside historical docs;
+5. template inventory;
+6. fixture inventory;
+7. deterministic fixture modes;
+8. docs inventory;
+9. schema inventory;
+10. plugin manifest local invariants;
+11. plugin package sync status or delegates to `validate-plugin-sync.py`;
+12. release checklist consistency.
+
+### 10.2 `validate-plugin-sync.py`
+
+Must check:
+
+1. canonical Skill directory exists;
+2. packaged Skill directory exists;
+3. file lists match;
+4. file contents match;
+5. extra packaged files are either expected or fail validation;
+6. output lists the exact drift paths.
+
+### 10.3 `validate-loop-contract-fixtures.py`
+
+Must check:
+
+1. all loop expected files exist;
+2. all required Loop Contract fields are present;
+3. Loop Log columns are present;
+4. Stop Conditions are plural and present;
+5. Escalation Triggers are plural and present;
+6. Approval Gate appears when required;
+7. forbidden open-ended loop phrases are absent;
+8. high-impact loop fixtures require approval;
+9. required max iteration expectations are present;
+10. failure messages identify the fixture and missing item.
+
+### 10.4 `validate-schemas.py`
+
+Must check:
+
+1. all schema files exist;
+2. all schema files parse as JSON;
+3. each schema has `$schema`, `title`, and `type`;
+4. required fields are present;
+5. schema draft status is documented.
+
+### 10.5 `validate-docs.py`
+
+Should check:
+
+1. required docs exist;
+2. each doc has one H1 title;
+3. release docs mention v0.3.0 correctly;
+4. roadmap contains deferred P2 items;
+5. docs do not contradict the release checklist.
+
+---
+
+## 11. Schema Draft Requirements
+
+### 11.1 `task-contract.schema.json`
+
+Should represent:
+
+- Auto-Skeleton;
+- Optimized Task;
+- Output Contract;
+- Assumptions;
+- Constraints;
+- Decision Points;
+- Acceptance Criteria;
+- Approval Gate;
+- Next Step.
+
+### 11.2 `loop-contract.schema.json`
+
+Should represent:
+
+- Loop Objective;
+- Loop Type;
+- Iteration Unit;
+- Observation Method;
+- Adjustment Strategy;
+- Validation Method;
+- Stop Conditions;
+- Max Iterations;
+- Escalation Triggers;
+- Approval Gate;
+- Loop Log;
+- Loop Stop Summary.
+
+### 11.3 `expected-output.schema.json`
+
+Should represent:
+
+- fixture name;
+- expected mode;
+- required sections;
+- required fields;
+- required checks;
+- forbidden patterns;
+- approval requirements.
+
+### 11.4 `plugin-local-invariants.schema.json`
+
+Should represent local expectations only:
+
+- plugin name;
+- plugin version;
+- skills path;
+- local package path;
+- canonical Skill path;
+- packaged Skill path.
+
+---
+
+## 12. CI Requirements
+
+CI workflow should run on:
+
+- push;
+- pull request;
+- manual dispatch if desired.
+
+Minimum CI steps:
+
+1. checkout repository;
+2. set up Python;
+3. run repository validator;
+4. run loop fixture validator;
+5. run plugin sync validator;
+6. run schema validator;
+7. run docs validator if present.
+
+CI should avoid external network dependency. It should validate committed files only.
+
+---
+
+## 13. Snapshot Testing Requirements
+
+Snapshot testing should improve review clarity without overfitting natural-language outputs.
+
+### 13.1 Snapshot Strategy
+
+Use snapshots for stable expected output structure, not exact prose where exact prose is not meaningful.
+
+A snapshot may record:
+
+- expected mode;
+- required sections;
+- required fields;
+- required checks;
+- forbidden patterns;
+- approval requirements.
+
+### 13.2 Snapshot Update Rules
+
+Snapshots may be updated when:
+
+1. Skill behavior intentionally changes;
+2. fixture expectations become more deterministic;
+3. validator coverage expands;
+4. release scope changes.
+
+Snapshot updates require review notes explaining why the change is valid.
+
+---
+
+## 14. Documentation Requirements
+
+v0.3.0 docs must explain:
+
+1. what validators check;
+2. how CI maps to local validation;
+3. how schemas are draft artifacts;
+4. how plugin sync is validated;
+5. how snapshot review works;
+6. what remains deferred to future versions;
+7. why v0.3.0 does not freeze v1.0.0 behavior.
+
+---
+
+## 15. Release Checklist Requirements
+
+`docs/v0.3.0-release-checklist.md` must include:
+
+- repository validator checks;
+- loop fixture validator checks;
+- plugin sync validator checks;
+- schema validator checks;
+- CI workflow checks;
+- documentation checks;
+- snapshot review checks;
+- changelog checks;
+- roadmap checks;
+- human review checks.
+
+---
+
+## 16. Risk Register
+
+| Risk | Impact | Mitigation |
+|---|---|---|
+| Validators become too strict for practical outputs | Blocks useful changes | Keep schemas draft and validators focused on structural invariants. |
+| Plugin package drifts from canonical source | Released plugin behaves differently | Add sync validator and CI check. |
+| CI requires unavailable dependencies | CI becomes brittle | Keep v0.3.0 validators zero-dependency where possible. |
+| Snapshots overfit prose | False failures | Snapshot structure and requirements, not exact wording unless intentional. |
+| Official plugin schema remains unverified | Incorrect compliance claims | Validate local invariants only and document caveat. |
+| v0.3.0 scope expands into v1.0.0 freeze | Delayed release | Keep behavior freeze in v1.0.0 roadmap. |
+| Multi-skill expansion distracts from reliability layer | Scope creep | Explicitly defer multi-skill expansion. |
 
 ---
 
 ## 17. Release Readiness Definition
 
-v0.2.0 is ready when:
+v0.3.0 is ready when:
 
-1. `skills/task-contract/SKILL.md` treats Loop Contract Mode as stable;
-2. compact, full, and loop modes remain present;
-3. Loop Contract Mode has objective, iteration unit, observation, adjustment, validation, stop conditions, max iterations, escalation triggers, approval gate, and loop log;
-4. high-impact work pauses at Approval Gate;
-5. no open-ended loop behavior is encouraged;
-6. no hidden reasoning is requested or exposed;
-7. canonical Skill and plugin package copy are synchronized;
-8. plugin manifest local invariants pass validation;
-9. expected fixtures have deterministic modes;
-10. loop fixtures pass loop validator;
-11. repository validator passes;
-12. release checklist passes;
-13. roadmap contains deferred P2 items;
-14. README, CHANGELOG, release process, and roadmap agree on v0.2.0 status.
+1. v0.2.0 behavior remains intact;
+2. repository validation passes;
+3. loop fixture validation passes;
+4. plugin sync validation passes;
+5. schema validation passes;
+6. CI workflow runs the same validation checks;
+7. docs describe the same release process as the scripts;
+8. release checklist matches actual files;
+9. snapshots or snapshot protocol are documented;
+10. P2 items remain in roadmap;
+11. no official plugin schema compliance claim is made without verification;
+12. changelog has v0.3.0 notes;
+13. release evidence is reviewable by a maintainer.
 
 ---
 
-## 18. Validation Commands
+## 18. Validation Command Sequence
 
-Before release or final review, run:
+Recommended local release check:
 
 ```bash
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-plugin-sync.py
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
 git status
 ```
 
-Expected final state:
-
-```text
-Repository validation passed.
-Loop fixture validation passed.
-Plugin package synced.
-No unexpected working tree changes remain.
-```
+If optional scripts are not implemented yet, `docs/v0.3.0-release-checklist.md` must identify them as incomplete P0/P1 items.
 
 ---
 
@@ -644,19 +726,21 @@ No unexpected working tree changes remain.
 
 Recommended order:
 
-1. Update canonical `skills/task-contract/SKILL.md`.
-2. Update loop references and templates.
-3. Add compact and full loop templates if claimed by release docs.
-4. Normalize expected fixtures.
-5. Add or expand validators.
-6. Update docs and release metadata.
-7. Add `AGENTS.md`.
-8. Add behavior, packaging, manifest, and validator design docs.
-9. Move P2 items to roadmap.
-10. Run validators.
-11. Sync plugin package.
-12. Run validators again.
-13. Review final diff.
+1. Confirm v0.2.0 baseline files.
+2. Update this implementation plan.
+3. Add schema draft files.
+4. Add schema validator.
+5. Add plugin sync validator.
+6. Harden repository validator.
+7. Harden loop fixture validator.
+8. Add docs validator.
+9. Add snapshot protocol and optional runner.
+10. Add CI workflow.
+11. Update docs and README.
+12. Add v0.3.0 release checklist.
+13. Update CHANGELOG.
+14. Run sync and validation commands.
+15. Review final diff.
 
 ---
 
@@ -664,19 +748,21 @@ Recommended order:
 
 This plan is complete when:
 
-1. it reflects the adopted A scope: P0 + P1 implementation, P2 roadmap only;
-2. it treats v0.2.0 as the active release-candidate target;
-3. it uses current v0.2.0 terminology consistently;
-4. it identifies file-level changes for implementation;
-5. it defines release blockers separately from roadmap work;
-6. it defines validator requirements;
-7. it preserves English-only documentation policy;
-8. it keeps the repository independent from `creator-toolchain`;
-9. it avoids unsupported official plugin schema claims;
-10. it gives maintainers a clear implementation order.
+1. it clearly defines v0.3.0 as validation and tooling work;
+2. it preserves v0.2.0 behavior as the baseline;
+3. it separates P0 blockers, P1 recommendations, and P2 roadmap items;
+4. it defines file-level changes;
+5. it defines validator requirements;
+6. it defines schema requirements;
+7. it defines CI requirements;
+8. it defines snapshot testing requirements;
+9. it defines release readiness;
+10. it avoids unsupported official plugin schema claims;
+11. it keeps multi-skill expansion deferred;
+12. it gives maintainers an executable implementation order.
 
 ---
 
 ## 21. Source Note
 
-This file replaces the earlier starter implementation plan. The previous plan documented the v0.1.0 foundation and a planned v0.2.0 loop extension. This version is the v0.2.0 release-candidate remediation and optimization plan based on the approved P0 + P1 scope, with P2 items deferred to the roadmap.
+This file replaces the v0.2.0 remediation implementation plan. The v0.2.0 plan focused on stabilizing Loop Contract Mode and resolving P0/P1 remediation issues. This v0.3.0 plan focuses on validation, tooling, draft schemas, CI, snapshot review, and release confidence while preserving the v0.2.0 behavior contract.
