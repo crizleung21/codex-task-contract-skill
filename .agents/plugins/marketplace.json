@@ -1,0 +1,17 @@
+{
+  "name": "codex-task-contract-skill-local",
+  "plugins": [
+    {
+      "name": "codex-task-contract-skill",
+      "source": {
+        "source": "local",
+        "path": "./plugin/codex-task-contract-skill"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
