@@ -1,6 +1,6 @@
 ---
 name: task-contract
-description: Clarify vague, multi-step, high-impact, or iterative requests before execution by producing a compact, full, or loop task contract with an Auto-Skeleton, optimized task, constraints, output contract, acceptance criteria, decision points, observation methods, repair rules, stop conditions, and approval gates when needed.
+description: Clarify vague, multi-step, high-impact, or iterative requests before execution by producing compact, full, or stable loop task contracts with Auto-Skeleton, optimized task, output contract, acceptance criteria, decision points, observation methods, validation rules, stop conditions, escalation triggers, and approval gates when needed.
 ---
 
 # task-contract
@@ -23,7 +23,7 @@ Use this skill when the user asks Codex to:
 - draft implementation plans, specs, tests, or docs;
 - handle a multi-step or ambiguous request;
 - make a decision from incomplete context;
-- iterate, debug, repair, validate, or continue toward a goal.
+- iterate, debug, repair, validate, or continue toward a bounded goal.
 
 ## When Not to Use
 
@@ -42,9 +42,9 @@ Choose exactly one mode.
 |---|---|---|
 | Compact Contract | The task is simple, low impact, and only slightly underspecified. | Auto-Skeleton, Optimized Task, Output Contract, Next Step. |
 | Full Contract | The task is multi-step, ambiguous, repo-level, public-facing, or high impact. | Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate, Next Step. |
-| Loop Contract | The task requires iterative progress through observation, adjustment, validation, and stop conditions. | Full Contract plus Loop Contract, Loop Procedure, Loop Log, Validation Method, Stop Conditions. |
+| Loop Contract Mode | The task requires bounded iteration through action, observation, adjustment, validation, and safe stopping. | Full Contract plus Loop Contract, Loop Procedure, Loop Log, Validation Method, Stop Conditions, Escalation Triggers. |
 
-Escalate from Compact to Full when a choice may change the outcome. Escalate from Full to Loop when progress depends on observing results across multiple cycles.
+Escalate from Compact to Full when a choice may change the outcome. Escalate from Full to Loop Contract Mode when progress depends on observing results across multiple cycles.
 
 ## Auto-Skeleton
 
@@ -118,22 +118,33 @@ Use an Approval Gate for broad repo changes, release actions, dependency changes
 
 ## Loop Contract Mode
 
-Use Loop Contract Mode when one response is insufficient and the task benefits from bounded cycles of action, observation, adjustment, and validation.
+Loop Contract Mode is a stable bounded task-control protocol for iterative work.
+
+Use it when a task requires cycles of action, observation, adjustment, validation, and safe stopping.
+
+Loop Contract Mode is not a background worker, scheduler, CI orchestrator, unbounded autonomous runtime, or permission to continue indefinitely.
+
+State model:
+
+```text
+Goal -> Contract -> Plan Iteration -> Act -> Observe -> Adjust -> Validate -> Stop/Escalate
+```
 
 A Loop Contract must include:
 
 | Field | Meaning |
 |---|---|
-| Loop Objective | The final outcome the loop is trying to achieve. |
+| Loop Objective | The measurable final outcome. |
 | Loop Type | Simple, coding/debug, research, documentation, repo maintenance, or high-impact. |
 | Iteration Unit | The smallest useful action per cycle. |
-| Observation Method | What will be checked after each cycle. |
+| Observation Method | Evidence checked after each cycle. |
 | Adjustment Strategy | How the next step changes based on the observation. |
 | Validation Method | How completion is verified. |
-| Stop Condition | What ends the loop successfully or safely. |
+| Stop Conditions | Success, safety, and failure stop rules. |
 | Max Iterations | Maximum number of cycles. |
-| Escalation Trigger | When Codex must stop and ask the user. |
+| Escalation Triggers | Conditions requiring user input. |
 | Approval Gate | Whether execution may proceed. |
+| Loop Log | Concise user-visible evidence of iterations. |
 
 Default iteration limits:
 
@@ -151,18 +162,28 @@ Loop rules:
 1. Do not run open-ended loops.
 2. Use small, reversible iteration units.
 3. Re-check the Optimized Task and Acceptance Criteria each cycle.
-4. Observe using tests, build output, lint output, diff review, source review, citations, logs, or checklist evidence as applicable.
+4. Observe using concrete evidence such as tests, build output, lint output, diff review, source review, citations, logs, or checklist evidence.
 5. Adjust only for the observed gap.
 6. Maintain a concise Loop Log.
-7. Stop when acceptance criteria pass, the iteration cap is reached, required context is missing, the same failure repeats, scope drift appears, or approval is required.
+7. Stop when acceptance criteria pass, the iteration cap is reached, required context is missing, the same failure repeats, scope drift appears, validation is blocked, or approval is required.
 
 ## Loop Log
 
 Use this structure when executing Loop Contract Mode:
 
-| Iteration | Action | Observation | Adjustment | Status |
-|---|---|---|---|---|
-| 1 | ... | ... | ... | ... |
+| Iteration | Action | Observation | Adjustment | Validation | Status |
+|---|---|---|---|---|---|
+| 1 | ... | ... | ... | ... | ... |
+
+## References
+
+Use deeper reference files when needed:
+
+- `references/loop-contract-policy.md`
+- `references/loop-observation-methods.md`
+- `references/loop-stop-conditions.md`
+- `references/loop-escalation-rules.md`
+- `references/loop-evaluation-rubric.md`
 
 ## Final Response Rules
 
@@ -178,5 +199,5 @@ Before acting, verify:
 - [ ] Acceptance criteria are explicit.
 - [ ] Decision Points are present when needed.
 - [ ] Approval Gate is applied when needed.
-- [ ] Loop contracts have observation, validation, stop conditions, and iteration caps.
+- [ ] Loop contracts have observation, validation, stop conditions, escalation triggers, and iteration caps.
 - [ ] No hidden reasoning is exposed.
