@@ -8,23 +8,44 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = [
     'README.md',
     'IMPLEMENTATION__PLAN.md',
-    'skills/task-contract/SKILL.md',
-    'plugin/codex-task-contract-skill/.codex-plugin/plugin.json',
+    'CHANGELOG.md',
+    'AGENTS.md',
+    '.github/workflows/validate.yml',
     '.agents/plugins/marketplace.json',
+    'skills/task-contract/SKILL.md',
+    'skills/task-contract/assets/compact-contract-template.md',
+    'skills/task-contract/assets/full-contract-template.md',
+    'skills/task-contract/assets/loop-contract-template.md',
+    'skills/task-contract/assets/compact-loop-contract-template.md',
+    'skills/task-contract/assets/full-loop-contract-template.md',
+    'skills/task-contract/tests/snapshots/README.md',
+    'plugin/codex-task-contract-skill/.codex-plugin/plugin.json',
     'docs/installation.md',
     'docs/usage.md',
     'docs/testing.md',
     'docs/release-process.md',
+    'docs/roadmap.md',
+    'docs/validator-design.md',
+    'docs/plugin-packaging.md',
+    'docs/plugin-manifest.md',
+    'docs/schema-design.md',
+    'docs/snapshot-testing.md',
+    'docs/ci.md',
     'docs/v0.2.0-release-checklist.md',
-    'AGENTS.md',
-    'skills/task-contract/assets/compact-loop-contract-template.md',
-    'skills/task-contract/assets/full-loop-contract-template.md',
+    'docs/v0.3.0-release-checklist.md',
     'schemas/task-contract.schema.json',
     'schemas/loop-contract.schema.json',
     'schemas/expected-output.schema.json',
     'schemas/plugin-local-invariants.schema.json',
+    'scripts/validate-repo.sh',
+    'scripts/validate-repo.py',
+    'scripts/validate-loop-contract-fixtures.sh',
+    'scripts/validate-loop-contract-fixtures.py',
     'scripts/validate-schemas.py',
     'scripts/validate-plugin-sync.py',
+    'scripts/validate-docs.py',
+    'scripts/run-snapshots.py',
+    'scripts/sync-plugin-package.sh',
 ]
 
 EXPECTED_MODES = {
@@ -66,6 +87,21 @@ def validate_schema_file(path, failures):
     if data.get('type') != 'object':
         fail(str(path.relative_to(ROOT)) + ' must use top-level type object', failures)
 
+    if not isinstance(data.get('required'), list) or not data.get('required'):
+        fail(str(path.relative_to(ROOT)) + ' must define non-empty required fields', failures)
+
+    if 'draft' not in data.get('description', '').lower():
+        fail(str(path.relative_to(ROOT)) + ' must state draft status in description', failures)
+
+def require_terms(rel_path, terms, failures):
+    path = ROOT / rel_path
+    if not path.is_file():
+        return
+    text = path.read_text(encoding='utf-8')
+    for term in terms:
+        if term not in text:
+            fail(rel_path + ' missing required term: ' + term, failures)
+
 def main():
     failures = []
 
@@ -73,20 +109,22 @@ def main():
         if not (ROOT / file).is_file():
             fail('missing required file: ' + file, failures)
 
-    skill = ROOT / 'skills/task-contract/SKILL.md'
-    if skill.is_file():
-        text = skill.read_text(encoding='utf-8')
-        for term in ['name: task-contract', 'Approval Gate', 'Loop Contract Mode', 'Adjustment Strategy']:
-            if term not in text:
-                fail('SKILL.md missing required term: ' + term, failures)
+    require_terms('skills/task-contract/SKILL.md', ['name: task-contract', 'Approval Gate', 'Loop Contract Mode', 'Adjustment Strategy'], failures)
+    require_terms('IMPLEMENTATION__PLAN.md', ['v0.3.0', 'validation', 'tooling', 'P0'], failures)
+    require_terms('README.md', ['v0.3.0', 'validate-schemas.py', 'run-snapshots.py'], failures)
+    require_terms('CHANGELOG.md', ['[0.3.0]', 'Schema validator', 'Plugin package sync validator'], failures)
+    require_terms('AGENTS.md', ['Schema Policy', 'CI Policy', 'Snapshot Policy'], failures)
+    require_terms('docs/release-process.md', ['v0.3.0', 'validate-schemas.py', 'run-snapshots.py'], failures)
+    require_terms('docs/v0.3.0-release-checklist.md', ['v0.3.0', 'validate-plugin-sync.py', 'validate-schemas.py'], failures)
+    require_terms('.github/workflows/validate.yml', ['validate-repo.sh', 'validate-schemas.py', 'run-snapshots.py'], failures)
 
     manifest = ROOT / 'plugin/codex-task-contract-skill/.codex-plugin/plugin.json'
     if manifest.is_file():
         data = json.loads(manifest.read_text(encoding='utf-8'))
         if data.get('name') != 'codex-task-contract-skill':
             fail('plugin manifest name mismatch', failures)
-        if data.get('version') not in ['0.2.0', '0.3.0']:
-            fail('plugin manifest version must be 0.2.0 or 0.3.0 during v0.3.0 planning', failures)
+        if data.get('version') != '0.3.0':
+            fail('plugin manifest version must be 0.3.0 for v0.3.0 release', failures)
         if data.get('skills') != './skills/':
             fail('plugin manifest skills path mismatch', failures)
 
