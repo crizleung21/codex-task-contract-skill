@@ -12,9 +12,9 @@ v0.1.0 introduced Loop-aware preview coverage. v0.2.0 promotes that preview into
 | Terminology | Loop-aware Contract | Loop Contract Mode |
 | Loop log | Basic | Includes validation column and stop summary |
 | References | Single policy file | Policy plus observation, stop, escalation, rubric references |
-| Templates | Basic loop template | Full and compact stable templates |
-| Fixtures | Partial expected outputs | Stable golden expected outputs |
-| Validation | Manual only | Manual plus zero-dependency loop validator |
+| Templates | Basic loop template | Compact, full, and shared loop templates |
+| Fixtures | Partial expected outputs | Deterministic expected outputs |
+| Validation | Manual only | Manual plus lightweight validators |
 
 ## Terminology
 
@@ -26,17 +26,13 @@ Use:
 - `Stop Conditions`
 - `Escalation Triggers`
 
-Avoid:
-
-- `autonomous mode`
-- `background loop`
-- `unlimited iteration`
-- `repeat until done` without a defined stop condition
+Historical terms may appear only when describing v0.1.0 behavior.
 
 ## Maintainer Checklist
 
 - Review `skills/task-contract/SKILL.md`.
-- Review new loop reference files.
-- Review full and compact loop templates.
-- Run `bash scripts/validate-loop-contract-fixtures.sh`.
+- Review loop reference files.
+- Review compact, full, and loop templates.
+- Review expected fixtures.
+- Run validation commands.
 - Confirm plugin manifest version is `0.2.0`.
