@@ -1,69 +1,74 @@
 # Release Process
 
-## v0.2.0 Release Goal
+## v0.3.0 Release Goal
 
-v0.2.0 stabilizes Loop Contract Mode as a core feature of `task-contract` and completes the P0 + P1 remediation scope from `IMPLEMENTATION__PLAN.md`.
+v0.3.0 adds validation, tooling, draft schemas, CI, snapshot protocol documentation, and release-confidence gates while preserving the v0.2.0 behavior contract.
 
 It should ship:
 
-- stable Loop Contract Mode;
-- loop state model;
-- observation method reference;
-- stop condition reference;
-- escalation rule reference;
-- evaluation rubric;
-- compact, full, and loop templates;
-- expanded expected outputs;
-- loop fixture validator;
-- repository validator;
-- migration guide;
-- behavior and packaging docs;
-- v0.2.0 release checklist;
-- plugin manifest version `0.2.0`.
+- draft schemas under `schemas/`;
+- schema validator;
+- plugin package sync validator;
+- documentation validator;
+- snapshot protocol validator;
+- GitHub Actions validation workflow;
+- schema design documentation;
+- snapshot testing documentation;
+- CI documentation;
+- v0.3.0 release checklist;
+- plugin manifest version `0.3.0`.
 
 ## Pre-Release Checklist
 
-- [ ] README is updated.
-- [ ] `SKILL.md` is updated.
-- [ ] Loop references and assets are updated.
-- [ ] Plugin manifest version is `0.2.0`.
+- [ ] README is updated for v0.3.0.
+- [ ] `IMPLEMENTATION__PLAN.md` is v0.3.0.
+- [ ] Plugin manifest version is `0.3.0`.
 - [ ] Plugin package is synced.
-- [ ] Fixtures are deterministic.
-- [ ] Loop fixtures are reviewed.
-- [ ] Changelog includes v0.2.0 notes.
-- [ ] `docs/v0.2.0-release-checklist.md` is complete.
+- [ ] Draft schemas exist and validate.
+- [ ] Loop fixtures validate.
+- [ ] Documentation validates.
+- [ ] Snapshot protocol validates.
+- [ ] GitHub Actions workflow exists and passes.
+- [ ] Changelog includes v0.3.0 notes.
+- [ ] `docs/v0.3.0-release-checklist.md` is complete.
 
 ## Validation Commands
 
+Run from the repository root:
+
 ```bash
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
 git status
 ```
 
 ## Manifest Note
 
-Repository validation checks local package invariants. It does not claim official plugin schema compliance unless verified against an authoritative schema.
+Repository validation checks local package invariants only. It does not claim official plugin schema compliance unless verified against an authoritative schema.
 
 ## Release Review Order
 
-1. Review canonical Skill source.
-2. Review loop references and templates.
-3. Review expected fixtures.
-4. Run validation.
-5. Sync plugin package.
-6. Run validation again.
-7. Review final diff.
-8. Create the release only after human review.
+1. Review v0.3.0 implementation plan.
+2. Review draft schemas.
+3. Review validators.
+4. Review CI workflow.
+5. Review snapshot protocol.
+6. Sync plugin package.
+7. Run local validation.
+8. Confirm CI is green.
+9. Review final diff.
+10. Create the release only after human review.
 
 ## GitHub Release Notes Draft
 
 Title:
 
 ```text
-v0.2.0 — Stable Loop Contract Mode
+v0.3.0 — Validation and Tooling
 ```
 
 Body:
@@ -71,24 +76,32 @@ Body:
 ```md
 ## Added
 
-- Stable Loop Contract Mode.
-- Loop state model.
-- Loop observation method reference.
-- Loop stop condition taxonomy.
-- Loop escalation rules.
-- Loop evaluation rubric.
-- Compact, full, and shared Loop Contract templates.
-- Expanded Loop Log template.
-- Expanded expected outputs.
-- Loop fixture validator script.
-- Repository validator script.
-- v0.2.0 release checklist.
-- Migration guide from v0.1.0 to v0.2.0.
+- Draft schemas for task contracts, Loop Contract Mode, expected outputs, and local plugin invariants.
+- Schema validator.
+- Plugin package sync validator.
+- Documentation validator.
+- Snapshot protocol validator.
+- GitHub Actions validation workflow.
+- Schema design documentation.
+- Snapshot testing documentation.
+- CI documentation.
+- v0.3.0 release checklist.
 
 ## Changed
 
-- Promoted Loop-aware preview into stable Loop Contract Mode.
-- Updated plugin manifest to `0.2.0`.
-- Standardized terminology around Approval Gate and Adjustment Strategy.
-- Added canonical-source and plugin-sync rules.
+- Updated plugin manifest to `0.3.0`.
+- Updated release process around validation, CI, snapshot protocol, and release evidence.
+- Preserved the v0.2.0 behavior contract while adding stronger release-readiness gates.
+
+## Notes
+
+The v0.3.0 schemas are draft schemas. Official plugin schema validation remains deferred until an authoritative schema source is verified.
 ```
+
+## Tags
+
+Use semantic version tags:
+
+- `v0.1.0` for Task Contract MVP.
+- `v0.2.0` for stable Loop Contract Mode.
+- `v0.3.0` for validation and tooling.
