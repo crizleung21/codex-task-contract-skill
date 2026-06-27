@@ -6,9 +6,9 @@ The included `task-contract` Skill converts vague, multi-step, high-impact, or i
 
 ## Status
 
-Current release target: **v0.3.0**
+Current release target: **v0.4.0**
 
-v0.3.0 adds validation, tooling, draft schemas, CI, snapshot protocol documentation, and stronger release-readiness gates while preserving the v0.2.0 behavior contract.
+v0.4.0 adds validation, tooling, draft schemas, CI, Git pre-commit hooks, loop regression tests, subagent delegation policies, and stronger release-readiness gates.
 
 ## What It Provides
 

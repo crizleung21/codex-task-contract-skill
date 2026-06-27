@@ -130,8 +130,8 @@ def main():
         data = json.loads(manifest.read_text(encoding='utf-8'))
         if data.get('name') != 'codex-task-contract-skill':
             fail('plugin manifest name mismatch', failures)
-        if data.get('version') != '0.3.2':
-            fail('plugin manifest version must be 0.3.2 for v0.3.2 release', failures)
+        if data.get('version') != '0.4.0':
+            fail('plugin manifest version must be 0.4.0 for v0.4.0 release', failures)
         if data.get('skills') != './skills/':
             fail('plugin manifest skills path mismatch', failures)
 

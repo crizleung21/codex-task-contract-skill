@@ -55,7 +55,7 @@ Release goal: add validation, tooling, draft schemas, CI, snapshot protocol docu
 - CI documentation.
 - v0.3.0 release checklist.
 
-## v0.3.2 — Git Hooks, Regression Testing, and Sub-contracting
+## v0.4.0 — Git Hooks, Regression Testing, and Sub-contracting
 
 Status: released.
 
