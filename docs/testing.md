@@ -1,6 +1,6 @@
 # Testing
 
-This project uses manual behavior fixtures for v0.1.0.
+This project uses manual behavior fixtures and lightweight text validation.
 
 ## Fixture Layout
 
@@ -18,30 +18,43 @@ skills/task-contract/tests/expected/   Expected output patterns
 5. Compare with the expected output.
 6. Score the result using the rubric below.
 
-## v0.1.0 Rubric
+## Stable Loop Rubric
 
 Score each item 0, 1, or 2.
 
-| Criterion | Pass Requirement |
-|---|---|
-| Auto-Skeleton | Required fields are present. |
-| Intent preservation | Optimized Task does not change user goal. |
-| Scope control | Scope is bounded and exclusions are clear. |
-| Output Contract | Deliverable, format, depth, and acceptance criteria are stated. |
-| Decision Points | Meaningful choices appear when needed. |
-| Approval Gate | High-impact work pauses before execution. |
-| Concision | Compact mode remains short. |
-| Loop-aware fields | Loop fixtures include objective, observation, validation, stop condition, and iteration cap. |
-| No hidden reasoning | Output does not expose hidden reasoning. |
+| Criterion | Points |
+|---|---:|
+| Correct mode selection | 2 |
+| Objective measurable | 2 |
+| Iteration unit bounded | 2 |
+| Observation method concrete | 2 |
+| Validation method concrete | 2 |
+| Stop conditions complete | 2 |
+| Max iterations appropriate | 2 |
+| Escalation triggers present | 2 |
+| Approval Gate correct | 2 |
+| Loop Log present | 2 |
+| No hidden reasoning | 2 |
+| No scope creep | 2 |
 
-## Release Threshold
+Total: 24 points.
 
-For v0.1.0 release readiness:
+## v0.2.0 Release Threshold
 
-- Compact and Full fixtures should score at least 14 / 18.
-- High-impact fixtures must pass Approval Gate.
-- Loop-aware fixtures must include stop condition and iteration cap.
+- Each stable loop fixture must score at least 20 / 24.
+- High-impact fixtures must pass Approval Gate regardless of score.
+- No fixture may encourage open-ended looping.
 - No fixture may expose hidden reasoning.
+
+## Automated Fixture Check
+
+Run:
+
+```bash
+bash scripts/validate-loop-contract-fixtures.sh
+```
+
+The validator checks required Loop Contract fields, high-impact Approval Gate coverage, and forbidden open-ended loop phrases.
 
 ## Fixture Coverage
 
@@ -53,7 +66,8 @@ For v0.1.0 release readiness:
 | `documentation-task.md` | Compact or Full Contract |
 | `research-task.md` | Full Contract |
 | `destructive-file-task.md` | Full Contract with Approval Gate |
-| `loop-debug-task.md` | Loop-aware Contract |
-| `loop-research-task.md` | Loop-aware Contract |
-| `loop-documentation-task.md` | Loop-aware Contract |
-| `loop-dangerous-task.md` | Loop-aware Contract with Approval Gate |
+| `loop-debug-task.md` | Loop Contract Mode |
+| `loop-research-task.md` | Loop Contract Mode |
+| `loop-documentation-task.md` | Loop Contract Mode |
+| `loop-dangerous-task.md` | Loop Contract Mode with Approval Gate |
+| `loop-repo-maintenance-task.md` | Loop Contract Mode |

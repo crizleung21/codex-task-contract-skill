@@ -1,6 +1,6 @@
 ---
 name: task-contract
-description: Clarify vague, multi-step, high-impact, or iterative requests before execution by producing a compact, full, or loop task contract with an Auto-Skeleton, optimized task, constraints, output contract, acceptance criteria, decision points, observation methods, adjustment rules, stop conditions, and approval gates when needed.
+description: Clarify vague, multi-step, high-impact, or iterative requests before execution by producing compact, full, or stable loop task contracts with Auto-Skeleton, optimized task, output contract, acceptance criteria, decision points, observation methods, validation rules, stop conditions, escalation triggers, and approval gates when needed.
 ---
 
 # task-contract
@@ -15,7 +15,7 @@ Use this skill to clarify, bound, and contract a user request before execution.
 |---|---|
 | Compact Contract | Simple low-impact tasks. |
 | Full Contract | Complex, ambiguous, repo-level, or high-impact tasks. |
-| Loop Contract | Iterative tasks requiring observation, adjustment, validation, and stop conditions. |
+| Loop Contract Mode | Stable bounded iterative tasks requiring objective, observation, adjustment, validation, stop conditions, escalation triggers, and Loop Log. |
 
 ## Required Behavior
 
@@ -25,5 +25,6 @@ Use this skill to clarify, bound, and contract a user request before execution.
 - Define output and acceptance criteria.
 - Use Decision Points when choices matter.
 - Use Approval Gate before high-impact execution.
-- Use Loop Contract Mode only with observation, validation, stop condition, and iteration cap.
+- Use Loop Contract Mode only with observation, validation, stop conditions, escalation triggers, and iteration cap.
 - Do not expose hidden reasoning.
+- Do not encourage open-ended loops or background execution.
