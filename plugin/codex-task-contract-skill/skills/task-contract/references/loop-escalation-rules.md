@@ -1,6 +1,6 @@
 # Loop Escalation Rules
 
-%s
+Escalation means Codex stops the loop and asks for user input before continuing.
 
 ## Mandatory Triggers
 
@@ -39,5 +39,5 @@ Reply template: Approved: [bounded scope]
 ## Examples
 
 - `Approved: inspect only; do not edit files.`
-- `Approved: edit files under docs/ only.`
+- `Approved: edit docs under docs/ only.`
 - `Approved: run one more iteration; do not change release metadata.`

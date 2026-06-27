@@ -8,7 +8,9 @@ Clarify before action. Codex should convert the user request into a visible task
 
 ## Behavior Contract
 
-The Skill must:\n\n1. Preserve the user's intent.
+The Skill must:
+
+1. Preserve the user's intent.
 2. Bound the task scope.
 3. Define the work object.
 4. State assumptions separately from facts.

@@ -1,6 +1,6 @@
 # Loop Evaluation Rubric
 
-This rubric evaluates the loop output.
+Use this rubric to manually score stable Loop Contract Mode outputs.
 
 ## Scoring
 

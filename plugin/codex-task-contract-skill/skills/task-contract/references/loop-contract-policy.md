@@ -57,7 +57,7 @@ Do not use Loop Contract Mode when:
 | Coding/debug loop | 5 | Tests, lint, build, logs, or diff. |
 | Research loop | 3 | Source quality, coverage, contradiction review. |
 | Documentation loop | 3 | Coverage checklist and consistency review. |
-| Repo maintenance loop | 3 | File map, script output, checklist, or diff review. |
+| Repo maintenance loop | 3 | File map, validation script, checklist, or diff review. |
 | High-impact loop | 1 before approval | Inspection only unless approved. |
 
 The max iteration count may be lowered when the task is narrow or high impact. It may be raised only with explicit user approval.
