@@ -2,7 +2,7 @@
 
 ## v0.2.0 Release Goal
 
-v0.2.0 stabilizes Loop Contract Mode as a core feature of `task-contract`.
+v0.2.0 stabilizes Loop Contract Mode as a core feature of `task-contract` and completes the P0 + P1 remediation scope from `IMPLEMENTATION__PLAN.md`.
 
 It should ship:
 
@@ -12,10 +12,12 @@ It should ship:
 - stop condition reference;
 - escalation rule reference;
 - evaluation rubric;
-- full and compact loop templates;
-- expanded loop expected outputs;
+- compact, full, and loop templates;
+- expanded expected outputs;
 - loop fixture validator;
+- repository validator;
 - migration guide;
+- behavior and packaging docs;
 - v0.2.0 release checklist;
 - plugin manifest version `0.2.0`.
 
@@ -26,6 +28,7 @@ It should ship:
 - [ ] Loop references and assets are updated.
 - [ ] Plugin manifest version is `0.2.0`.
 - [ ] Plugin package is synced.
+- [ ] Fixtures are deterministic.
 - [ ] Loop fixtures are reviewed.
 - [ ] Changelog includes v0.2.0 notes.
 - [ ] `docs/v0.2.0-release-checklist.md` is complete.
@@ -40,23 +43,20 @@ bash scripts/validate-repo.sh
 git status
 ```
 
-## Release Commands
+## Manifest Note
 
-Run only after review and merge:
+Repository validation checks local package invariants. It does not claim official plugin schema compliance unless verified against an authoritative schema.
 
-```bash
-git checkout main
-git pull origin main
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
-bash scripts/sync-plugin-package.sh
-bash scripts/validate-repo.sh
-git status
-git add .
-git commit -m "chore: sync plugin package for v0.2.0" # only if sync changed files
-git tag v0.2.0
-git push origin main --tags
-```
+## Release Review Order
+
+1. Review canonical Skill source.
+2. Review loop references and templates.
+3. Review expected fixtures.
+4. Run validation.
+5. Sync plugin package.
+6. Run validation again.
+7. Review final diff.
+8. Create the release only after human review.
 
 ## GitHub Release Notes Draft
 
@@ -77,10 +77,11 @@ Body:
 - Loop stop condition taxonomy.
 - Loop escalation rules.
 - Loop evaluation rubric.
-- Full and compact Loop Contract templates.
+- Compact, full, and shared Loop Contract templates.
 - Expanded Loop Log template.
-- Expanded loop golden expected outputs.
+- Expanded expected outputs.
 - Loop fixture validator script.
+- Repository validator script.
 - v0.2.0 release checklist.
 - Migration guide from v0.1.0 to v0.2.0.
 
@@ -89,11 +90,5 @@ Body:
 - Promoted Loop-aware preview into stable Loop Contract Mode.
 - Updated plugin manifest to `0.2.0`.
 - Standardized terminology around Approval Gate and Adjustment Strategy.
+- Added canonical-source and plugin-sync rules.
 ```
-
-## Tags
-
-Use semantic versions:
-
-- `v0.1.0` for the first MVP.
-- `v0.2.0` for stable Loop Contract Mode.
