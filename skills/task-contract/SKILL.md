@@ -198,6 +198,47 @@ When a loop stops, include:
 - Remaining gaps:
 - Next step:
 
+## Multi-Agent Sub-contracting
+
+Delegate tasks to specialized subagents to divide complexity and isolate context.
+
+### 1. When Delegation is Allowed
+- The task involves independent sub-components (such as isolated research, targeted debugging, or documentation audits) that can be worked on without shared state or sequential dependencies.
+- Delegating the task avoids context pollution in the parent conversation.
+
+### 2. When Delegation is Not Allowed
+- The task is tightly coupled to the main execution flow or requires global codebase updates.
+- The parent agent has not yet established a task contract or secured necessary user approvals.
+
+### 3. Required Subagent Contract Fields
+Every subagent contract must define:
+- `parent_conversation_id`: The identifier of the spawning conversation.
+- `subagent_role`: The specialized function of the subagent.
+- `scope_boundary`: Strict list of allowed paths and tools.
+- `constraints`: Specific runtime limitations.
+- `recursion_lock`: True/False setting for child spawning.
+- `approval_gate`: Required status, reason, blocked action, safe default, and reply template.
+- `acceptance_criteria`: Machine-verifiable definitions of completion.
+- `return_format`: Structured format for the subagent's report.
+
+### 4. Scope Boundary
+Subagents must be bounded to a narrow subset of files or directories (e.g., `docs/` or `scratch/`). They must not run commands or access paths outside their defined boundary.
+
+### 5. Recursion Lock
+To prevent unbounded nested agent loops, set the recursion lock to `true`. Subagents are forbidden from spawning subagents recursively unless explicitly approved by the user.
+
+### 6. Approval Gate Behavior
+If the subagent task involves high-risk actions (e.g., editing critical files or running untrusted commands), the subagent must trigger an Approval Gate and pause for user input before executing the actions.
+
+### 7. Return Format and Evidence Requirements
+Subagents must return a structured report matching the requested return format. The report must contain concrete, visible evidence verifying that every acceptance criterion has been fully satisfied.
+
+### 8. Parent Loop Log Syncing
+When using Loop Contract Mode, log the delegation as a single iteration:
+- **Action**: `Spawn subagent [role] for [task]`
+- **Observation**: `Subagent completed with status [status] and evidence [evidence summary]`
+Do not nest full subagent execution logs inside the parent Loop Log. Save them in independent files or nested sub-sections.
+
 ## References
 
 Use deeper reference files when needed:
@@ -207,6 +248,7 @@ Use deeper reference files when needed:
 - `references/loop-stop-conditions.md`
 - `references/loop-escalation-rules.md`
 - `references/loop-evaluation-rubric.md`
+- `references/subagent-delegation-policy.md`
 
 Use templates when helpful:
 
@@ -215,6 +257,7 @@ Use templates when helpful:
 - `assets/loop-contract-template.md`
 - `assets/compact-loop-contract-template.md`
 - `assets/full-loop-contract-template.md`
+- `assets/subagent-contract-template.md`
 
 ## Final Response Rules
 
@@ -231,6 +274,7 @@ Before acting, verify:
 - [ ] Decision Points are present when needed.
 - [ ] Approval Gate is applied when needed.
 - [ ] Loop contracts have objective, observation, adjustment, validation, stop conditions, escalation triggers, and iteration caps.
+- [ ] Subagent contracts define scope boundaries, constraints, recursion lock, and approval gates.
 - [ ] Loop Log is present when Loop Contract Mode is used.
 - [ ] Private reasoning is not revealed.
 - [ ] Background or open-ended execution is not implied.

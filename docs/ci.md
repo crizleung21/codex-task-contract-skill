@@ -1,6 +1,6 @@
 # CI
 
-Status: v0.3.0 CI guide.
+Status: v0.4.0 CI guide.
 
 The CI workflow must mirror the local release validation sequence as closely as possible.
 
@@ -11,7 +11,6 @@ The CI workflow must mirror the local release validation sequence as closely as 
 ```
 
 The workflow runs on:
-
 - push;
 - pull request;
 - workflow dispatch.
@@ -27,6 +26,7 @@ bash scripts/validate-loop-contract-fixtures.sh
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
 ```
 
 ## Local Parity
@@ -40,13 +40,14 @@ bash scripts/validate-loop-contract-fixtures.sh
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
 git status
 ```
 
 ## Network Boundary
 
-v0.3.0 validation should use committed repository files only. Validation should not require network access.
+v0.4.0 validation should use committed repository files only. Validation should not require network access.
 
 ## Release Gate
 
-A v0.3.0 tag should not be created until the latest CI run is green and local validation has passed after plugin package sync.
+A v0.4.0 tag should not be created until the latest CI run is green and local validation has passed after plugin package sync.

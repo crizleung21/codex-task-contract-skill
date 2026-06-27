@@ -1,18 +1,32 @@
+# Expected: Subagent Delegation Task
+
 Mode: Full Contract with Subagent Delegation
 
-## Auto-Skeleton
-- **Role**: Codebase Researcher & Auditor
-- **Raw Task**: Spawn subagent to audit doc folder
-- **Optimized Task**: Delegate markdown lint check to subagent to identify syntax errors, so that main documentation is validated.
-- **Object**: docs/
-- **Context**: Parent needs markdown syntax audit.
-- **Constraints**: Subagent must not write files.
-- **Output**: Subagent audit report.
-- **Acceptance**: Return lint errors.
+## Required Sections
 
-## Subagent Delegation
-- **Parent Conversation ID**: parent-123
-- **Subagent Role**: Doc Auditor
-- **Allowed Scope**: `docs/*`
-- **Constraints**: No file writes, no recursion.
-- **Acceptance Criteria**: All docs verified, markdown errors list returned.
+1. Auto-Skeleton
+2. BLUF
+3. Optimized Task
+4. Assumptions
+5. Constraints
+6. Decision Points
+7. Output Contract
+8. Execution Plan
+9. Acceptance Criteria
+10. Subagent Contract
+11. Next Step
+
+## Required Checks
+
+- Auto-Skeleton matches the delegation scope.
+- Mode is Full Contract with Subagent Delegation.
+- Subagent Contract metadata block includes:
+  - parent_conversation_id
+  - subagent_role (e.g., Documentation Auditor)
+  - scope_boundary (e.g., read docs/* only)
+  - constraints (e.g., read-only, no write, no subagent spawning)
+  - recursion_lock (e.g., true)
+  - approval_gate (e.g., not required/false)
+  - acceptance_criteria (e.g., compile list of stale docs, check headings)
+  - return_format (e.g., markdown audit report)
+- Loop log sync section explains that subagent detail logs are not fully nested in parent.

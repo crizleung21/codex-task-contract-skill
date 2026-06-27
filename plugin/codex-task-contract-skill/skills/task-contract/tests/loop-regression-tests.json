@@ -101,6 +101,214 @@
         "iteration": 2,
         "reason": "same failure repeats twice"
       }
+    },
+    {
+      "name": "approval_required_stop",
+      "loop_contract": {
+        "loop_objective": "Perform release version tags",
+        "loop_type": "Repo maintenance loop",
+        "iteration_unit": "Tag release version in repo",
+        "observation_method": "Check git tags",
+        "adjustment_strategy": "None",
+        "validation_method": "Git tag exists",
+        "stop_conditions": ["approval required", "max iterations reached"],
+        "max_iterations": 3,
+        "escalation_triggers": ["approval required"],
+        "approval_gate": {
+          "required": true,
+          "reason": "Creating tags requires explicit maintainer approval."
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "paused for approval gate",
+          "validation_passed": false,
+          "trigger_stop_reason": "approval required"
+        }
+      ],
+      "expected_stop": {
+        "iteration": 1,
+        "reason": "approval required"
+      }
+    },
+    {
+      "name": "validation_blocked_stop",
+      "loop_contract": {
+        "loop_objective": "Validate repository schemas",
+        "loop_type": "Repo maintenance loop",
+        "iteration_unit": "Run python scripts/validate-schemas.py",
+        "observation_method": "Check command exit code",
+        "adjustment_strategy": "Fix schema files",
+        "validation_method": "Schemas parse correctly",
+        "stop_conditions": ["acceptance criteria met", "validation blocked"],
+        "max_iterations": 3,
+        "escalation_triggers": ["validation blocked"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "SyntaxError: invalid JSON in config/release.json, validation blocked",
+          "validation_passed": false,
+          "trigger_stop_reason": "validation blocked"
+        }
+      ],
+      "expected_stop": {
+        "iteration": 1,
+        "reason": "validation blocked"
+      }
+    },
+    {
+      "name": "missing_context_stop",
+      "loop_contract": {
+        "loop_objective": "Fix integration bug",
+        "loop_type": "Coding/debug loop",
+        "iteration_unit": "Query database logs",
+        "observation_method": "Check database table schema",
+        "adjustment_strategy": "Map fields",
+        "validation_method": "Database migration succeeds",
+        "stop_conditions": ["acceptance criteria met", "missing context"],
+        "max_iterations": 3,
+        "escalation_triggers": ["missing context"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "Database credentials or schema reference missing",
+          "validation_passed": false,
+          "trigger_stop_reason": "missing context"
+        }
+      ],
+      "expected_stop": {
+        "iteration": 1,
+        "reason": "missing context"
+      }
+    },
+    {
+      "name": "scope_drift_stop",
+      "loop_contract": {
+        "loop_objective": "Format README file",
+        "loop_type": "Documentation loop",
+        "iteration_unit": "Edit README typos",
+        "observation_method": "Check diff",
+        "adjustment_strategy": "Format layout",
+        "validation_method": "No typos in README",
+        "stop_conditions": ["acceptance criteria met", "scope drift"],
+        "max_iterations": 3,
+        "escalation_triggers": ["scope drift"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "README editing requested to add new library dependency, scope drift detected",
+          "validation_passed": false,
+          "trigger_stop_reason": "scope drift"
+        }
+      ],
+      "expected_stop": {
+        "iteration": 1,
+        "reason": "scope drift"
+      }
+    },
+    {
+      "name": "high_impact_one_iteration_stop",
+      "loop_contract": {
+        "loop_objective": "Perform major database clean up",
+        "loop_type": "High-impact loop",
+        "iteration_unit": "Delete historical test tables",
+        "observation_method": "Check schema sizes",
+        "adjustment_strategy": "None",
+        "validation_method": "Test tables deleted",
+        "stop_conditions": ["approval required", "max iterations reached"],
+        "max_iterations": 5,
+        "escalation_triggers": ["approval required"],
+        "approval_gate": {
+          "required": true,
+          "reason": "Database table deletion requires approval."
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "first table inspected, paused for approval before deletion",
+          "validation_passed": false
+        }
+      ],
+      "expected_stop": {
+        "iteration": 1,
+        "reason": "approval required"
+      }
+    },
+    {
+      "name": "subagent_delegation_logged",
+      "loop_contract": {
+        "loop_objective": "Scan repository documentation",
+        "loop_type": "Research loop",
+        "iteration_unit": "Spawn subagent for docs audit",
+        "observation_method": "Check subagent report",
+        "adjustment_strategy": "None",
+        "validation_method": "Docs audit completed",
+        "stop_conditions": ["acceptance criteria met", "max iterations reached"],
+        "max_iterations": 3,
+        "escalation_triggers": ["repeated failures"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "Subagent completed with success status",
+          "validation_passed": true,
+          "subagent_delegation": {
+            "subagent_role": "Documentation Auditor",
+            "conversation_id": "subagent-1234",
+            "outcome": "Audit reports clean documentation format"
+          }
+        }
+      ],
+      "expected_stop": {
+        "iteration": 1,
+        "reason": "acceptance criteria met"
+      }
+    },
+    {
+      "name": "low_confidence_stop",
+      "loop_contract": {
+        "loop_objective": "Fix flaky unit tests",
+        "loop_type": "Coding/debug loop",
+        "iteration_unit": "Run test suite under heavy load",
+        "observation_method": "Check flakiness logs",
+        "adjustment_strategy": "Add locks to thread unsafe code",
+        "validation_method": "Zero flaky tests",
+        "stop_conditions": ["acceptance criteria met", "low confidence"],
+        "max_iterations": 3,
+        "escalation_triggers": ["low confidence"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "Flakiness continues randomly despite adding locks, low confidence",
+          "validation_passed": false,
+          "trigger_stop_reason": "low confidence"
+        }
+      ],
+      "expected_stop": {
+        "iteration": 1,
+        "reason": "low confidence"
+      }
     }
   ]
 }

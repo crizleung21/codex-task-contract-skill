@@ -1,0 +1,1 @@
+Delegate a documentation audit to a subagent. The subagent may read docs/* only, must not write files, must not spawn another subagent, and must return a bounded audit report with acceptance criteria coverage.

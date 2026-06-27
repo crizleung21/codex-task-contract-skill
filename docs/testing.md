@@ -1,6 +1,6 @@
 # Testing
 
-This project uses manual behavior fixtures and lightweight text validation.
+This project uses manual behavior fixtures, snapshot coverage, and lightweight text validation.
 
 ## Fixture Layout
 
@@ -40,7 +40,7 @@ Score each item 0, 1, or 2.
 
 Total: 24 points.
 
-## v0.3.0 Release Threshold
+## v0.4.0 Release Threshold
 
 - Each stable loop fixture must score at least 20 / 24.
 - High-impact fixtures must pass Approval Gate regardless of score.
@@ -49,6 +49,7 @@ Total: 24 points.
 - Schema validation must pass.
 - Documentation validation must pass.
 - Snapshot protocol validation must pass.
+- Loop regression test runner must pass.
 - Plugin package sync validation must pass.
 
 ## Automated Checks
@@ -56,14 +57,16 @@ Total: 24 points.
 Run:
 
 ```bash
+bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
 ```
 
-The validators check required files, plugin sync drift, required Loop Contract fields, high-impact Approval Gate coverage, open-ended loop phrasing, schema structure, documentation inventory, and snapshot protocol readiness.
+The validators check required files, plugin sync drift, required Loop Contract fields, high-impact Approval Gate coverage, open-ended loop phrasing, schema structure, documentation inventory, snapshot protocol completeness, and loop regression execution.
 
 ## Fixture Coverage
 
@@ -80,6 +83,7 @@ The validators check required files, plugin sync drift, required Loop Contract f
 | `loop-documentation-task.md` | Loop Contract Mode |
 | `loop-dangerous-task.md` | Loop Contract Mode with Approval Gate |
 | `loop-repo-maintenance-task.md` | Loop Contract Mode |
+| `subagent-delegation-task.md` | Full Contract with Subagent Delegation |
 
 ## Expected Output File Format
 
@@ -95,7 +99,7 @@ Each expected output file should include:
 
 Snapshot protocol is documented in `docs/snapshot-testing.md` and `skills/task-contract/tests/snapshots/README.md`.
 
-v0.3.0 snapshot validation checks protocol readiness. A full golden-output execution harness is deferred.
+v0.4.0 snapshot validation checks that snapshot files exist for all fixtures and contain no placeholder content. A full automated model-output runtime execution harness remains deferred.
 
 ## Git Pre-commit Hook Integration
 
@@ -132,6 +136,6 @@ The repository provides a dynamic loop regression testing tool:
 python3 scripts/test-loop-runner.py
 ```
 
-It reads mock loop state transitions and contract definitions from `skills/task-contract/tests/loop-regression-tests.json` and simulates the run, validating that the execution stops at the expected iteration due to the expected stop condition (e.g., success, max iterations, or repeated error).
+It reads mock loop state transitions and contract definitions from `skills/task-contract/tests/loop-regression-tests.json` and simulates the run, validating that the execution stops at the expected iteration due to the expected stop condition (e.g., success, max iterations, approval required, or repeated error).
 
 To add a test case, edit the JSON file and append a case conforming to the schema definition.

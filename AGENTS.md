@@ -22,7 +22,7 @@ plugin/codex-task-contract-skill/skills/task-contract/
 
 Update canonical source first. Then sync the plugin package.
 
-## v0.3.0 Release Gates
+## v0.4.0 Release Gates
 
 Before release review, run:
 
@@ -33,6 +33,7 @@ bash scripts/validate-loop-contract-fixtures.sh
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
 git status
 ```
 
@@ -40,7 +41,7 @@ The package copy must match canonical source after sync.
 
 ## Schema Policy
 
-Schemas under `schemas/` are v0.3.0 draft schemas. They are not v1.0.0 frozen public contracts and are not official plugin schema compliance claims.
+Schemas under `schemas/` are v0.4.0 draft schemas. They are not v1.0.0 frozen public contracts and are not official plugin schema compliance claims.
 
 ## CI Policy
 

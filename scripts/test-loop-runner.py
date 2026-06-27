@@ -25,6 +25,8 @@ def run_test_case(case):
         action_outcome = state['action_outcome']
         validation_passed = state['validation_passed']
         error_sig = state.get('error_sig')
+        trigger_stop_reason = state.get('trigger_stop_reason')
+        subagent_info = state.get('subagent_delegation')
 
         # Simulate execution log
         log_entry = {
@@ -35,7 +37,29 @@ def run_test_case(case):
             "validation": "Passed" if validation_passed else "Failed",
             "status": "Complete" if validation_passed else "In progress"
         }
+
+        if subagent_info:
+            log_entry['subagent_delegation'] = subagent_info
+            # Validate subagent log constraint (concise delegation, no full detail nesting)
+            if 'detail_logs' in subagent_info or 'full_trace' in subagent_info:
+                print(f"FAIL: {name} - subagent log nesting is too detailed")
+                return False
+
         loop_log.append(log_entry)
+
+        # Check high-impact loop one iteration limit before approval
+        if contract.get('loop_type') == "High-impact loop" and contract.get('approval_gate', {}).get('required', False):
+            stopped = True
+            stop_reason = "approval required"
+            stop_iteration = iteration
+            break
+
+        # Check explicit stop reason triggered by environment state
+        if trigger_stop_reason:
+            stopped = True
+            stop_reason = trigger_stop_reason
+            stop_iteration = iteration
+            break
 
         # Check success condition
         if validation_passed:
@@ -63,7 +87,12 @@ def run_test_case(case):
     # If sequence finished without an explicit stop condition being triggered, check if we hit the end of state array
     if not stopped:
         stop_iteration = len(states)
-        stop_reason = "max iterations reached" if stop_iteration >= contract['max_iterations'] else "no more states"
+        if contract.get('loop_type') == "High-impact loop" and contract.get('approval_gate', {}).get('required', False):
+            stop_reason = "approval required"
+        elif stop_iteration >= contract['max_iterations']:
+            stop_reason = "max iterations reached"
+        else:
+            stop_reason = "no more states"
 
     # Verify stop iteration and reason
     if stop_iteration != expected['iteration']:

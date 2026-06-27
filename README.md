@@ -48,7 +48,7 @@ skills/task-contract/assets/      Output templates and examples
 skills/task-contract/tests/       Manual behavior fixtures and snapshots
 plugin/codex-task-contract-skill/ Installable Codex Plugin package
 docs/                             Human-facing and maintainer documentation
-schemas/                          v0.3.0 draft schemas
+schemas/                          v0.4.0 draft schemas
 scripts/                          Maintenance, sync, and validation scripts
 .github/workflows/                CI validation workflow
 ```
@@ -101,9 +101,9 @@ GitHub Actions validation is defined in:
 
 The workflow runs the same release-readiness checks used locally.
 
-## v0.3.0 Release Check
+## v0.4.0 Release Check
 
-Before tagging v0.3.0:
+Before tagging v0.4.0:
 
 ```bash
 bash scripts/sync-plugin-package.sh

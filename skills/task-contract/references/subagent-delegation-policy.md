@@ -1,5 +1,7 @@
 # Subagent Delegation Policy
 
+Status: v0.4.0 subagent delegation policy.
+
 This reference defines the policy and safeguards when a parent agent delegates tasks to subagents.
 
 ## Core Principle

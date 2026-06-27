@@ -18,9 +18,7 @@ Status: released.
 
 ## v0.2.0 — Stable Loop Contract Mode
 
-Status: release candidate.
-
-Release goal: make Loop Contract Mode a stable core feature and complete P0 + P1 remediation.
+Status: released.
 
 - Stable loop state model.
 - Expanded loop policy reference.
@@ -37,9 +35,7 @@ Release goal: make Loop Contract Mode a stable core feature and complete P0 + P1
 
 ## v0.3.0 — Validation and Tooling
 
-Status: release candidate.
-
-Release goal: add validation, tooling, draft schemas, CI, snapshot protocol documentation, and release-confidence gates while preserving the v0.2.0 behavior contract.
+Status: released.
 
 - GitHub Actions validation workflow.
 - Draft task contract schema.
@@ -55,27 +51,29 @@ Release goal: add validation, tooling, draft schemas, CI, snapshot protocol docu
 - CI documentation.
 - v0.3.0 release checklist.
 
-## v0.4.0 — Git Hooks, Regression Testing, and Sub-contracting
+## v0.4.0 — Core Subagent Delegation and Loop Validation
 
-Status: released.
+Status: release candidate.
 
-Release goal: add Git pre-commit hook integration, dynamic loop regression testing, and multi-agent sub-contracting schemas/policies.
+Release goal: integrate multi-agent subagent delegation support, incorporate loop regression testing in CI, centralize versioning, and complete snapshot test coverage.
 
-- Automated Git pre-commit hook pre-checks.
-- Loop regression test runner (`test-loop-runner.py`) and test scenarios.
-- Draft subagent contract schema (`subagent-contract.schema.json`).
-- Subagent delegation policy (`subagent-delegation-policy.md`).
-- Subagent contract markdown template.
+- Centralized configuration file `config/release.json`.
+- Upgraded task-contract Skill with multi-agent sub-contracting.
+- Subagent contract markdown template and schema alignment.
+- Behavior contract documentation `docs/behavior-contract.md`.
+- Subagent delegation task fixture and expected output.
+- Complete snapshot test coverage (12 files).
+- Loop regression runner in CI.
 
-## Deferred
+## Deferred (Roadmap for v0.5.0 and later)
 
 - Official plugin schema validation after authoritative source confirmation.
 - Marketplace publishing guide.
 - Full live execution integration.
 - Automated changelog generator.
 - Marketplace install smoke test.
-- Contract schema freeze.
-- General multi-skill orchestration (after behavior freeze).
+- Contract schema freeze (target: v1.0.0).
+- General multi-skill orchestration.
 
 ## v1.0.0 — Stable Contract
 

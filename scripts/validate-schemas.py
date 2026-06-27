@@ -16,6 +16,7 @@ REQUIRED_SCHEMAS = [
 
 REQUIRED_TOP_LEVEL_FIELDS = [
     '$schema',
+    '$id',
     'title',
     'type',
     'properties',
@@ -25,7 +26,7 @@ def fail(message, failures):
     failures.append(message)
     print('FAIL: ' + message)
 
-def validate_schema(path, failures):
+def validate_schema(path, expected_schema_version, failures):
     try:
         data = json.loads(path.read_text(encoding='utf-8'))
     except json.JSONDecodeError as exc:
@@ -46,8 +47,38 @@ def validate_schema(path, failures):
     if 'draft' not in description.lower():
         fail(str(path.relative_to(ROOT)) + ' description must state draft status', failures)
 
+    # Validate schema version matches config/release.json
+    schema_version_prop = data.get('properties', {}).get('schema_version', {})
+    default_version = schema_version_prop.get('default')
+    if default_version != expected_schema_version:
+        fail(f"{path.relative_to(ROOT)}: schema_version default ({default_version}) must match expected schema version ({expected_schema_version})", failures)
+
+    # Validate local $id
+    id_val = data.get('$id', '')
+    if not id_val or 'codex-task-contract-skill/schemas/' not in id_val:
+        fail(f"{path.relative_to(ROOT)}: $id must be a documented repository-local URI", failures)
+
+    # Validate explicit additionalProperties
+    if 'additionalProperties' not in data:
+        fail(f"{path.relative_to(ROOT)}: additionalProperties is not explicit in key object schema", failures)
+
 def main():
     failures = []
+
+    config_path = ROOT / 'config' / 'release.json'
+    if not config_path.is_file():
+        fail('missing release configuration: config/release.json', failures)
+        return 1
+    try:
+        config = json.loads(config_path.read_text(encoding='utf-8'))
+    except Exception as exc:
+        fail('failed to parse config/release.json: ' + str(exc), failures)
+        return 1
+
+    expected_schema_version = config.get('schema_version')
+    if not expected_schema_version:
+        fail('schema_version missing from config/release.json', failures)
+        return 1
 
     if not SCHEMA_DIR.is_dir():
         fail('missing schemas directory', failures)
@@ -57,7 +88,7 @@ def main():
             if not path.is_file():
                 fail('missing schema file: schemas/' + filename, failures)
             else:
-                validate_schema(path, failures)
+                validate_schema(path, expected_schema_version, failures)
 
     if failures:
         print('Schema validation failed: ' + str(len(failures)) + ' issue(s).')

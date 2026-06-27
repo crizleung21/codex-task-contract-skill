@@ -1,0 +1,13 @@
+{
+  "release_target": "0.4.0",
+  "release_tag": "v0.4.0",
+  "schema_version": "0.4.0-draft",
+  "skill_name": "task-contract",
+  "plugin_name": "codex-task-contract-skill",
+  "plugin_skills_path": "./skills/",
+  "canonical_skill_path": "skills/task-contract/",
+  "packaged_skill_path": "plugin/codex-task-contract-skill/skills/task-contract/",
+  "manifest_path": "plugin/codex-task-contract-skill/.codex-plugin/plugin.json",
+  "docs_language": "English-only",
+  "official_plugin_schema_claim": false
+}

@@ -1,17 +1,46 @@
 # Subagent Contract - [Subagent Role Name]
 
-## Meta
-- **Parent Conversation ID**: [parent-id]
-- **Subagent Role**: [role]
+## Metadata
 
-## Boundaries
-- **Allowed Scope**:
-  - [allowed read/write path 1]
-  - [allowed read/write path 2]
-- **Constraints**:
-  - [constraint 1 (e.g., read-only)]
-  - [constraint 2 (e.g., no recursion)]
+```yaml
+parent_conversation_id: [parent-id]
+subagent_role: [role]
+scope_boundary:
+  - [allowed read/write path or command]
+constraints:
+  - [constraint]
+max_iterations: [number]
+recursion_lock: true
+approval_gate:
+  required: [true/false]
+  reason: [reason]
+  blocked_action: [action]
+  recommended_safe_default: [default]
+  reply_template: [template]
+acceptance_criteria:
+  - [criteria]
+return_format: [format]
+```
+
+## Scope Boundary
+
+[Description of the scope boundary, directories, files, or tools the subagent is permitted to use.]
+
+## Constraints
+
+[Any constraints such as read-only access, network isolation, or command limits.]
 
 ## Acceptance Criteria
-- [ ] [criteria 1]
-- [ ] [criteria 2]
+
+- [ ] [Criteria 1]
+- [ ] [Criteria 2]
+
+## Return Format
+
+[The expected shape, file type, or format of the returned report.]
+
+## Parent Loop Log Sync
+
+Log this delegation in the parent conversation's Loop Log under a single iteration:
+- Action: `Spawn subagent [role] for [task]`
+- Observation: `Subagent completed with status [status] and evidence [evidence]`

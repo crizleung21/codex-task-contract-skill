@@ -6,9 +6,26 @@ All notable changes to this project will be documented in this file.
 
 ### Planned
 
-- P2 roadmap items for v0.4.0 and later: official plugin schema validation, marketplace publishing guidance, full golden-output execution harness, automated changelog generation, and multi-skill expansion after v1.0.0 behavior freeze.
+- P2 roadmap items for v0.5.0 and later: official plugin schema validation, marketplace publishing guidance, full golden-output execution harness, automated changelog generation, and multi-skill expansion after v1.0.0 behavior freeze.
 
-## [0.3.0] - Release Candidate
+## [0.4.0] - Release Candidate
+
+### Added
+- Multi-agent sub-contracting integration into the canonical task-contract Skill.
+- Release configuration file `config/release.json` for centralized versioning.
+- Behavior contract documentation `docs/behavior-contract.md`.
+- Subagent delegation task fixture and expected output.
+- Snapshot files for all 12 fixtures under `skills/task-contract/tests/snapshots/`.
+- Loop regression test runner in CI and local validation.
+
+### Changed
+- Upgraded release target and all active files to v0.4.0.
+- Centralized validation scripts to read from release configuration.
+- Aligned plugin manifest schema (`schemas/plugin-local-invariants.schema.json`) and expected output mode enums.
+- Strengthened snapshot and loop contract validators to fail on placeholders.
+- Archived `docs/v0.3.0-release-checklist.md` to historical directory.
+
+## [0.3.0] - Released
 
 ### Added
 

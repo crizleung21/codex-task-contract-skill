@@ -1,6 +1,6 @@
 # Snapshot Directory
 
-Status: v0.3.0 snapshot protocol directory.
+Status: v0.4.0 snapshot protocol directory.
 
 This directory records structural snapshot expectations for `task-contract` fixture review.
 

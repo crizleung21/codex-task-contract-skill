@@ -10,12 +10,15 @@
     "subagent_role",
     "scope_boundary",
     "acceptance_criteria",
-    "constraints"
+    "constraints",
+    "recursion_lock",
+    "approval_gate",
+    "return_format"
   ],
   "properties": {
     "schema_version": {
       "type": "string",
-      "default": "0.3.0-draft"
+      "default": "0.4.0-draft"
     },
     "parent_conversation_id": {
       "type": "string",
@@ -43,6 +46,9 @@
       "type": "integer",
       "minimum": 1
     },
+    "recursion_lock": {
+      "type": "boolean"
+    },
     "approval_gate": {
       "type": "object",
       "additionalProperties": false,
@@ -54,6 +60,10 @@
         "recommended_safe_default": { "type": "string" },
         "reply_template": { "type": "string" }
       }
+    },
+    "return_format": {
+      "type": "string",
+      "minLength": 1
     }
   }
 }
