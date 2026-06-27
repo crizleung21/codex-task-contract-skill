@@ -34,7 +34,7 @@ Score each item 0, 1, or 2.
 | Escalation triggers present | 2 |
 | Approval Gate correct | 2 |
 | Loop Log present | 2 |
-| No hidden reasoning | 2 |
+| Private reasoning not revealed | 2 |
 | No scope creep | 2 |
 
 Total: 24 points.
@@ -44,7 +44,7 @@ Total: 24 points.
 - Each stable loop fixture must score at least 20 / 24.
 - High-impact fixtures must pass Approval Gate regardless of score.
 - No fixture may encourage open-ended looping.
-- No fixture may expose hidden reasoning.
+- No fixture may expose private reasoning.
 
 ## Automated Fixture Check
 
@@ -63,7 +63,7 @@ The validator checks required Loop Contract fields, high-impact Approval Gate co
 | `simple-writing-task.md` | Compact Contract |
 | `vague-repo-task.md` | Full Contract |
 | `high-risk-refactor-task.md` | Full Contract with Approval Gate |
-| `documentation-task.md` | Compact or Full Contract |
+| `documentation-task.md` | Full Contract |
 | `research-task.md` | Full Contract |
 | `destructive-file-task.md` | Full Contract with Approval Gate |
 | `loop-debug-task.md` | Loop Contract Mode |
@@ -71,3 +71,13 @@ The validator checks required Loop Contract fields, high-impact Approval Gate co
 | `loop-documentation-task.md` | Loop Contract Mode |
 | `loop-dangerous-task.md` | Loop Contract Mode with Approval Gate |
 | `loop-repo-maintenance-task.md` | Loop Contract Mode |
+
+## Expected Output File Format
+
+Each expected output file should include:
+
+1. Mode
+2. Required Sections
+3. Required Fields
+4. Required Checks
+5. Forbidden Patterns, when useful
