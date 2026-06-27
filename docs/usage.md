@@ -12,7 +12,7 @@ Use $task-contract to clarify this task first.
 |---|---|---|
 | Compact Contract | The task is simple and low impact. | Auto-Skeleton, Optimized Task, Output Contract, Next Step. |
 | Full Contract | The task is complex, ambiguous, repo-level, or high impact. | Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate, Next Step. |
-| Loop-aware Contract | The task needs bounded iteration. | Full Contract plus Loop Contract fields, Loop Log, validation method, stop conditions, and iteration cap. |
+| Loop Contract Mode | The task needs bounded iteration through observation, adjustment, validation, and safe stopping. | Full Contract plus Loop Contract, Loop Log, Validation Method, Stop Conditions, Escalation Triggers, Approval Gate when needed. |
 
 ## Compact Contract Example Prompt
 
@@ -30,17 +30,31 @@ Review this repository and prepare it for public release.
 
 Expected mode: Full Contract with Decision Points and Approval Gate before high-impact work.
 
-## Loop-Aware Example Prompt
+## Loop Contract Example Prompt
 
 ```text
 Run the checks, adjust the failing area, and repeat within a bounded loop until validation passes or the loop stops.
 ```
 
-Expected mode: Loop-aware Contract.
+Expected mode: Loop Contract Mode.
+
+Required loop fields:
+
+- Loop Objective
+- Loop Type
+- Iteration Unit
+- Observation Method
+- Adjustment Strategy
+- Validation Method
+- Stop Conditions
+- Max Iterations
+- Escalation Triggers
+- Approval Gate
+- Loop Log
 
 ## Approval Gate
 
-Use an Approval Gate before high-impact execution, including broad repository changes, release actions, dependency changes, destructive cleanup, or any loop that expands beyond the Optimized Task.
+Use an Approval Gate before high-impact execution, including broad repository changes, release actions, dependency changes, destructive cleanup, public behavior changes, or any loop that expands beyond the Optimized Task.
 
 ## Good Output Criteria
 
@@ -55,4 +69,5 @@ A good task contract:
 - defines acceptance criteria;
 - adds Decision Points when choices matter;
 - uses an Approval Gate when needed;
+- uses bounded Loop Contract Mode when iteration is required;
 - ends with one clear next step.
