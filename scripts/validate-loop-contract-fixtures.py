@@ -1,83 +1,88 @@
 #!/usr/bin/env python3
-"""Validate Loop Contract expected-output fixtures.
-
-This script is intentionally zero-dependency and text-based. It checks that loop
-expected outputs include the stable v0.2.0 Loop Contract fields and do not rely
-on open-ended loop language.
-"""
-
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = ROOT / "skills" / "task-contract" / "tests" / "expected"
+EXPECTED = ROOT / 'skills' / 'task-contract' / 'tests' / 'expected'
 
 REQUIRED_FILES = [
-    "loop-debug-task.expected.md",
-    "loop-research-task.expected.md",
-    "loop-documentation-task.expected.md",
-    "loop-dangerous-task.expected.md",
-    "loop-repo-maintenance-task.expected.md",
+    'loop-debug-task.expected.md',
+    'loop-research-task.expected.md',
+    'loop-documentation-task.expected.md',
+    'loop-dangerous-task.expected.md',
+    'loop-repo-maintenance-task.expected.md',
 ]
 
 REQUIRED_TERMS = [
-    "Loop Objective",
-    "Loop Type",
-    "Iteration Unit",
-    "Observation Method",
-    "Adjustment Strategy",
-    "Validation Method",
-    "Stop Condition",
-    "Max Iterations",
-    "Escalation Trigger",
-    "Loop Log",
+    'Loop Objective',
+    'Loop Type',
+    'Iteration Unit',
+    'Observation Method',
+    'Adjustment Strategy',
+    'Validation Method',
+    'Stop Conditions',
+    'Max Iterations',
+    'Escalation Triggers',
+    'Approval Gate',
+    'Loop Log',
+]
+
+REQUIRED_LOG_COLUMNS = [
+    'Iteration',
+    'Action',
+    'Observation',
+    'Adjustment',
+    'Validation',
+    'Status',
 ]
 
 FORBIDDEN_PATTERNS = [
-    "repeat until done",
-    "keep going forever",
-    "unlimited iterations",
-    "no stop condition",
-    "continue without approval",
+    'repeat until done',
+    'keep going forever',
+    'unlimited iterations',
+    'no stop condition',
+    'continue without approval',
+    'background execution',
 ]
 
-
-def fail(message: str, failures: list[str]) -> None:
+def fail(message, failures):
     failures.append(message)
-    print(f"FAIL: {message}")
+    print('FAIL: ' + message)
 
-
-def main() -> int:
-    failures: list[str] = []
+def main():
+    failures = []
 
     for filename in REQUIRED_FILES:
         path = EXPECTED / filename
         if not path.exists():
-            fail(f"missing expected file: {path}", failures)
+            fail('missing expected file: ' + str(path), failures)
             continue
 
-        text = path.read_text(encoding="utf-8")
+        text = path.read_text(encoding='utf-8')
         lowered = text.lower()
 
         for term in REQUIRED_TERMS:
             if term not in text:
-                fail(f"{filename} missing required term: {term}", failures)
+                fail(filename + ' missing required term: ' + term, failures)
+
+        for column in REQUIRED_LOG_COLUMNS:
+            if column not in text:
+                fail(filename + ' missing Loop Log column: ' + column, failures)
 
         for pattern in FORBIDDEN_PATTERNS:
             if pattern in lowered:
-                fail(f"{filename} contains forbidden open-ended pattern: {pattern}", failures)
+                fail(filename + ' contains forbidden pattern: ' + pattern, failures)
 
-        if "dangerous" in filename or "high-impact" in text.lower():
-            if "Approval Gate" not in text:
-                fail(f"{filename} must include Approval Gate", failures)
+        if 'dangerous' in filename or 'high-impact' in lowered:
+            if 'Approval Gate' not in text:
+                fail(filename + ' must include Approval Gate', failures)
 
     if failures:
-        print(f"Loop fixture validation failed: {len(failures)} issue(s).")
+        print('Loop fixture validation failed: ' + str(len(failures)) + ' issue(s).')
         return 1
 
-    print("Loop fixture validation passed.")
+    print('Loop fixture validation passed.')
     return 0
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())
