@@ -35,3 +35,6 @@ jobs:
 
       - name: Snapshot protocol validation
         run: python3 scripts/run-snapshots.py
+        
+      - name: Loop regression tests
+        run: python3 scripts/test-loop-runner.py
