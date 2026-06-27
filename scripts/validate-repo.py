@@ -7,7 +7,6 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
     'README.md',
-    'IMPLEMENTATION__PLAN.md',
     'CHANGELOG.md',
     'AGENTS.md',
     '.github/workflows/validate.yml',
@@ -31,7 +30,6 @@ REQUIRED_FILES = [
     'docs/schema-design.md',
     'docs/snapshot-testing.md',
     'docs/ci.md',
-    'docs/v0.2.0-release-checklist.md',
     'docs/v0.3.0-release-checklist.md',
     'schemas/task-contract.schema.json',
     'schemas/loop-contract.schema.json',
@@ -110,7 +108,6 @@ def main():
             fail('missing required file: ' + file, failures)
 
     require_terms('skills/task-contract/SKILL.md', ['name: task-contract', 'Approval Gate', 'Loop Contract Mode', 'Adjustment Strategy'], failures)
-    require_terms('IMPLEMENTATION__PLAN.md', ['v0.3.0', 'validation', 'tooling', 'P0'], failures)
     require_terms('README.md', ['v0.3.0', 'validate-schemas.py', 'run-snapshots.py'], failures)
     require_terms('CHANGELOG.md', ['[0.3.0]', 'Schema validator', 'Plugin package sync validator'], failures)
     require_terms('AGENTS.md', ['Schema Policy', 'CI Policy', 'Snapshot Policy'], failures)

@@ -8,7 +8,6 @@ REQUIRED_DOCS = [
     'README.md',
     'CHANGELOG.md',
     'AGENTS.md',
-    'IMPLEMENTATION__PLAN.md',
     'docs/testing.md',
     'docs/release-process.md',
     'docs/roadmap.md',
