@@ -6,7 +6,46 @@ All notable changes to this project will be documented in this file.
 
 ### Planned
 
-- P2 roadmap items for v0.3.0 and later: CI, markdown linting, machine-readable schemas, golden output runners, official plugin schema validation, marketplace publishing guidance, and multi-skill expansion.
+- P2 roadmap items for v0.4.0 and later: official plugin schema validation, marketplace publishing guidance, full golden-output execution harness, automated changelog generation, and multi-skill expansion after v1.0.0 behavior freeze.
+
+## [0.3.0] - Release Candidate
+
+### Added
+
+- v0.3.0 validation and tooling implementation plan.
+- Draft schemas for task contracts, Loop Contract Mode, expected outputs, and local plugin invariants.
+- Schema validator script.
+- Plugin package sync validator script.
+- Documentation validator script.
+- Snapshot protocol validator script.
+- GitHub Actions validation workflow.
+- Schema design documentation.
+- Snapshot testing documentation.
+- CI documentation.
+- v0.3.0 release checklist.
+- Snapshot directory policy.
+
+### Changed
+
+- Updated README for v0.3.0 release validation.
+- Updated plugin manifest version to 0.3.0.
+- Updated release process for schema validation, plugin sync validation, docs validation, snapshot protocol validation, and CI review.
+- Updated roadmap to treat v0.3.0 as the validation and tooling release.
+- Updated repository validation wrapper to include plugin sync validation.
+- Preserved the v0.2.0 behavior contract while adding release-readiness infrastructure.
+
+### Fixed
+
+- Added explicit validation gates for schema drift, plugin package drift, documentation drift, and missing snapshot protocol files.
+- Clarified that local plugin invariant validation is not an official plugin schema compliance claim.
+
+### Deferred
+
+- Official plugin schema validation.
+- Marketplace publishing guide.
+- Full golden-output execution harness.
+- Contract schema freeze.
+- Multi-skill expansion.
 
 ## [0.2.0] - Release Candidate
 
