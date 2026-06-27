@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/codex-task-contract-skill/schemas/loop-contract.schema.json",
+  "title": "Loop Contract Draft Schema",
+  "description": "Draft structural schema for v0.3.0 Loop Contract Mode outputs. This is not a v1.0.0 frozen schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "loop_objective",
+    "loop_type",
+    "iteration_unit",
+    "observation_method",
+    "adjustment_strategy",
+    "validation_method",
+    "stop_conditions",
+    "max_iterations",
+    "escalation_triggers",
+    "approval_gate",
+    "loop_log"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "0.3.0-draft"
+    },
+    "loop_objective": { "type": "string", "minLength": 1 },
+    "loop_type": {
+      "type": "string",
+      "enum": [
+        "Simple loop",
+        "Coding/debug loop",
+        "Research loop",
+        "Documentation loop",
+        "Repo maintenance loop",
+        "High-impact loop"
+      ]
+    },
+    "iteration_unit": { "type": "string", "minLength": 1 },
+    "observation_method": { "type": "string", "minLength": 1 },
+    "adjustment_strategy": { "type": "string", "minLength": 1 },
+    "validation_method": { "type": "string", "minLength": 1 },
+    "stop_conditions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "max_iterations": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "escalation_triggers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "approval_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "blocked_action": { "type": "string" },
+        "recommended_safe_default": { "type": "string" },
+        "reply_template": { "type": "string" }
+      }
+    },
+    "loop_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["iteration", "action", "observation", "adjustment", "validation", "status"],
+        "properties": {
+          "iteration": { "type": "integer", "minimum": 1 },
+          "action": { "type": "string" },
+          "observation": { "type": "string" },
+          "adjustment": { "type": "string" },
+          "validation": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "loop_stop_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "final_status": { "type": "string" },
+        "stop_reason": { "type": "string" },
+        "evidence": { "type": "string" },
+        "remaining_gaps": { "type": "string" },
+        "next_step": { "type": "string" }
+      }
+    }
+  }
+}
