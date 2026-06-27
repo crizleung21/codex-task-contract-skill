@@ -6,35 +6,53 @@
 Use $task-contract to clarify this task first.
 ```
 
-## Compact Contract
+## Mode Selection
 
-Use for small low-risk work.
+| Mode | Use When | Output |
+|---|---|---|
+| Compact Contract | The task is simple and low impact. | Auto-Skeleton, Optimized Task, Output Contract, Next Step. |
+| Full Contract | The task is complex, ambiguous, repo-level, or high impact. | Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate, Next Step. |
+| Loop-aware Contract | The task needs bounded iteration. | Full Contract plus Loop Contract fields, Loop Log, validation method, stop conditions, and iteration cap. |
 
-Sections:
+## Compact Contract Example Prompt
 
-1. Auto-Skeleton
-2. Optimized Task
-3. Output Contract
-4. Next Step
+```text
+Rewrite this README introduction so it is clearer and more professional.
+```
 
-## Full Contract
+Expected mode: Compact Contract.
 
-Use for complex, ambiguous, or high-impact work.
+## Full Contract Example Prompt
 
-Sections:
+```text
+Review this repository and prepare it for public release.
+```
 
-1. Auto-Skeleton
-2. BLUF
-3. Optimized Task
-4. Assumptions
-5. Constraints
-6. Decision Points
-7. Output Contract
-8. Execution Plan
-9. Acceptance Criteria
-10. Risk Gate
-11. Next Step
+Expected mode: Full Contract with Decision Points and Approval Gate before high-impact work.
 
-## Loop Contract
+## Loop-Aware Example Prompt
 
-Use for iterative work that needs observation, adjustment, validation, and stop conditions.
+```text
+Run the checks, adjust the failing area, and repeat within a bounded loop until validation passes or the loop stops.
+```
+
+Expected mode: Loop-aware Contract.
+
+## Approval Gate
+
+Use an Approval Gate before high-impact execution, including broad repository changes, release actions, dependency changes, destructive cleanup, or any loop that expands beyond the Optimized Task.
+
+## Good Output Criteria
+
+A good task contract:
+
+- preserves the user's intent;
+- defines the work object;
+- bounds the scope;
+- names assumptions;
+- states constraints;
+- defines output format;
+- defines acceptance criteria;
+- adds Decision Points when choices matter;
+- uses an Approval Gate when needed;
+- ends with one clear next step.
