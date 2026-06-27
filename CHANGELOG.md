@@ -6,8 +6,31 @@ All notable changes to this project will be documented in this file.
 
 ### Planned
 
-- Expand v0.2.0 Loop Contract Mode golden outputs.
-- Add optional validation scripts for loop-state checks.
+- Future validation improvements for v0.3.0.
+
+## [0.2.0] - Release Candidate
+
+### Added
+
+- Stable Loop Contract Mode.
+- Loop state model.
+- Loop observation method reference.
+- Loop stop condition reference.
+- Loop escalation rule reference.
+- Loop evaluation rubric.
+- Full and compact Loop Contract templates.
+- Expanded Loop Log template.
+- Expanded loop golden expected outputs.
+- Loop repo maintenance fixture and expected output.
+- Loop fixture validator script.
+- v0.2.0 release checklist.
+- Migration guide from v0.1.0 to v0.2.0.
+
+### Changed
+
+- Promoted Loop-aware preview to stable Loop Contract Mode.
+- Updated plugin manifest version to 0.2.0.
+- Standardized terminology around Approval Gate and Adjustment Strategy.
 
 ## [0.1.0] - Release Candidate
 
@@ -27,13 +50,3 @@ All notable changes to this project will be documented in this file.
 - Documentation set.
 - Manual behavior fixtures and expected outputs.
 - Repository validation and plugin sync scripts.
-
-## [0.2.0] - Planned
-
-### Planned
-
-- Stable Loop Contract Mode.
-- Expanded loop policy reference.
-- Stronger loop golden outputs.
-- Optional loop validation scripts.
-- Task-type loop evaluation rubric.
