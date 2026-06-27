@@ -1,32 +1,32 @@
 # Plugin Packaging
 
-## Package Path
+Canonical Skill source lives under:
 
 ```text
-plugin/codex-task-contract-skill/
+skills/task-contract/
 ```
 
-## Manifest
+The packaged plugin copy lives under:
 
 ```text
-plugin/codex-task-contract-skill/.codex-plugin/plugin.json
+plugin/codex-task-contract-skill/skills/task-contract/
 ```
 
-## Required Manifest Fields
+Update canonical source first. Then sync the package copy before release review.
 
-- `name`
-- `version`
-- `description`
-- `skills`
+## Local Package Invariants
 
-## Sync Process
+| Item | Value |
+|---|---|
+| Plugin name | `codex-task-contract-skill` |
+| Plugin version | `0.2.0` |
+| Skills path | `./skills/` |
+| Canonical Skill | `skills/task-contract/` |
+| Packaged Skill | `plugin/codex-task-contract-skill/skills/task-contract/` |
 
-The canonical Skill source lives under `skills/task-contract/`. The plugin package copy should be synced before release.
+## Review Checklist
 
-```bash
-bash scripts/sync-plugin-package.sh
-```
-
-## Local Marketplace
-
-Use `.agents/plugins/marketplace.json` to test local installation metadata.
+- [ ] Canonical Skill files are updated.
+- [ ] Plugin package is synchronized.
+- [ ] Manifest version matches the release target.
+- [ ] Validators pass after sync.
