@@ -16,6 +16,7 @@ Use this stable template when a task needs bounded iteration.
 | Max Iterations | Maximum cycles. |
 | Escalation Triggers | When to ask the user. |
 | Approval Gate | Whether execution may proceed. |
+| Loop Log | Concise user-visible evidence of iterations. |
 
 ## Loop Procedure
 
@@ -40,3 +41,10 @@ Use this stable template when a task needs bounded iteration.
 - Evidence: ...
 - Remaining gaps: ...
 - Next step: ...
+
+## Boundaries
+
+- Use a finite iteration cap.
+- Use visible evidence for observations.
+- Keep adjustments tied to observed gaps.
+- Stop when acceptance passes, the cap is reached, validation is blocked, scope changes, or approval is needed.
