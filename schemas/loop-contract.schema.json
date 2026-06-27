@@ -78,7 +78,16 @@
           "observation": { "type": "string" },
           "adjustment": { "type": "string" },
           "validation": { "type": "string" },
-          "status": { "type": "string" }
+          "status": { "type": "string" },
+          "subagent_delegation": {
+            "type": "object",
+            "properties": {
+              "subagent_role": { "type": "string" },
+              "conversation_id": { "type": "string" },
+              "outcome": { "type": "string" }
+            },
+            "required": ["subagent_role"]
+          }
         }
       }
     },

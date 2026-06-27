@@ -17,6 +17,9 @@ REQUIRED_FILES = [
     'skills/task-contract/assets/loop-contract-template.md',
     'skills/task-contract/assets/compact-loop-contract-template.md',
     'skills/task-contract/assets/full-loop-contract-template.md',
+    'skills/task-contract/references/subagent-delegation-policy.md',
+    'skills/task-contract/assets/subagent-contract-template.md',
+    'skills/task-contract/tests/expected/subagent-delegation-task.expected.md',
     'skills/task-contract/tests/snapshots/README.md',
     'plugin/codex-task-contract-skill/.codex-plugin/plugin.json',
     'docs/installation.md',
@@ -35,6 +38,7 @@ REQUIRED_FILES = [
     'schemas/loop-contract.schema.json',
     'schemas/expected-output.schema.json',
     'schemas/plugin-local-invariants.schema.json',
+    'schemas/subagent-contract.schema.json',
     'scripts/validate-repo.sh',
     'scripts/validate-repo.py',
     'scripts/validate-loop-contract-fixtures.sh',
@@ -46,6 +50,8 @@ REQUIRED_FILES = [
     'scripts/sync-plugin-package.sh',
     'scripts/pre-commit-hook.sh',
     'scripts/install-git-hooks.sh',
+    'scripts/test-loop-runner.py',
+    'skills/task-contract/tests/loop-regression-tests.json',
 ]
 
 EXPECTED_MODES = {
@@ -60,6 +66,7 @@ EXPECTED_MODES = {
     'loop-documentation-task.expected.md': 'Mode: Loop Contract Mode',
     'loop-dangerous-task.expected.md': 'Mode: Loop Contract Mode with Approval Gate',
     'loop-repo-maintenance-task.expected.md': 'Mode: Loop Contract Mode',
+    'subagent-delegation-task.expected.md': 'Mode: Full Contract with Subagent Delegation',
 }
 
 SCHEMA_FILES = [
@@ -67,6 +74,7 @@ SCHEMA_FILES = [
     'loop-contract.schema.json',
     'expected-output.schema.json',
     'plugin-local-invariants.schema.json',
+    'subagent-contract.schema.json',
 ]
 
 def fail(message, failures):

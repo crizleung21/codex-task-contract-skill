@@ -11,6 +11,7 @@ REQUIRED_SCHEMAS = [
     'loop-contract.schema.json',
     'expected-output.schema.json',
     'plugin-local-invariants.schema.json',
+    'subagent-contract.schema.json',
 ]
 
 REQUIRED_TOP_LEVEL_FIELDS = [

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/codex-task-contract-skill/schemas/subagent-contract.schema.json",
+  "title": "Subagent Contract Draft Schema",
+  "description": "Draft structural schema for defining subagent delegation contracts under task-contract Skill.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "parent_conversation_id",
+    "subagent_role",
+    "scope_boundary",
+    "acceptance_criteria",
+    "constraints"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "0.3.0-draft"
+    },
+    "parent_conversation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subagent_role": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope_boundary": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "max_iterations": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "approval_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "blocked_action": { "type": "string" },
+        "recommended_safe_default": { "type": "string" },
+        "reply_template": { "type": "string" }
+      }
+    }
+  }
+}

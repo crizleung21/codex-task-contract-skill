@@ -1,0 +1,106 @@
+{
+  "test_cases": [
+    {
+      "name": "successful_loop",
+      "loop_contract": {
+        "loop_objective": "Fix build error",
+        "loop_type": "Coding/debug loop",
+        "iteration_unit": "Fix compiler errors",
+        "observation_method": "Check npm run build output",
+        "adjustment_strategy": "Resolve syntax errors one by one",
+        "validation_method": "Build runs without errors",
+        "stop_conditions": ["acceptance criteria met", "max iterations reached"],
+        "max_iterations": 3,
+        "escalation_triggers": ["missing credentials"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "rebuilt, syntax error on line 42",
+          "validation_passed": false
+        },
+        {
+          "action_outcome": "fixed line 42, rebuild passes",
+          "validation_passed": true
+        }
+      ],
+      "expected_stop": {
+        "iteration": 2,
+        "reason": "acceptance criteria met"
+      }
+    },
+    {
+      "name": "max_iterations_reached",
+      "loop_contract": {
+        "loop_objective": "Inspect documentation formatting",
+        "loop_type": "Documentation loop",
+        "iteration_unit": "Scan file formatting",
+        "observation_method": "Check markdown lint output",
+        "adjustment_strategy": "Fix heading levels",
+        "validation_method": "No lint errors",
+        "stop_conditions": ["acceptance criteria met", "max iterations reached"],
+        "max_iterations": 3,
+        "escalation_triggers": ["repeated failures"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "linter found 10 heading errors",
+          "validation_passed": false
+        },
+        {
+          "action_outcome": "fixed 5 heading errors, 5 remaining",
+          "validation_passed": false
+        },
+        {
+          "action_outcome": "fixed 3 heading errors, 2 remaining",
+          "validation_passed": false
+        }
+      ],
+      "expected_stop": {
+        "iteration": 3,
+        "reason": "max iterations reached"
+      }
+    },
+    {
+      "name": "repeated_failure",
+      "loop_contract": {
+        "loop_objective": "Resolve failing test",
+        "loop_type": "Coding/debug loop",
+        "iteration_unit": "Run test suite",
+        "observation_method": "Check pytest stdout",
+        "adjustment_strategy": "Fix assertion errors",
+        "validation_method": "pytest passes",
+        "stop_conditions": ["acceptance criteria met", "max iterations reached", "same failure repeats twice"],
+        "max_iterations": 5,
+        "escalation_triggers": ["repeated failures"],
+        "approval_gate": {
+          "required": false
+        },
+        "loop_log": []
+      },
+      "mock_environment_states": [
+        {
+          "action_outcome": "assertion error: expected 404, got 500",
+          "validation_passed": false,
+          "error_sig": "AssertionError: 500"
+        },
+        {
+          "action_outcome": "assertion error: expected 404, got 500 (no change)",
+          "validation_passed": false,
+          "error_sig": "AssertionError: 500"
+        }
+      ],
+      "expected_stop": {
+        "iteration": 2,
+        "reason": "same failure repeats twice"
+      }
+    }
+  ]
+}

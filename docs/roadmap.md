@@ -55,15 +55,27 @@ Release goal: add validation, tooling, draft schemas, CI, snapshot protocol docu
 - CI documentation.
 - v0.3.0 release checklist.
 
+## v0.3.2 — Git Hooks, Regression Testing, and Sub-contracting
+
+Status: released.
+
+Release goal: add Git pre-commit hook integration, dynamic loop regression testing, and multi-agent sub-contracting schemas/policies.
+
+- Automated Git pre-commit hook pre-checks.
+- Loop regression test runner (`test-loop-runner.py`) and test scenarios.
+- Draft subagent contract schema (`subagent-contract.schema.json`).
+- Subagent delegation policy (`subagent-delegation-policy.md`).
+- Subagent contract markdown template.
+
 ## Deferred
 
 - Official plugin schema validation after authoritative source confirmation.
 - Marketplace publishing guide.
-- Full golden-output execution harness.
+- Full live execution integration.
 - Automated changelog generator.
 - Marketplace install smoke test.
 - Contract schema freeze.
-- Multi-skill expansion after behavior freeze.
+- General multi-skill orchestration (after behavior freeze).
 
 ## v1.0.0 — Stable Contract
 

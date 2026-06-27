@@ -17,9 +17,10 @@ v0.3.0 adds validation, tooling, draft schemas, CI, snapshot protocol documentat
 - **Compact Contract** for simple low-impact tasks.
 - **Full Contract** for complex, ambiguous, repo-level, public-facing, or high-impact tasks.
 - **Stable Loop Contract Mode** for iterative tasks with objective, iteration unit, observation method, adjustment strategy, validation method, stop conditions, max iterations, escalation triggers, Approval Gate, and Loop Log.
+- **Multi-Agent Sub-contracting** for task delegation with scope-bounded subagent contracts, parent references, and loop log syncing.
 - **Approval Gate** before broad repository changes, public behavior changes, release metadata changes, dependency changes, destructive cleanup, security posture changes, commits, pushes, tags, releases, pull requests, or high-impact loop execution.
-- **Draft schemas** for task contracts, Loop Contract Mode, expected outputs, and local plugin invariants.
-- **CI-ready validators** for repository structure, plugin package sync, loop fixtures, schemas, docs, and snapshot protocol.
+- **Draft schemas** for task contracts, Loop Contract Mode, expected outputs, subagent contracts, and local plugin invariants.
+- **CI-ready validators** and **Regression test runner** for repository structure, plugin package sync, loop fixtures, schemas, docs, loop trajectories, and snapshot protocol.
 - **Codex Plugin package** with `.codex-plugin/plugin.json`.
 
 ## Quick Usage
@@ -111,6 +112,7 @@ bash scripts/validate-loop-contract-fixtures.sh
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
 git status
 ```
 

@@ -113,6 +113,7 @@ Once installed, executing `git commit` triggers the following automated validati
 4. **Schema Validator**: Confirm schema drafts parse correctly.
 5. **Documentation Validator**: Check heading syntax and document inventory.
 6. **Snapshot Runner**: Validate versioned snapshots and protocols.
+7. **Loop Regression Test Runner**: Verify loop contract trajectories using mock state sequences.
 
 If any check fails, the commit is blocked and the error is printed.
 
@@ -122,3 +123,15 @@ In emergency scenarios where a commit must bypass validations, append `--no-veri
 ```bash
 git commit --no-verify
 ```
+
+## Loop Regression Testing
+
+The repository provides a dynamic loop regression testing tool:
+
+```bash
+python3 scripts/test-loop-runner.py
+```
+
+It reads mock loop state transitions and contract definitions from `skills/task-contract/tests/loop-regression-tests.json` and simulates the run, validating that the execution stops at the expected iteration due to the expected stop condition (e.g., success, max iterations, or repeated error).
+
+To add a test case, edit the JSON file and append a case conforming to the schema definition.

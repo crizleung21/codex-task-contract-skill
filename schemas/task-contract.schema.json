@@ -113,6 +113,18 @@
         "reply_template": { "type": "string" }
       }
     },
+    "delegated_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "subagent_role": { "type": "string" },
+          "conversation_id": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "active", "completed", "failed"] }
+        },
+        "required": ["subagent_role", "status"]
+      }
+    },
     "next_step": { "type": "string", "minLength": 1 }
   }
 }

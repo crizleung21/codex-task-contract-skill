@@ -39,5 +39,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+python3 scripts/test-loop-runner.py
+if [ $? -ne 0 ]; then
+  echo "ERROR: Loop regression validation failed."
+  exit 1
+fi
+
 echo "All pre-commit checks passed successfully!"
 exit 0
