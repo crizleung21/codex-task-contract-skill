@@ -1,6 +1,6 @@
 {
   "name": "codex-task-contract-skill",
-  "version": "0.2.0",
-  "description": "A Codex plugin that installs the task-contract skill for converting vague, risky, high-impact, or iterative requests into compact, full, or loop task contracts before execution.",
+  "version": "0.1.0",
+  "description": "A Codex plugin that installs the task-contract skill for converting vague, multi-step, high-impact, or iterative requests into compact, full, or loop-aware task contracts before execution.",
   "skills": "./skills/"
 }
