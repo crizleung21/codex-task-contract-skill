@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/codex-task-contract-skill/schemas/expected-output.schema.json",
+  "title": "Expected Output Draft Schema",
+  "description": "Draft structural schema for expected fixture files and snapshot expectations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fixture_name",
+    "expected_mode",
+    "required_sections",
+    "required_checks"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "0.3.0-draft"
+    },
+    "fixture_name": { "type": "string", "minLength": 1 },
+    "expected_mode": {
+      "type": "string",
+      "enum": [
+        "Compact Contract",
+        "Full Contract",
+        "Full Contract with Approval Gate",
+        "Loop Contract Mode",
+        "Loop Contract Mode with Approval Gate"
+      ]
+    },
+    "risk_class": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "destructive", "unknown"]
+    },
+    "required_sections": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "required_fields": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "required_checks": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "forbidden_patterns": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "approval_required": { "type": "boolean" },
+    "notes": { "type": "string" }
+  }
+}
