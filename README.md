@@ -6,9 +6,9 @@ The included `task-contract` Skill converts vague, multi-step, high-impact, or i
 
 ## Status
 
-Current release target: **v0.1.0**
+Current release target: **v0.2.0**
 
-v0.1.0 is the first usable release candidate. It focuses on the Task Contract MVP while keeping Loop Contract Mode available as a documented preview pattern for iterative work.
+v0.2.0 stabilizes Loop Contract Mode as a core feature. It promotes the v0.1.0 loop-aware preview into a bounded task-control protocol for iterative work.
 
 ## What It Provides
 
@@ -16,9 +16,9 @@ v0.1.0 is the first usable release candidate. It focuses on the Task Contract MV
 - **Task Optimizer** for precise, bounded, outcome-first task rewriting.
 - **Compact Contract** for simple low-impact tasks.
 - **Full Contract** for complex or high-impact tasks.
-- **Loop-aware Contract** preview for iterative tasks with observation, adjustment, validation, stop conditions, and approval gates.
+- **Stable Loop Contract Mode** for iterative tasks with objective, iteration unit, observation method, adjustment strategy, validation method, stop conditions, max iterations, escalation triggers, approval gates, and Loop Log.
 - **Codex Plugin package** with `.codex-plugin/plugin.json`.
-- **Manual fixtures** for compact, full, high-impact, and loop-aware requests.
+- **Manual fixtures and validator** for compact, full, high-impact, and stable loop requests.
 
 ## Quick Usage
 
@@ -33,7 +33,7 @@ Expected behavior:
 3. Define constraints and an Output Contract.
 4. Add Decision Points when a choice may change the outcome.
 5. Apply an Approval Gate before high-impact execution.
-6. Use Loop Contract Mode when iterative progress needs observation and stop conditions.
+6. Use Loop Contract Mode when iterative progress needs observation, validation, stop conditions, and iteration limits.
 
 ## Project Structure
 
@@ -47,18 +47,19 @@ docs/                             Human-facing documentation
 scripts/                          Maintenance and validation scripts
 ```
 
-## v0.1.0 Release Check
+## v0.2.0 Release Check
 
-Before tagging v0.1.0:
+Before tagging v0.2.0:
 
 ```bash
 bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
 git status
 ```
 
-Then review `docs/v0.1.0-release-checklist.md`.
+Then review `docs/v0.2.0-release-checklist.md`.
 
 ## License
 
