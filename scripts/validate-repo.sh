@@ -10,6 +10,11 @@ required_files=(
   "docs/installation.md"
   "docs/usage.md"
   "docs/testing.md"
+  "skills/task-contract/references/loop-contract-policy.md"
+  "skills/task-contract/references/loop-observation-methods.md"
+  "skills/task-contract/references/loop-stop-conditions.md"
+  "skills/task-contract/references/loop-escalation-rules.md"
+  "skills/task-contract/references/loop-evaluation-rubric.md"
 )
 
 for file in "${required_files[@]}"; do
@@ -20,5 +25,9 @@ for file in "${required_files[@]}"; do
 done
 
 grep -q "name: task-contract" skills/task-contract/SKILL.md
+
+if [[ -f scripts/validate-loop-contract-fixtures.py ]]; then
+  python3 scripts/validate-loop-contract-fixtures.py
+fi
 
 echo "Repository validation passed."
