@@ -114,7 +114,19 @@ python3 scripts/run-snapshots.py
 git status
 ```
 
-Then review `docs/v0.3.0-release-checklist.md`.
+## Git Pre-commit Hooks
+
+To prevent committing malformed schemas, un-synced plugin package folders, invalid documentation formatting, or failing loop fixtures, you can install the Git pre-commit hook:
+
+```bash
+bash scripts/install-git-hooks.sh
+```
+
+Once installed, the hook will run automatically on `git commit`. To bypass the validation checks, use:
+
+```bash
+git commit --no-verify
+```
 
 ## License
 

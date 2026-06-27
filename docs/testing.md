@@ -96,3 +96,29 @@ Each expected output file should include:
 Snapshot protocol is documented in `docs/snapshot-testing.md` and `skills/task-contract/tests/snapshots/README.md`.
 
 v0.3.0 snapshot validation checks protocol readiness. A full golden-output execution harness is deferred.
+
+## Git Pre-commit Hook Integration
+
+To ensure all repository validations are executed before any changes are committed, developers should install the Git pre-commit hook by running:
+
+```bash
+bash scripts/install-git-hooks.sh
+```
+
+### Automatic Validation Gates
+Once installed, executing `git commit` triggers the following automated validation sequence:
+1. **Plugin Package Sync check**: Copy canonical files and verify no package sync drift.
+2. **Repository Validator**: Verify file inventories and key configurations.
+3. **Loop Fixture Validator**: Inspect loop contract formatting, stops, and safe boundaries.
+4. **Schema Validator**: Confirm schema drafts parse correctly.
+5. **Documentation Validator**: Check heading syntax and document inventory.
+6. **Snapshot Runner**: Validate versioned snapshots and protocols.
+
+If any check fails, the commit is blocked and the error is printed.
+
+### Bypassing Checks
+In emergency scenarios where a commit must bypass validations, append `--no-verify` to your commit command:
+
+```bash
+git commit --no-verify
+```

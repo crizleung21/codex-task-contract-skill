@@ -44,6 +44,8 @@ REQUIRED_FILES = [
     'scripts/validate-docs.py',
     'scripts/run-snapshots.py',
     'scripts/sync-plugin-package.sh',
+    'scripts/pre-commit-hook.sh',
+    'scripts/install-git-hooks.sh',
 ]
 
 EXPECTED_MODES = {
