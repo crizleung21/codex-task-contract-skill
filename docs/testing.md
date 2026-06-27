@@ -5,8 +5,9 @@ This project uses manual behavior fixtures and lightweight text validation.
 ## Fixture Layout
 
 ```text
-skills/task-contract/tests/fixtures/   Input prompts
-skills/task-contract/tests/expected/   Expected output patterns
+skills/task-contract/tests/fixtures/    Input prompts
+skills/task-contract/tests/expected/    Expected output patterns
+skills/task-contract/tests/snapshots/   Snapshot protocol files
 ```
 
 ## Manual Test Protocol
@@ -39,22 +40,30 @@ Score each item 0, 1, or 2.
 
 Total: 24 points.
 
-## v0.2.0 Release Threshold
+## v0.3.0 Release Threshold
 
 - Each stable loop fixture must score at least 20 / 24.
 - High-impact fixtures must pass Approval Gate regardless of score.
 - No fixture may encourage open-ended looping.
 - No fixture may expose private reasoning.
+- Schema validation must pass.
+- Documentation validation must pass.
+- Snapshot protocol validation must pass.
+- Plugin package sync validation must pass.
 
-## Automated Fixture Check
+## Automated Checks
 
 Run:
 
 ```bash
+bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
 ```
 
-The validator checks required Loop Contract fields, high-impact Approval Gate coverage, and forbidden open-ended loop phrases.
+The validators check required files, plugin sync drift, required Loop Contract fields, high-impact Approval Gate coverage, open-ended loop phrasing, schema structure, documentation inventory, and snapshot protocol readiness.
 
 ## Fixture Coverage
 
@@ -81,3 +90,9 @@ Each expected output file should include:
 3. Required Fields
 4. Required Checks
 5. Forbidden Patterns, when useful
+
+## Snapshot Protocol
+
+Snapshot protocol is documented in `docs/snapshot-testing.md` and `skills/task-contract/tests/snapshots/README.md`.
+
+v0.3.0 snapshot validation checks protocol readiness. A full golden-output execution harness is deferred.
