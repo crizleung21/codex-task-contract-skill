@@ -11,7 +11,7 @@ Use this skill to clarify, bound, and contract a user request before execution.
 
 Clarify before action. Convert the user request into a visible task contract that preserves intent, bounds scope, defines output, and states completion criteria.
 
-Do not expose hidden reasoning. Provide concise rationale, assumptions, constraints, decision criteria, evidence references when used, and actionable next steps.
+Provide concise rationale, assumptions, constraints, decision criteria, evidence references when used, and actionable next steps. Do not reveal private reasoning. Do not imply background work, scheduling, unlimited iteration, or open-ended execution.
 
 ## When to Use
 
@@ -23,7 +23,8 @@ Use this skill when the user asks Codex to:
 - draft implementation plans, specs, tests, or docs;
 - handle a multi-step or ambiguous request;
 - make a decision from incomplete context;
-- iterate, debug, repair, validate, or continue toward a bounded goal.
+- iterate, debug, repair, validate, or continue toward a bounded goal;
+- perform work that may need approval before execution.
 
 ## When Not to Use
 
@@ -36,13 +37,13 @@ Do not use this skill when:
 
 ## Mode Selection
 
-Choose exactly one mode.
+Choose exactly one mode unless the user explicitly asks for a comparison.
 
 | Mode | Select When | Required Output |
 |---|---|---|
 | Compact Contract | The task is simple, low impact, and only slightly underspecified. | Auto-Skeleton, Optimized Task, Output Contract, Next Step. |
 | Full Contract | The task is multi-step, ambiguous, repo-level, public-facing, or high impact. | Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate, Next Step. |
-| Loop Contract Mode | The task requires bounded iteration through action, observation, adjustment, validation, and safe stopping. | Full Contract plus Loop Contract, Loop Procedure, Loop Log, Validation Method, Stop Conditions, Escalation Triggers. |
+| Loop Contract Mode | The task requires bounded iteration through action, observation, adjustment, validation, and safe stopping. | Full Contract plus Loop Contract, Loop Procedure, Loop Log, Validation Method, Stop Conditions, Escalation Triggers, Approval Gate, Next Step. |
 
 Escalate from Compact to Full when a choice may change the outcome. Escalate from Full to Loop Contract Mode when progress depends on observing results across multiple cycles.
 
@@ -74,16 +75,16 @@ Rules:
 
 The Optimized Task must:
 
-1. Start with a clear action verb.
-2. Identify the object of work.
-3. Define the target outcome.
-4. Bound the scope.
-5. Specify decision-use.
-6. Specify output shape.
-7. Include acceptance criteria.
-8. Preserve user intent.
-9. Avoid scope creep.
-10. Surface ambiguity as Decision Points when resolving it would change the task.
+1. start with a clear action verb;
+2. identify the object of work;
+3. define the target outcome;
+4. bound the scope;
+5. specify decision-use;
+6. specify output shape;
+7. include acceptance criteria;
+8. preserve user intent;
+9. avoid scope creep;
+10. surface ambiguity as Decision Points when resolving it would change the task.
 
 Template:
 
@@ -114,7 +115,19 @@ Decision Points must:
 
 Low-impact work may proceed after the contract is produced. High-impact work must pause for approval before execution.
 
-Use an Approval Gate for broad repo changes, release actions, dependency changes, public interface changes, destructive cleanup, large refactors, or any loop that needs to expand scope.
+Use an Approval Gate before execution when the task may involve broad repository changes, public behavior changes, release metadata changes, dependency changes, file deletion, security posture changes, large refactors, commits, pushes, tags, releases, pull requests, loop scope expansion, or high-impact loop execution.
+
+Approval Gate wording:
+
+```md
+## Approval Gate
+
+This action requires approval before execution because [reason].
+
+Blocked action: [specific action]
+Recommended safe default: [inspection-only / contract-only / limited edit scope]
+Reply template: Approved: [bounded scope]
+```
 
 ## Loop Contract Mode
 
@@ -122,7 +135,7 @@ Loop Contract Mode is a stable bounded task-control protocol for iterative work.
 
 Use it when a task requires cycles of action, observation, adjustment, validation, and safe stopping.
 
-Loop Contract Mode is not a background worker, scheduler, CI orchestrator, unbounded autonomous runtime, or permission to continue indefinitely.
+Loop Contract Mode is not a background worker, scheduler, CI orchestrator, autonomous runtime, or permission to continue indefinitely.
 
 State model:
 
@@ -165,7 +178,7 @@ Loop rules:
 4. Observe using concrete evidence such as tests, build output, lint output, diff review, source review, citations, logs, or checklist evidence.
 5. Adjust only for the observed gap.
 6. Maintain a concise Loop Log.
-7. Stop when acceptance criteria pass, the iteration cap is reached, required context is missing, the same failure repeats, scope drift appears, validation is blocked, or approval is required.
+7. Stop when acceptance criteria pass, the iteration cap is reached, required context is missing, the same failure repeats, scope drift appears, validation is blocked, low confidence appears, or approval is required.
 
 ## Loop Log
 
@@ -174,6 +187,16 @@ Use this structure when executing Loop Contract Mode:
 | Iteration | Action | Observation | Adjustment | Validation | Status |
 |---|---|---|---|---|---|
 | 1 | ... | ... | ... | ... | ... |
+
+## Loop Stop Summary
+
+When a loop stops, include:
+
+- Final status:
+- Stop reason:
+- Evidence:
+- Remaining gaps:
+- Next step:
 
 ## References
 
@@ -184,6 +207,14 @@ Use deeper reference files when needed:
 - `references/loop-stop-conditions.md`
 - `references/loop-escalation-rules.md`
 - `references/loop-evaluation-rubric.md`
+
+Use templates when helpful:
+
+- `assets/compact-contract-template.md`
+- `assets/full-contract-template.md`
+- `assets/loop-contract-template.md`
+- `assets/compact-loop-contract-template.md`
+- `assets/full-loop-contract-template.md`
 
 ## Final Response Rules
 
@@ -199,5 +230,7 @@ Before acting, verify:
 - [ ] Acceptance criteria are explicit.
 - [ ] Decision Points are present when needed.
 - [ ] Approval Gate is applied when needed.
-- [ ] Loop contracts have observation, validation, stop conditions, escalation triggers, and iteration caps.
-- [ ] No hidden reasoning is exposed.
+- [ ] Loop contracts have objective, observation, adjustment, validation, stop conditions, escalation triggers, and iteration caps.
+- [ ] Loop Log is present when Loop Contract Mode is used.
+- [ ] Private reasoning is not revealed.
+- [ ] Background or open-ended execution is not implied.
