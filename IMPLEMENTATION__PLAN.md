@@ -2,13 +2,25 @@
 
 ## 1. BLUF
 
-This implementation plan upgrades `codex-task-contract-skill` to a coherent, executable **v0.4.0 core-function release state**.
+This implementation plan upgrades `codex-task-contract-skill` from the v0.4.0 core-function release candidate into a coherent **v0.5.0 behavior-strengthening release**.
 
-The repository already contains the core `task-contract` Skill behavior: Auto-Skeleton, Task Optimizer, Compact Contract, Full Contract, Loop Contract Mode, Approval Gate, Loop Log, draft schemas, validators, CI, plugin packaging, pre-commit hooks, loop regression tooling, and preliminary subagent delegation support.
+v0.4.0 established the core task-contract Skill surface: Auto-Skeleton, Task Optimizer, Compact Contract, Full Contract, Loop Contract Mode, Approval Gate, Loop Log, draft schemas, repository validators, CI checks, plugin package synchronization, snapshot coverage, loop regression tests, and preliminary multi-agent sub-contracting.
 
-However, the repository currently has release-target drift across README, AGENTS, docs, schemas, validators, plugin metadata, fixtures, and CI. The main implementation goal is to make v0.4.0 the single active release target, strengthen validation coverage, fully integrate subagent delegation into the Skill contract, and keep larger future work in the roadmap.
+v0.5.0 focuses on strengthening execution reliability and maintainability by improving:
 
-Recommended implementation scope: **A2 — complete P0 + P1, move P2 to Roadmap**.
+1. mode taxonomy consistency;
+2. semantic contract validation;
+3. fixture coverage visibility;
+4. release consistency validation;
+5. subagent contract safety boundaries;
+6. installation smoke testing;
+7. local/CI validation parity;
+8. user-facing examples for delegation workflows;
+9. roadmap preparation for golden output tests, contract linting, presets, and v1.0.0 behavior freeze.
+
+The goal of v0.5.0 is **not** to claim official marketplace publishing readiness, official plugin schema compliance, or v1.0.0 schema stability. The goal is to make the Skill more reliable, testable, bounded, and safer for Codex repository-level workflows.
+
+Recommended implementation scope: **complete all P0 and P1 items for v0.5.0; keep P2 items in the roadmap unless separately approved.**
 
 ---
 
@@ -16,149 +28,226 @@ Recommended implementation scope: **A2 — complete P0 + P1, move P2 to Roadmap*
 
 | Field | Value |
 |---|---|
-| Active release target | `v0.4.0` |
+| Active release target | `v0.5.0` |
+| Previous release target | `v0.4.0` |
 | Core Skill | `task-contract` |
 | Plugin package | `codex-task-contract-skill` |
 | Canonical Skill source | `skills/task-contract/` |
 | Packaged Skill copy | `plugin/codex-task-contract-skill/skills/task-contract/` |
 | Plugin manifest | `plugin/codex-task-contract-skill/.codex-plugin/plugin.json` |
+| Release configuration | `config/release.json` |
+| Schemas directory | `schemas/` |
+| Test fixtures | `skills/task-contract/tests/fixtures/` |
+| Expected outputs | `skills/task-contract/tests/expected/` |
+| Snapshots | `skills/task-contract/tests/snapshots/` |
 | Docs language | English-only |
-| Validation style | Local, zero-dependency unless explicitly justified |
+| Validation style | Local, deterministic, zero-network unless explicitly approved |
 | Public compliance boundary | Do not claim official Codex/plugin marketplace schema compliance until authoritative schema validation exists |
+| v1.0.0 boundary | Do not freeze public behavior contract in v0.5.0 |
 
 ---
 
-## 3. Scope
+## 3. Why v0.5.0 Exists
 
-### 3.1 In Scope
+### 3.1 v0.4.0 Strengths
+
+The repository already contains the major conceptual building blocks needed for a useful task-contract Skill:
+
+1. **Auto-Skeleton** for visible task framing.
+2. **Task Optimizer** for precise, bounded, outcome-first task rewriting.
+3. **Compact Contract** for simple, low-impact tasks.
+4. **Full Contract** for complex, ambiguous, repo-level, public-facing, or high-impact tasks.
+5. **Loop Contract Mode** for bounded iterative work with observation, adjustment, validation, stop conditions, escalation triggers, and iteration caps.
+6. **Approval Gate** for high-impact or destructive execution.
+7. **Loop Log** for visible iteration evidence.
+8. **Multi-Agent Sub-contracting** for bounded delegation.
+9. **Draft schemas** for contract structures.
+10. **Validation scripts** for repository structure, schemas, documentation, loop fixtures, snapshots, and plugin sync.
+11. **CI workflow** for automated validation.
+12. **Plugin package layout** for Codex/plugin installation.
+
+These are strong foundations. The remaining work is not primarily about inventing new conceptual behavior. The remaining work is about making the behavior more internally consistent, more enforceable, and easier to verify.
+
+### 3.2 v0.5.0 Gaps to Close
+
+The v0.5.0 release should close the following gaps:
+
+1. **Mode taxonomy drift**  
+   Extended modes such as Approval Gate and Subagent Delegation exist in fixtures and validators, but the main task contract schema still treats mode mostly as a small base enum.
+
+2. **Semantic validation gap**  
+   Current validators mostly check files, terms, sections, schema structure, and snapshot presence. They do not deeply validate task-contract behavior semantics such as “Auto-Skeleton first,” “one clear next step,” “Decision Points include trade-offs,” or “high-impact loops stop before approval.”
+
+3. **Fixture coverage visibility gap**  
+   Fixtures exist, expected outputs exist, and snapshots exist, but there is no explicit fixture matrix showing coverage across base modes, modifiers, risk levels, Approval Gate requirements, Loop Contract use, and Subagent Delegation.
+
+4. **Release consistency gap**  
+   `config/release.json` centralizes release metadata, but release drift detection should become stricter and more reusable across future versions.
+
+5. **Subagent safety gap**  
+   Current Subagent Contract fields define basic delegation metadata, but they should be strengthened with explicit path, tool, evidence, merge, and failure boundaries.
+
+6. **Installation verification gap**  
+   Installation docs currently describe expected manual behavior, but a deterministic local smoke test should verify packaged Skill availability, manifest version, sync state, and marketplace metadata.
+
+7. **Usage discoverability gap**  
+   User-facing usage docs describe Compact, Full, and Loop Contract modes, but Subagent Delegation should be documented as a first-class usage pattern.
+
+8. **Future harness gap**  
+   Golden output testing, contract linting, and contract presets are valuable but should remain roadmap-level unless separately approved.
+
+---
+
+## 4. Current State Audit
+
+### 4.1 Existing Implementation Plan Is v0.4.0-Oriented
+
+The current implementation plan frames the repository as a v0.4.0 core-function release state. It identifies release alignment, validation, schemas, CI, plugin sync, and preliminary subagent delegation as the major focus.
+
+However, the plan is no longer the right active execution blueprint after the v0.5.0 enhancement route has been selected. It should be rewritten to target v0.5.0, while keeping v0.4.0 as the previous baseline.
+
+### 4.2 Mode Taxonomy Is Not Yet Fully Normalized
+
+Current expected outputs and validators use extended mode labels such as:
+
+- `Full Contract with Approval Gate`
+- `Full Contract with Subagent Delegation`
+- `Loop Contract Mode with Approval Gate`
+- `Loop Contract Mode with Subagent Delegation`
+- `Loop Contract Mode with Approval Gate and Subagent Delegation`
+
+The main task contract schema should not rely on long string labels as the primary representation. The recommended v0.5.0 model is:
+
+```json
+{
+  "base_mode": "Full Contract",
+  "modifiers": ["approval_gate", "subagent_delegation"]
+}
+```
+
+This separates the contract family from optional behavior modifiers and supports future expansion without multiplying mode strings.
+
+### 4.3 Validation Is Present but Too Structural
+
+Current validators are useful and should be preserved. However, v0.5.0 should add behavior-level validation to catch failures such as:
+
+1. missing Auto-Skeleton;
+2. Auto-Skeleton not appearing first;
+3. vague Optimized Task;
+4. Decision Points without trade-offs;
+5. Approval Gate present but not blocking execution;
+6. Loop Contract without clear stop conditions;
+7. high-impact loop allowing too many iterations before approval;
+8. Subagent Contract missing recursion lock;
+9. final response containing multiple next steps;
+10. hidden or background execution claims.
+
+### 4.4 Subagent Delegation Exists but Needs Stronger Boundaries
+
+The repository already defines Subagent Delegation behavior and a draft schema. v0.5.0 should harden this into a safer and more explicit delegation protocol by adding:
+
+1. allowed paths;
+2. forbidden paths;
+3. allowed tools;
+4. forbidden tools;
+5. handoff input;
+6. evidence requirements;
+7. return schema;
+8. merge policy;
+9. failure policy.
+
+This prevents delegation from becoming an unbounded execution path.
+
+### 4.5 Installation Verification Should Become Testable
+
+The installation documentation should remain human-readable, but v0.5.0 should add a smoke test that verifies the package can be installed and recognized at a file-layout level before any user relies on manual invocation.
+
+---
+
+## 5. Scope
+
+### 5.1 In Scope for v0.5.0
 
 This plan covers:
 
-1. Release-target consistency for v0.4.0.
-2. Core Skill behavior alignment.
-3. Plugin manifest and local invariant alignment.
-4. Draft schema alignment.
-5. Documentation alignment.
-6. Validator strengthening.
-7. CI and pre-commit parity.
-8. Loop regression test coverage expansion.
-9. Subagent delegation integration.
-10. Snapshot fixture structure completion.
-11. Roadmap separation for non-blocking future work.
+1. upgrading `IMPLEMENTATION__PLAN.md` to target v0.5.0;
+2. updating release metadata to v0.5.0;
+3. normalizing mode taxonomy across schemas, fixtures, validators, docs, and snapshots;
+4. adding a release consistency validator;
+5. adding a semantic contract validator;
+6. adding a fixture matrix;
+7. strengthening Subagent Contract schema and template fields;
+8. updating Subagent Delegation policy and usage documentation;
+9. adding installation smoke testing;
+10. improving local/CI validation parity;
+11. creating a v0.5.0 release checklist;
+12. updating README, AGENTS, docs, changelog, and roadmap;
+13. keeping P2 expansion work clearly separated from release blockers.
 
-### 3.2 Out of Scope
+### 5.2 Out of Scope for v0.5.0
 
-The following items should remain deferred unless separately approved:
+The following items are explicitly out of scope unless separately approved:
 
-1. Official plugin schema compliance claims.
-2. Marketplace publishing guide as a release blocker.
-3. Full live model-output golden execution harness.
-4. Automated changelog generation.
-5. General multi-skill orchestration.
-6. v1.0.0 contract freeze.
-7. Network-dependent validation.
-
----
-
-## 4. Current Audit Findings
-
-### 4.1 Core Behavior Is Present but Needs v0.4.0 Alignment
-
-The canonical `SKILL.md` already defines the expected task-contract behavior:
-
-- Auto-Skeleton first.
-- Optimized Task construction.
-- Compact Contract, Full Contract, and Loop Contract Mode.
-- Approval Gate for high-impact work.
-- Loop Contract fields.
-- Loop Log.
-- Stop Conditions.
-- Escalation Triggers.
-- Quality Checklist.
-
-The main issue is not missing conceptual behavior. The main issue is inconsistent release metadata and incomplete enforcement.
-
-### 4.2 Version Drift Exists Across Active Files
-
-Observed drift examples:
-
-| Area | Drift |
-|---|---|
-| README | Current target says v0.4.0, but release-check section still references v0.3.0 |
-| AGENTS | Release gates and schema policy still reference v0.3.0 |
-| Release docs | `docs/release-process.md` still describes v0.3.0 |
-| Checklist | Active checklist remains `docs/v0.3.0-release-checklist.md` |
-| Plugin docs | `docs/plugin-packaging.md` and `docs/plugin-manifest.md` still reference v0.2.0 |
-| Schema | `plugin-local-invariants.schema.json` only accepts v0.3.0 |
-| Validator | `validate-repo.py` expects plugin manifest version v0.4.0 |
-| Fixtures | `loop-repo-maintenance-task` still tests v0.2.0 release readiness |
-
-### 4.3 Validation Is Present but Too Shallow
-
-Current validators check required files, required terms, basic JSON schema structure, docs H1 headings, plugin sync, loop fixture terms, and snapshot protocol presence.
-
-The main gaps:
-
-1. No single release config source.
-2. No repository-wide version drift validator.
-3. Schema validator does not validate semantic consistency.
-4. Snapshot runner does not require snapshot files per fixture.
-5. Loop fixture validator checks terms but not empty sections/placeholders.
-6. CI does not run the loop regression test runner.
-7. Subagent delegation is not fully integrated into main Skill references and tests.
+1. official marketplace publishing;
+2. official plugin schema compliance claims;
+3. network-dependent validation;
+4. live model-output execution harness as a release blocker;
+5. autonomous background work;
+6. general multi-skill orchestration;
+7. v1.0.0 behavior/schema freeze;
+8. dependency-heavy validation tooling;
+9. broad repository refactors unrelated to task-contract behavior;
+10. destructive cleanup.
 
 ---
 
-## 5. P0 Required Fixes
+## 6. P0 Required Fixes
 
-P0 items are release blockers. Complete these before treating v0.4.0 as execution-ready.
+P0 items are release blockers. Complete these before treating v0.5.0 as execution-ready.
 
 ---
 
-### P0-01 — Make v0.4.0 the Single Active Release Target
+### P0-01 — Upgrade the Implementation Plan Target to v0.5.0
 
 #### Problem
 
-The repository simultaneously references v0.2.0, v0.3.0, and v0.4.0 in active release-critical files.
+`IMPLEMENTATION__PLAN.md` currently describes a v0.4.0 core-function release state. The selected direction is now v0.5.0 behavior strengthening.
 
 #### Required Changes
 
-Update active release references to v0.4.0 in:
+Update `IMPLEMENTATION__PLAN.md` so that it:
 
-- `README.md`
-- `AGENTS.md`
-- `CHANGELOG.md`
-- `docs/release-process.md`
-- `docs/testing.md`
-- `docs/validator-design.md`
-- `docs/schema-design.md`
-- `docs/snapshot-testing.md`
-- `docs/ci.md`
-- `docs/plugin-packaging.md`
-- `docs/plugin-manifest.md`
-- `schemas/*.schema.json`
-- `scripts/validate-repo.py`
-- `scripts/validate-docs.py`
-- `skills/task-contract/tests/fixtures/loop-repo-maintenance-task.md`
-- `skills/task-contract/tests/expected/loop-repo-maintenance-task.expected.md`
+1. identifies `v0.5.0` as the active release target;
+2. identifies `v0.4.0` as the previous baseline;
+3. describes v0.5.0 as a behavior-strengthening release;
+4. separates P0, P1, and P2 work;
+5. includes validation strategy and implementation order;
+6. makes P2 items roadmap-only unless separately approved.
+
+#### Files to Update
+
+```text
+IMPLEMENTATION__PLAN.md
+```
 
 #### Acceptance Criteria
 
-- `v0.4.0` is the only active release target.
-- Older versions may appear only in changelog history, archive files, or roadmap history.
-- Active release docs do not instruct users to run v0.2.0 or v0.3.0 gates for v0.4.0.
+- `IMPLEMENTATION__PLAN.md` clearly targets v0.5.0.
+- v0.4.0 appears only as historical or previous baseline context.
+- P0/P1/P2 are all present and clearly separated.
+- The plan can be executed without relying on conversation history.
 
 ---
 
-### P0-02 — Add a Single Release Configuration File
+### P0-02 — Update Central Release Configuration to v0.5.0
 
 #### Problem
 
-Release version, schema version, plugin name, and skill path are hardcoded in multiple files.
+Release target, release tag, and schema version should be controlled by `config/release.json`. The active config must be updated before validators can enforce v0.5.0.
 
-#### Required Change
+#### Required Changes
 
-Add:
+Update:
 
 ```text
 config/release.json
@@ -168,9 +257,9 @@ Recommended content:
 
 ```json
 {
-  "release_target": "0.4.0",
-  "release_tag": "v0.4.0",
-  "schema_version": "0.4.0-draft",
+  "release_target": "0.5.0",
+  "release_tag": "v0.5.0",
+  "schema_version": "0.5.0-draft",
   "skill_name": "task-contract",
   "plugin_name": "codex-task-contract-skill",
   "plugin_skills_path": "./skills/",
@@ -182,1031 +271,1356 @@ Recommended content:
 }
 ```
 
-#### Update Validators
-
-Modify:
-
-- `scripts/validate-repo.py`
-- `scripts/validate-docs.py`
-- `scripts/validate-schemas.py`
-
-so they read the release target and schema version from `config/release.json`.
-
-#### Acceptance Criteria
-
-- Validators no longer duplicate version constants unless explicitly justified.
-- Updating `config/release.json` is enough to move active release target in validation logic.
-
----
-
-### P0-03 — Add This Implementation Plan to the Repository
-
-#### Required Change
-
-Add this file:
+#### Files to Update
 
 ```text
-IMPLEMENTATION__PLAN.md
+config/release.json
+plugin/codex-task-contract-skill/.codex-plugin/plugin.json
+README.md
+AGENTS.md
+CHANGELOG.md
+docs/roadmap.md
+docs/release-process.md
+docs/v0.5.0-release-checklist.md
+schemas/*.schema.json
 ```
 
 #### Acceptance Criteria
 
-- File exists at repository root.
-- File identifies v0.4.0 as the active release target.
-- File separates P0, P1, and P2 work.
-- File includes validation commands and acceptance criteria.
+- `config/release.json` uses `0.5.0`, `v0.5.0`, and `0.5.0-draft`.
+- Plugin manifest version matches `config/release.json`.
+- Active docs refer to v0.5.0 as the active target.
+- Older release references remain only in changelog, roadmap, or archive context.
 
 ---
 
-### P0-04 — Replace Active v0.3.0 Checklist with v0.4.0 Checklist
+### P0-03 — Normalize Mode Taxonomy
 
 #### Problem
 
-The active checklist is still `docs/v0.3.0-release-checklist.md`.
+The repository currently mixes base modes and extended behavior labels. Long string labels such as `Full Contract with Approval Gate` are useful for human-readable expected files, but they should not be the primary machine contract model.
 
 #### Required Changes
 
-1. Add:
-
-```text
-docs/v0.4.0-release-checklist.md
-```
-
-2. Move the old checklist to archive or make it clearly historical:
-
-Recommended path:
-
-```text
-docs/archive/v0.3.0-release-checklist.md
-```
-
-3. Update references in:
-
-- `README.md`
-- `AGENTS.md`
-- `docs/release-process.md`
-- `docs/testing.md`
-- `docs/validator-design.md`
-- `scripts/validate-repo.py`
-- `scripts/validate-docs.py`
-
-#### Acceptance Criteria
-
-- Active release checklist is v0.4.0.
-- v0.3.0 checklist no longer acts as a validation gate.
-
----
-
-### P0-05 — Add Loop Regression Runner to CI
-
-#### Problem
-
-v0.4.0 includes loop regression testing, but the CI workflow does not run `scripts/test-loop-runner.py`.
-
-#### Required Change
-
-Update:
-
-```text
-.github/workflows/validate.yml
-```
-
-Add:
-
-```yaml
-- name: Loop regression tests
-  run: python3 scripts/test-loop-runner.py
-```
-
-#### Also Update
-
-- `README.md`
-- `docs/ci.md`
-- `docs/testing.md`
-- `docs/v0.4.0-release-checklist.md`
-- `scripts/pre-commit-hook.sh` if needed for parity review
-
-#### Acceptance Criteria
-
-The local and CI validation sequences both include:
-
-```bash
-bash scripts/sync-plugin-package.sh
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
-python3 scripts/validate-schemas.py
-python3 scripts/validate-docs.py
-python3 scripts/run-snapshots.py
-python3 scripts/test-loop-runner.py
-git status
-```
-
-`git status` remains local-only and should not be required in CI.
-
----
-
-### P0-06 — Fully Integrate Subagent Delegation into the Main Skill
-
-#### Problem
-
-Subagent delegation policy and template exist, but `SKILL.md` does not sufficiently integrate them into the main Skill behavior and references.
-
-#### Required Changes in `skills/task-contract/SKILL.md`
-
-Add a section:
-
-```md
-## Multi-Agent Sub-contracting
-```
-
-This section must define:
-
-1. When delegation is allowed.
-2. When delegation is not allowed.
-3. Required subagent contract fields.
-4. Parent Loop Log syncing.
-5. Recursion lock.
-6. Scope boundary.
-7. Approval Gate behavior.
-8. Return format.
-9. Evidence requirements.
-
-Add references:
-
-```md
-- `references/subagent-delegation-policy.md`
-- `assets/subagent-contract-template.md`
-```
-
-#### Acceptance Criteria
-
-- `SKILL.md` directly mentions subagent delegation.
-- The policy file is referenced from the main Skill file.
-- Delegation requires explicit bounded scope and acceptance criteria.
-- Subagents cannot spawn subagents unless explicitly approved.
-
----
-
-### P0-07 — Align Expected Output Schema with Subagent Modes
-
-#### Problem
-
-The expected fixture uses `Mode: Full Contract with Subagent Delegation`, but `schemas/expected-output.schema.json` does not include this mode.
-
-#### Required Change
-
-Update `schemas/expected-output.schema.json` enum to include:
+Adopt this model across schemas, validators, fixtures, docs, and snapshots:
 
 ```json
-"Full Contract with Subagent Delegation",
-"Loop Contract Mode with Subagent Delegation",
-"Loop Contract Mode with Approval Gate and Subagent Delegation"
+{
+  "base_mode": "Full Contract",
+  "modifiers": ["approval_gate", "subagent_delegation"]
+}
+```
+
+Supported base modes:
+
+```text
+Compact Contract
+Full Contract
+Loop Contract Mode
+```
+
+Supported v0.5.0 modifiers:
+
+```text
+approval_gate
+subagent_delegation
+```
+
+Future modifiers may include:
+
+```text
+research_verified
+repo_write_blocked
+artifact_output
+security_review
+```
+
+#### Files to Update
+
+```text
+schemas/task-contract.schema.json
+schemas/expected-output.schema.json
+schemas/loop-contract.schema.json
+scripts/validate-repo.py
+scripts/validate-schemas.py
+skills/task-contract/tests/expected/*.expected.md
+skills/task-contract/tests/snapshots/*.snapshot.md
+docs/behavior-contract.md
+docs/schema-design.md
+docs/testing.md
+docs/snapshot-testing.md
+skills/task-contract/tests/FIXTURE_MATRIX.md
+```
+
+#### Recommended Schema Shape
+
+```json
+{
+  "base_mode": {
+    "type": "string",
+    "enum": [
+      "Compact Contract",
+      "Full Contract",
+      "Loop Contract Mode"
+    ]
+  },
+  "modifiers": {
+    "type": "array",
+    "items": {
+      "type": "string",
+      "enum": [
+        "approval_gate",
+        "subagent_delegation"
+      ]
+    },
+    "uniqueItems": true
+  }
+}
+```
+
+#### Backward Compatibility
+
+Expected output files may keep a human-readable `Mode:` line, but validators should also require machine-readable metadata such as:
+
+```yaml
+Base Mode: Full Contract
+Modifiers:
+  - approval_gate
+  - subagent_delegation
 ```
 
 #### Acceptance Criteria
 
-- Expected output schema can represent all current expected fixture modes.
-- Future loop + delegation fixture modes are supported.
+- Every fixture maps to exactly one `base_mode`.
+- Every modifier is represented independently.
+- `approval_gate` and `subagent_delegation` are not encoded only as long mode strings.
+- `schemas/task-contract.schema.json`, `schemas/expected-output.schema.json`, and validators agree on the taxonomy.
+- Backward-readable expected output files remain understandable to human maintainers.
 
 ---
 
-### P0-08 — Strengthen Version Drift Validation
+### P0-04 — Add Release Consistency Validator
+
+#### Problem
+
+Release drift can reappear across README, AGENTS, docs, schemas, manifest, fixtures, and validators if only partial string checks are used.
 
 #### Required Changes
 
-Add version drift detection to `scripts/validate-docs.py` or create:
+Add:
 
 ```text
 scripts/validate-release-consistency.py
 ```
 
-Recommended checks:
-
-1. Active release docs must reference `v0.4.0`.
-2. Active release docs must not refer to v0.2.0 or v0.3.0 as current gates.
-3. `plugin.json` version must match `config/release.json`.
-4. schema defaults must match `config/release.json.schema_version`.
-5. active checklist filename must match release target.
-6. README release check must match release target.
-
-#### Acceptance Criteria
-
-- Validation fails if an active file says v0.3.0 is the current release gate.
-- Validation fails if plugin manifest and release config disagree.
-
----
-
-### P0-09 — Update Plugin Local Invariant Schema
-
-#### Required Change
-
-Update:
+The validator must read:
 
 ```text
-schemas/plugin-local-invariants.schema.json
-```
-
-from v0.3.0-only pattern to v0.4.0 or release-config-driven validation.
-
-Recommended direct patch:
-
-```json
-"pattern": "^0\\.4\\.0(-[A-Za-z0-9.-]+)?$"
-```
-
-Better long-term patch:
-
-- Keep JSON schema generic.
-- Let `validate-repo.py` compare actual manifest version against `config/release.json`.
-
-#### Acceptance Criteria
-
-- Schema and validator no longer disagree about valid plugin version.
-
----
-
-### P0-10 — Update README Release Commands
-
-#### Required Changes
-
-Update README validation section to use v0.4.0 commands:
-
-```bash
-bash scripts/sync-plugin-package.sh
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
-python3 scripts/validate-schemas.py
-python3 scripts/validate-docs.py
-python3 scripts/run-snapshots.py
-python3 scripts/test-loop-runner.py
-git status
-```
-
-#### Acceptance Criteria
-
-- README no longer presents v0.3.0 as the current release check.
-- README includes loop regression tests for v0.4.0.
-
----
-
-## 6. P1 Recommended Fixes
-
-P1 items are not minimal release blockers, but they are recommended for durable core execution quality.
-
----
-
-### P1-01 — Add `docs/behavior-contract.md`
-
-#### Purpose
-
-Create one human-readable behavior contract that unifies Skill behavior, fixtures, schemas, and validators.
-
-#### Required Content
-
-```md
-# Behavior Contract
-
-## Core Principle
-## Mode Selection
-## Auto-Skeleton Requirements
-## Task Optimizer Requirements
-## Compact Contract Requirements
-## Full Contract Requirements
-## Approval Gate Requirements
-## Loop Contract Mode Requirements
-## Loop Log Requirements
-## Stop Conditions
-## Escalation Triggers
-## Multi-Agent Sub-contracting Requirements
-## Final Response Requirements
-## Anti-Patterns
-```
-
-#### Acceptance Criteria
-
-- `SKILL.md`, fixtures, schemas, and validators align with this document.
-- This document does not replace `SKILL.md`; it explains the behavior contract for maintainers.
-
----
-
-### P1-02 — Strengthen `docs/installation.md`
-
-#### Required Additions
-
-Add:
-
-1. Local plugin package installation notes.
-2. Local marketplace metadata explanation.
-3. Smoke test prompt.
-4. Expected output checklist.
-5. Troubleshooting section.
-
-#### Troubleshooting Cases
-
-- Missing plugin manifest.
-- Wrong plugin path.
-- Unsynced packaged Skill copy.
-- Manifest version mismatch.
-- Skill invocation not recognized.
-
-#### Acceptance Criteria
-
-A maintainer can install or manually verify the plugin package using only `docs/installation.md` and README.
-
----
-
-### P1-03 — Add Subagent Fixture Input
-
-#### Required Change
-
-Add:
-
-```text
-skills/task-contract/tests/fixtures/subagent-delegation-task.md
-```
-
-Recommended fixture prompt:
-
-```text
-Delegate a documentation audit to a subagent. The subagent may read docs/* only, must not write files, must not spawn another subagent, and must return a bounded audit report with acceptance criteria coverage.
-```
-
-#### Acceptance Criteria
-
-- Fixture exists.
-- Expected output file exists.
-- Validator inventory includes the fixture if fixture inventory checking is added.
-
----
-
-### P1-04 — Align Subagent Template with Schema
-
-#### Required Change
-
-Update:
-
-```text
-skills/task-contract/assets/subagent-contract-template.md
-```
-
-Recommended structure:
-
-```md
-# Subagent Contract - [Subagent Role Name]
-
-## Metadata
-
-```yaml
-parent_conversation_id: [parent-id]
-subagent_role: [role]
-scope_boundary:
-  - [allowed read/write path or command]
-constraints:
-  - [constraint]
-max_iterations: [number]
-recursion_lock: true
-approval_gate:
-  required: [true/false]
-  reason: [reason]
-  blocked_action: [action]
-  recommended_safe_default: [default]
-  reply_template: [template]
-acceptance_criteria:
-  - [criteria]
-return_format: [format]
-```
-
-## Scope Boundary
-## Constraints
-## Acceptance Criteria
-## Return Format
-## Parent Loop Log Sync
-```
-
-#### Acceptance Criteria
-
-- Template field names align with `subagent-contract.schema.json`.
-- Human-readable sections remain usable.
-- Recursion lock is explicit.
-
----
-
-### P1-05 — Add Snapshot Files for Each Fixture
-
-#### Required Additions
-
-Add snapshot files under:
-
-```text
-skills/task-contract/tests/snapshots/
-```
-
-Required files:
-
-```text
-simple-writing-task.snapshot.md
-vague-repo-task.snapshot.md
-high-risk-refactor-task.snapshot.md
-documentation-task.snapshot.md
-research-task.snapshot.md
-destructive-file-task.snapshot.md
-loop-debug-task.snapshot.md
-loop-research-task.snapshot.md
-loop-documentation-task.snapshot.md
-loop-dangerous-task.snapshot.md
-loop-repo-maintenance-task.snapshot.md
-subagent-delegation-task.snapshot.md
-```
-
-#### Snapshot Template
-
-```md
-# Snapshot: [Fixture Name]
-
-## Expected Mode
-
-...
-
-## Required Sections
-
-...
-
-## Required Fields
-
-...
-
-## Required Checks
-
-...
-
-## Approval Requirements
-
-...
-
-## Forbidden Patterns
-
-...
-
-## Reviewer Notes
-
-...
-```
-
-#### Acceptance Criteria
-
-- One snapshot exists per expected fixture.
-- `run-snapshots.py` verifies snapshot coverage.
-
----
-
-### P1-06 — Strengthen `run-snapshots.py`
-
-#### Required Checks
-
-Update `scripts/run-snapshots.py` to verify:
-
-1. Snapshot directory exists.
-2. Snapshot README exists.
-3. Snapshot docs exist.
-4. Every expected fixture has a matching snapshot file.
-5. Every snapshot includes:
-   - Expected Mode
-   - Required Sections
-   - Required Checks
-   - Approval Requirements
-   - Forbidden Patterns or explicit `None`
-6. No snapshot contains placeholder-only content.
-
-#### Acceptance Criteria
-
-- Missing snapshot file causes validation failure.
-- Empty or placeholder snapshot causes validation failure.
-
----
-
-### P1-07 — Strengthen Loop Fixture Validation
-
-#### Required Updates
-
-Update `scripts/validate-loop-contract-fixtures.py` to detect:
-
-1. Required term exists but section is empty.
-2. Placeholder-only values such as `...`, `[placeholder]`, `TBD`, `TODO`.
-3. Missing max iteration number.
-4. High-impact loop missing explicit `Max Iterations is 1 before approval`.
-5. Observation method not tied to visible evidence.
-6. Approval Gate required but not stated as blocking execution.
-
-#### Acceptance Criteria
-
-- Validator catches shallow expected outputs that only include keywords.
-- High-impact loop fixtures are held to stricter requirements.
-
----
-
-### P1-08 — Expand Loop Regression Test Cases
-
-#### Required Changes
-
-Update:
-
-```text
-skills/task-contract/tests/loop-regression-tests.json
-scripts/test-loop-runner.py
-```
-
-Add cases:
-
-1. `approval_required_stop`
-2. `validation_blocked_stop`
-3. `missing_context_stop`
-4. `scope_drift_stop`
-5. `high_impact_one_iteration_stop`
-6. `subagent_delegation_logged`
-7. `low_confidence_stop`
-
-#### Acceptance Criteria
-
-- Regression runner validates all supported stop reasons.
-- High-impact loops stop after one inspection iteration before approval.
-- Subagent delegation is logged without nesting full subagent logs into the parent Loop Log.
-
----
-
-### P1-09 — Improve `validate-schemas.py`
-
-#### Required Checks
-
-Add checks for:
-
-1. `schema_version` default equals release config schema version.
-2. `$id` is local and clearly marked as draft, or uses a documented repository-local URI.
-3. mode enums include current expected fixture modes.
-4. required fields align with `docs/behavior-contract.md`.
-5. `additionalProperties` is explicit in key object schemas.
-
-#### Acceptance Criteria
-
-- Schema validation catches current mode mismatch.
-- Schema validation catches stale schema version defaults.
-
----
-
-### P1-10 — Improve `validate-repo.py` Required File Inventory
-
-#### Required Additions
-
-Add required files:
-
-```text
-IMPLEMENTATION__PLAN.md
 config/release.json
-docs/v0.4.0-release-checklist.md
-docs/behavior-contract.md
-skills/task-contract/tests/fixtures/subagent-delegation-task.md
 ```
 
-Remove active requirement for:
-
-```text
-docs/v0.3.0-release-checklist.md
-```
-
-unless moved into archive and treated as historical.
-
-#### Acceptance Criteria
-
-- Missing v0.4.0 implementation files fail validation.
-- Historical v0.3.0 checklist is not treated as active release gate.
-
----
-
-### P1-11 — Update Roadmap Boundaries
-
-#### Required Change
-
-Update:
-
-```text
-docs/roadmap.md
-```
-
-Move or preserve these as deferred:
-
-- Official plugin schema validation.
-- Marketplace publishing guide.
-- Full golden-output execution harness.
-- Automated changelog generation.
-- Marketplace install smoke test automation.
-- Contract schema freeze.
-- General multi-skill orchestration.
-
-#### Acceptance Criteria
-
-- P2 work is not listed as v0.4.0 blocker.
-- Roadmap clearly separates v0.4.0 completion from future work.
-
----
-
-## 7. P2 Roadmap Items
-
-Do not implement these as part of A2 unless separately approved.
-
-| Item | Recommended Target | Reason |
-|---|---|---|
-| Official plugin schema validation | v0.5.0 or later | Requires authoritative schema source |
-| Marketplace publishing guide | v0.5.0 | Useful but not required for core execution |
-| Full golden-output execution harness | v0.5.0 / v0.6.0 | Larger engineering effort |
-| Automated changelog generator | v0.5.0 | Maintenance improvement, not core behavior |
-| Marketplace install smoke test automation | v0.5.0 | Can start manual in v0.4.0 |
-| Contract schema freeze | v1.0.0 | Should wait for behavior stabilization |
-| General multi-skill orchestration | post-v1.0.0 | Larger design surface |
-
----
-
-## 8. File-by-File Change Plan
-
-### 8.1 Add Files
-
-```text
-IMPLEMENTATION__PLAN.md
-config/release.json
-docs/v0.4.0-release-checklist.md
-docs/behavior-contract.md
-skills/task-contract/tests/fixtures/subagent-delegation-task.md
-skills/task-contract/tests/snapshots/simple-writing-task.snapshot.md
-skills/task-contract/tests/snapshots/vague-repo-task.snapshot.md
-skills/task-contract/tests/snapshots/high-risk-refactor-task.snapshot.md
-skills/task-contract/tests/snapshots/documentation-task.snapshot.md
-skills/task-contract/tests/snapshots/research-task.snapshot.md
-skills/task-contract/tests/snapshots/destructive-file-task.snapshot.md
-skills/task-contract/tests/snapshots/loop-debug-task.snapshot.md
-skills/task-contract/tests/snapshots/loop-research-task.snapshot.md
-skills/task-contract/tests/snapshots/loop-documentation-task.snapshot.md
-skills/task-contract/tests/snapshots/loop-dangerous-task.snapshot.md
-skills/task-contract/tests/snapshots/loop-repo-maintenance-task.snapshot.md
-skills/task-contract/tests/snapshots/subagent-delegation-task.snapshot.md
-```
-
-### 8.2 Modify Files
+and verify consistency across:
 
 ```text
 README.md
 AGENTS.md
 CHANGELOG.md
+docs/release-process.md
+docs/testing.md
+docs/ci.md
+docs/schema-design.md
+docs/snapshot-testing.md
+docs/validator-design.md
+docs/plugin-packaging.md
+docs/plugin-manifest.md
+docs/roadmap.md
+docs/v0.5.0-release-checklist.md
+plugin/codex-task-contract-skill/.codex-plugin/plugin.json
+schemas/*.schema.json
 .github/workflows/validate.yml
-docs/installation.md
+scripts/*.py
+scripts/*.sh
+```
+
+#### Required Checks
+
+1. Active release docs must reference `v0.5.0`.
+2. Schema defaults must match `0.5.0-draft`.
+3. Plugin manifest version must match `0.5.0`.
+4. CI must include v0.5.0 validation commands.
+5. The active checklist must be `docs/v0.5.0-release-checklist.md`.
+6. Older versions must not be described as current release gates.
+7. Old release references are allowed only in:
+   - `CHANGELOG.md`;
+   - `docs/roadmap.md`;
+   - `docs/archive/`;
+   - explicit previous-release context.
+
+#### Acceptance Criteria
+
+- Validator fails on stale active references to v0.4.0, v0.3.0, or v0.2.0.
+- Validator reads release target from `config/release.json`.
+- Validator does not require network access.
+- Validator is included in local validation, CI, and pre-commit parity review.
+
+---
+
+### P0-05 — Complete v0.5.0 Release Checklist
+
+#### Problem
+
+A new release target requires a matching checklist. v0.4.0 checklists should not serve as active v0.5.0 release gates.
+
+#### Required Changes
+
+Add:
+
+```text
+docs/v0.5.0-release-checklist.md
+```
+
+The checklist must include:
+
+1. scope confirmation;
+2. required files;
+3. local validation commands;
+4. CI validation commands;
+5. schema and taxonomy checks;
+6. semantic validator checks;
+7. fixture matrix checks;
+8. subagent contract hardening checks;
+9. installation smoke test;
+10. human review;
+11. tagging instructions;
+12. release note summary.
+
+#### Files to Update
+
+```text
+docs/v0.5.0-release-checklist.md
+README.md
+AGENTS.md
+docs/release-process.md
+docs/testing.md
+docs/ci.md
+docs/validator-design.md
+```
+
+#### Acceptance Criteria
+
+- Active release checklist is v0.5.0.
+- Older checklists remain historical only.
+- Checklist includes all P0 and P1 validation gates.
+- Checklist does not list P2 roadmap items as release blockers.
+
+---
+
+### P0-06 — Update Plugin Manifest and Package Sync Expectations
+
+#### Problem
+
+Plugin manifest metadata must match the v0.5.0 release target, and packaged Skill files must stay synchronized with the canonical Skill source.
+
+#### Required Changes
+
+Update:
+
+```text
+plugin/codex-task-contract-skill/.codex-plugin/plugin.json
+```
+
+Recommended content:
+
+```json
+{
+  "name": "codex-task-contract-skill",
+  "version": "0.5.0",
+  "description": "A Codex plugin that installs the task-contract skill for converting vague, multi-step, high-impact, or iterative requests into compact, full, or stable loop task contracts before execution, with v0.5.0 behavior validation, taxonomy consistency, subagent boundaries, and tooling support.",
+  "skills": "./skills/"
+}
+```
+
+Then ensure:
+
+```bash
+bash scripts/sync-plugin-package.sh
+python3 scripts/validate-plugin-sync.py
+```
+
+#### Acceptance Criteria
+
+- Manifest version is `0.5.0`.
+- Manifest skill path remains `./skills/`.
+- Canonical and packaged Skill copies match after sync.
+- Plugin sync validation passes.
+
+---
+
+## 7. P1 Functional Enhancements
+
+P1 items are part of the recommended v0.5.0 release scope. They should be completed after P0 release consistency is in place.
+
+---
+
+### P1-01 — Add Semantic Contract Validator
+
+#### Problem
+
+Current validators mostly check structural presence, required terms, JSON schema shape, snapshot protocol, and loop fixture fields. They do not fully validate behavior semantics.
+
+#### Required Changes
+
+Add:
+
+```text
+scripts/validate-contract-semantics.py
+```
+
+This validator should inspect expected outputs and snapshots to verify behavior-level requirements.
+
+#### Required Semantic Checks
+
+1. **Auto-Skeleton first**
+   - Output must begin with Auto-Skeleton when the Skill is invoked.
+   - Auto-Skeleton must include Role, Raw Task, Optimized Task, Object, Context, Constraints, Output, and Acceptance.
+
+2. **Optimized Task completeness**
+   - Optimized Task must contain:
+     - action verb;
+     - object;
+     - outcome;
+     - scope boundary;
+     - output shape;
+     - acceptance criteria.
+
+3. **Decision Point quality**
+   - Decision Points must include numbered options.
+   - Options must state trade-offs.
+   - A recommended default must be present when justified.
+   - A reply template must be present when user choice is needed.
+
+4. **Approval Gate correctness**
+   - High-risk tasks must include Approval Gate.
+   - Approval Gate must identify:
+     - reason;
+     - blocked action;
+     - recommended safe default;
+     - reply template.
+   - Approval Gate must clearly block execution until approval is given.
+
+5. **Loop Contract completeness**
+   - Loop contracts must include:
+     - Loop Objective;
+     - Loop Type;
+     - Iteration Unit;
+     - Observation Method;
+     - Adjustment Strategy;
+     - Validation Method;
+     - Stop Conditions;
+     - Max Iterations;
+     - Escalation Triggers;
+     - Approval Gate;
+     - Loop Log.
+
+6. **High-impact loop safety**
+   - High-impact loops must use max iteration 1 before approval.
+   - High-impact loops must stop before broad or destructive execution.
+
+7. **Subagent safety**
+   - Subagent contracts must include scope boundary.
+   - `recursion_lock` must be true by default.
+   - Subagent cannot spawn subagents unless explicitly approved.
+   - Parent contract must control merge or final execution decision.
+
+8. **Final response rule**
+   - Output must end with exactly one clear next step.
+   - Output must not contain multiple competing next steps.
+
+9. **Forbidden behavior**
+   - No open-ended loops.
+   - No background execution claim.
+   - No unapproved destructive action.
+   - No hidden chain-of-thought request or exposure.
+   - No unlimited iteration.
+
+#### Files to Add or Update
+
+```text
+scripts/validate-contract-semantics.py
+.github/workflows/validate.yml
+scripts/pre-commit-hook.sh
+docs/testing.md
+docs/validator-design.md
+docs/ci.md
+docs/v0.5.0-release-checklist.md
+```
+
+#### Acceptance Criteria
+
+- Validator fails on behavior-critical missing sections.
+- Validator detects unsafe Approval Gate wording.
+- Validator detects missing Loop stop conditions.
+- Validator detects Subagent Contracts without recursion lock.
+- Validator runs locally and in CI.
+- Validator is deterministic and requires no network access.
+
+---
+
+### P1-02 — Add Fixture Matrix
+
+#### Problem
+
+Fixtures, expected outputs, and snapshots exist, but there is no single coverage matrix showing which behaviors are tested.
+
+#### Required Changes
+
+Add:
+
+```text
+skills/task-contract/tests/FIXTURE_MATRIX.md
+```
+
+#### Required Matrix Columns
+
+```md
+| Fixture | Base Mode | Modifiers | Risk Class | Approval Gate Required | Loop Required | Subagent Required | Expected Output | Snapshot | Validators |
+|---|---|---|---|---|---|---|---|---|---|
+```
+
+#### Required Coverage Rows
+
+At minimum, include all existing fixture families:
+
+1. simple writing task;
+2. vague repository task;
+3. high-risk refactor task;
+4. documentation task;
+5. research task;
+6. destructive file task;
+7. loop debug task;
+8. loop research task;
+9. loop documentation task;
+10. loop dangerous task;
+11. loop repo maintenance task;
+12. subagent delegation task.
+
+#### Required Checks
+
+The matrix should make it easy to confirm:
+
+1. every fixture has a matching expected output;
+2. every fixture has a matching snapshot;
+3. every base mode is covered;
+4. every v0.5.0 modifier is covered;
+5. high-risk tasks trigger Approval Gate;
+6. loop tasks include Loop Contract Mode;
+7. subagent tasks include Subagent Contract metadata.
+
+#### Files to Add or Update
+
+```text
+skills/task-contract/tests/FIXTURE_MATRIX.md
+scripts/validate-repo.py
+scripts/run-snapshots.py
+docs/testing.md
+docs/snapshot-testing.md
+docs/v0.5.0-release-checklist.md
+```
+
+#### Acceptance Criteria
+
+- Every fixture appears exactly once in the matrix.
+- Every expected file maps to exactly one fixture.
+- Every snapshot maps to exactly one fixture.
+- Matrix identifies mode, modifiers, risk, and validator coverage.
+- Repository validator checks that the matrix exists.
+
+---
+
+### P1-03 — Strengthen Subagent Contract Schema
+
+#### Problem
+
+Current Subagent Contract fields provide useful basic structure but do not fully constrain execution boundaries.
+
+#### Required Changes
+
+Update:
+
+```text
+schemas/subagent-contract.schema.json
+```
+
+Add fields:
+
+```json
+{
+  "allowed_paths": {
+    "type": "array",
+    "items": { "type": "string", "minLength": 1 },
+    "minItems": 1
+  },
+  "forbidden_paths": {
+    "type": "array",
+    "items": { "type": "string", "minLength": 1 }
+  },
+  "allowed_tools": {
+    "type": "array",
+    "items": { "type": "string", "minLength": 1 }
+  },
+  "forbidden_tools": {
+    "type": "array",
+    "items": { "type": "string", "minLength": 1 }
+  },
+  "handoff_input": {
+    "type": "object"
+  },
+  "evidence_required": {
+    "type": "array",
+    "items": { "type": "string", "minLength": 1 },
+    "minItems": 1
+  },
+  "return_schema": {
+    "type": "object"
+  },
+  "merge_policy": {
+    "type": "string",
+    "enum": [
+      "parent_only",
+      "parent_review_required",
+      "no_merge_allowed"
+    ]
+  },
+  "failure_policy": {
+    "type": "string",
+    "enum": [
+      "escalate_to_parent",
+      "stop_without_retry",
+      "retry_with_parent_approval"
+    ]
+  }
+}
+```
+
+#### Recommended Required Fields
+
+Add to required list:
+
+```json
+[
+  "allowed_paths",
+  "forbidden_paths",
+  "allowed_tools",
+  "forbidden_tools",
+  "evidence_required",
+  "merge_policy",
+  "failure_policy"
+]
+```
+
+#### Files to Update
+
+```text
+schemas/subagent-contract.schema.json
+skills/task-contract/SKILL.md
+skills/task-contract/references/subagent-delegation-policy.md
+skills/task-contract/assets/subagent-contract-template.md
+skills/task-contract/tests/expected/subagent-delegation-task.expected.md
+skills/task-contract/tests/snapshots/subagent-delegation-task.snapshot.md
+docs/behavior-contract.md
+docs/schema-design.md
 docs/usage.md
+```
+
+#### Acceptance Criteria
+
+- Subagent Contract defines explicit path boundaries.
+- Subagent Contract defines tool boundaries.
+- Subagent Contract defines evidence requirements.
+- Subagent Contract defines parent-controlled merge policy.
+- Subagent Contract defines failure policy.
+- Recursion lock remains required.
+- Validators reject Subagent Contracts without boundary metadata.
+
+---
+
+### P1-04 — Update Subagent Delegation Policy and Template
+
+#### Problem
+
+The main Skill defines Subagent Delegation behavior, but the template and policy should be updated to reflect stronger v0.5.0 boundaries.
+
+#### Required Changes
+
+Update:
+
+```text
+skills/task-contract/references/subagent-delegation-policy.md
+skills/task-contract/assets/subagent-contract-template.md
+skills/task-contract/SKILL.md
+```
+
+#### Required Policy Additions
+
+The policy must define:
+
+1. subagent delegation is optional and scope-bounded;
+2. parent contract must exist before delegation;
+3. parent approval is required before high-impact delegated actions;
+4. subagents cannot write outside `allowed_paths`;
+5. subagents cannot use tools outside `allowed_tools`;
+6. subagents cannot access `forbidden_paths`;
+7. subagents cannot use `forbidden_tools`;
+8. recursion lock defaults to true;
+9. subagent output must include evidence required by the parent;
+10. parent controls merge and final execution;
+11. subagent failure escalates to the parent.
+
+#### Required Template Sections
+
+```md
+## Subagent Contract
+
+| Field | Value |
+|---|---|
+| parent_conversation_id | ... |
+| subagent_role | ... |
+| scope_boundary | ... |
+| allowed_paths | ... |
+| forbidden_paths | ... |
+| allowed_tools | ... |
+| forbidden_tools | ... |
+| constraints | ... |
+| recursion_lock | true |
+| approval_gate | ... |
+| acceptance_criteria | ... |
+| evidence_required | ... |
+| return_format | ... |
+| return_schema | ... |
+| merge_policy | parent_only |
+| failure_policy | escalate_to_parent |
+```
+
+#### Acceptance Criteria
+
+- Template matches schema.
+- Policy matches schema.
+- Main `SKILL.md` references strengthened policy and template.
+- Expected output fixture includes v0.5.0 fields.
+- Snapshot includes v0.5.0 fields.
+
+---
+
+### P1-05 — Add Subagent Delegation Usage Examples
+
+#### Problem
+
+Usage docs currently describe Compact, Full, and Loop Contract modes, but Subagent Delegation should become a first-class documented usage pattern.
+
+#### Required Changes
+
+Update:
+
+```text
+docs/usage.md
+docs/behavior-contract.md
+README.md
+```
+
+Add a section:
+
+~~~md
+## Subagent Delegation Example Prompt
+
+```text
+Use $task-contract to split this repository audit into bounded subagent contracts:
+1. docs auditor
+2. schema auditor
+3. CI validator
+
+Do not edit files until I approve the parent plan.
+```
+
+Expected mode:
+
+```text
+Base Mode: Full Contract
+Modifiers:
+  - subagent_delegation
+  - approval_gate
+```
+
+Expected behavior:
+
+1. produce a parent Full Contract;
+2. identify bounded subagent contracts;
+3. define allowed paths and tools per subagent;
+4. set recursion lock to true;
+5. require evidence from each subagent;
+6. block broad execution until parent approval.
+~~~
+
+#### Acceptance Criteria
+
+- Usage docs include at least one Subagent Delegation example.
+- Example includes parent contract and bounded subcontracts.
+- Example includes Approval Gate when edits are blocked.
+- Example is consistent with v0.5.0 taxonomy.
+
+---
+
+### P1-06 — Add Installation Smoke Test
+
+#### Problem
+
+Installation verification is currently mostly manual. v0.5.0 should include deterministic file-layout and package checks.
+
+#### Required Changes
+
+Add:
+
+```text
+scripts/smoke-test-installation.sh
+```
+
+Recommended implementation:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+test -f "$ROOT/config/release.json"
+test -f "$ROOT/plugin/codex-task-contract-skill/.codex-plugin/plugin.json"
+test -f "$ROOT/plugin/codex-task-contract-skill/skills/task-contract/SKILL.md"
+test -f "$ROOT/.agents/plugins/marketplace.json"
+
+python3 "$ROOT/scripts/validate-plugin-sync.py"
+python3 "$ROOT/scripts/validate-release-consistency.py"
+
+echo "Installation smoke test passed."
+```
+
+#### Files to Add or Update
+
+```text
+scripts/smoke-test-installation.sh
+docs/installation.md
+docs/testing.md
+docs/ci.md
+.github/workflows/validate.yml
+docs/v0.5.0-release-checklist.md
+```
+
+#### Acceptance Criteria
+
+- Smoke test verifies release config exists.
+- Smoke test verifies plugin manifest exists.
+- Smoke test verifies packaged Skill exists.
+- Smoke test verifies marketplace metadata exists.
+- Smoke test verifies plugin sync.
+- Smoke test verifies release consistency.
+- Smoke test runs locally and in CI.
+
+---
+
+### P1-07 — Improve CI and Local Validation Parity
+
+#### Problem
+
+Local release gates and CI checks should remain aligned. Any new v0.5.0 validator must be included consistently.
+
+#### Required Local Validation Sequence
+
+```bash
+bash scripts/sync-plugin-package.sh
+bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
+git status
+```
+
+#### Required CI Validation Sequence
+
+```bash
+bash scripts/sync-plugin-package.sh
+bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
+```
+
+`git status` remains local-only and should not be required in CI.
+
+#### Files to Update
+
+```text
+.github/workflows/validate.yml
+scripts/pre-commit-hook.sh
+docs/ci.md
+docs/testing.md
+docs/release-process.md
+docs/v0.5.0-release-checklist.md
+README.md
+AGENTS.md
+```
+
+#### Acceptance Criteria
+
+- CI includes all non-interactive v0.5.0 checks.
+- Local validation sequence includes all CI checks plus `git status`.
+- Pre-commit hook either runs the same checks or documents a justified subset.
+- Release checklist matches both local and CI validation.
+
+---
+
+### P1-08 — Update Documentation for v0.5.0
+
+#### Problem
+
+Docs must reflect v0.5.0 behavior, taxonomy, validators, and release boundaries.
+
+#### Required Changes
+
+Update:
+
+```text
+README.md
+AGENTS.md
+CHANGELOG.md
+docs/usage.md
+docs/installation.md
 docs/testing.md
 docs/release-process.md
 docs/roadmap.md
 docs/validator-design.md
-docs/plugin-packaging.md
-docs/plugin-manifest.md
 docs/schema-design.md
 docs/snapshot-testing.md
 docs/ci.md
-schemas/task-contract.schema.json
-schemas/loop-contract.schema.json
-schemas/expected-output.schema.json
-schemas/plugin-local-invariants.schema.json
-schemas/subagent-contract.schema.json
-scripts/validate-repo.py
-scripts/validate-schemas.py
-scripts/validate-docs.py
-scripts/run-snapshots.py
-scripts/validate-loop-contract-fixtures.py
-scripts/test-loop-runner.py
-scripts/pre-commit-hook.sh
-scripts/install-git-hooks.sh
-scripts/sync-plugin-package.sh
-skills/task-contract/SKILL.md
-skills/task-contract/references/subagent-delegation-policy.md
-skills/task-contract/assets/subagent-contract-template.md
-skills/task-contract/tests/loop-regression-tests.json
-skills/task-contract/tests/expected/simple-writing-task.expected.md
-skills/task-contract/tests/expected/vague-repo-task.expected.md
-skills/task-contract/tests/expected/high-risk-refactor-task.expected.md
-skills/task-contract/tests/expected/documentation-task.expected.md
-skills/task-contract/tests/expected/research-task.expected.md
-skills/task-contract/tests/expected/destructive-file-task.expected.md
-skills/task-contract/tests/expected/loop-debug-task.expected.md
-skills/task-contract/tests/expected/loop-research-task.expected.md
-skills/task-contract/tests/expected/loop-documentation-task.expected.md
-skills/task-contract/tests/expected/loop-dangerous-task.expected.md
-skills/task-contract/tests/expected/loop-repo-maintenance-task.expected.md
-skills/task-contract/tests/expected/subagent-delegation-task.expected.md
-plugin/codex-task-contract-skill/.codex-plugin/plugin.json
-.agents/plugins/marketplace.json
+docs/behavior-contract.md
+docs/plugin-packaging.md
+docs/plugin-manifest.md
 ```
 
-### 8.3 Archive or Deprecate
+#### Required Documentation Updates
 
-Recommended:
+1. README states v0.5.0 release target.
+2. README lists semantic validation and release consistency validation.
+3. AGENTS lists v0.5.0 release gates.
+4. CHANGELOG includes v0.5.0 release candidate section.
+5. Usage docs include Subagent Delegation example.
+6. Installation docs include smoke test.
+7. Testing docs include all validators.
+8. CI docs mirror local validation.
+9. Schema docs explain `base_mode` and `modifiers`.
+10. Roadmap moves P2 items to v0.6.0 or later.
+11. Plugin docs avoid official compliance claims.
 
-```text
-docs/archive/v0.3.0-release-checklist.md
-```
+#### Acceptance Criteria
 
-Do not delete historical release material unless the maintainer explicitly approves deletion.
+- Active docs consistently describe v0.5.0.
+- Docs do not claim v1.0.0 schema stability.
+- Docs do not claim official marketplace compliance.
+- Docs match validators and schemas.
 
 ---
 
-## 9. Execution Order
+## 8. P2 Roadmap Enhancements
 
-### Phase 1 — Version and Release Target Alignment
-
-1. Add `config/release.json`.
-2. Add `IMPLEMENTATION__PLAN.md`.
-3. Add `docs/v0.4.0-release-checklist.md`.
-4. Move or archive `docs/v0.3.0-release-checklist.md`.
-5. Update README, AGENTS, release docs, testing docs, CI docs, plugin docs.
-
-### Phase 2 — Core Skill and Subagent Integration
-
-1. Update `skills/task-contract/SKILL.md` with Multi-Agent Sub-contracting.
-2. Update `references/subagent-delegation-policy.md`.
-3. Update `assets/subagent-contract-template.md`.
-4. Add `docs/behavior-contract.md`.
-5. Add subagent fixture input.
-6. Update subagent expected output.
-
-### Phase 3 — Schema Alignment
-
-1. Update schema version defaults.
-2. Update plugin local invariant schema.
-3. Update expected output mode enums.
-4. Update subagent schema if needed for return format and recursion lock.
-5. Strengthen `validate-schemas.py`.
-
-### Phase 4 — Fixture, Snapshot, and Regression Coverage
-
-1. Add snapshot files for each expected fixture.
-2. Strengthen `run-snapshots.py`.
-3. Strengthen `validate-loop-contract-fixtures.py`.
-4. Expand loop regression tests.
-5. Update `test-loop-runner.py` for additional stop conditions.
-
-### Phase 5 — CI and Pre-commit Parity
-
-1. Add `python3 scripts/test-loop-runner.py` to CI.
-2. Confirm pre-commit hook runs the same validation set.
-3. Update docs to match validation sequence.
-
-### Phase 6 — Plugin Package Sync
-
-Run:
-
-```bash
-bash scripts/sync-plugin-package.sh
-```
-
-Then run sync validation:
-
-```bash
-python3 scripts/validate-plugin-sync.py
-```
-
-### Phase 7 — Final Validation
-
-Run:
-
-```bash
-bash scripts/sync-plugin-package.sh
-bash scripts/validate-repo.sh
-bash scripts/validate-loop-contract-fixtures.sh
-python3 scripts/validate-schemas.py
-python3 scripts/validate-docs.py
-python3 scripts/run-snapshots.py
-python3 scripts/test-loop-runner.py
-git status
-```
+P2 items are valuable but should not block v0.5.0 unless separately approved.
 
 ---
 
-## 10. Validation Plan
+### P2-01 — Golden Output Harness
 
-### 10.1 Local Validation Commands
+#### Purpose
+
+A golden output harness would validate generated task-contract outputs against snapshots, schemas, semantic validators, and normalized Markdown structure.
+
+#### Future File
+
+```text
+scripts/run-golden-output-tests.py
+```
+
+#### Proposed Flow
+
+```text
+fixture prompt
+-> candidate output
+-> normalize markdown
+-> validate base_mode/modifiers
+-> validate required sections
+-> validate schema
+-> validate semantic rules
+-> compare with snapshot expectations
+-> report diff
+```
+
+#### Roadmap Acceptance Criteria
+
+- Not required for v0.5.0.
+- Can be implemented offline first.
+- Live model integration must remain optional.
+- Network-dependent tests must not block local validation.
+
+---
+
+### P2-02 — Contract Linter CLI
+
+#### Purpose
+
+A contract linter would allow maintainers to validate a generated contract output manually.
+
+#### Future File
+
+```text
+scripts/lint-contract-output.py
+```
+
+#### Proposed Checks
+
+1. missing Auto-Skeleton;
+2. Auto-Skeleton not first;
+3. vague Optimized Task;
+4. missing Output Contract;
+5. duplicate Next Steps;
+6. Decision Points without trade-offs;
+7. Approval Gate without blocked action;
+8. Loop Contract without stop conditions;
+9. Subagent Contract without recursion lock;
+10. unsafe background execution claim.
+
+#### Example Usage
+
+```bash
+python3 scripts/lint-contract-output.py path/to/output.md
+```
+
+#### Roadmap Acceptance Criteria
+
+- Reuse semantic validator rules where possible.
+- Does not require network access.
+- Can lint arbitrary Markdown outputs.
+
+---
+
+### P2-03 — Contract Profile Presets
+
+#### Purpose
+
+Presets would reduce repeated mode-selection logic by defining reusable task profiles.
+
+#### Future Directory
+
+```text
+skills/task-contract/presets/
+```
+
+#### Example Presets
+
+```text
+repo-audit.json
+safe-refactor.json
+docs-review.json
+release-readiness.json
+loop-debug.json
+subagent-audit.json
+```
+
+#### Example Preset Shape
+
+```json
+{
+  "preset_name": "repo-audit",
+  "default_base_mode": "Full Contract",
+  "default_modifiers": ["approval_gate"],
+  "risk_level": "medium",
+  "required_sections": [
+    "Auto-Skeleton",
+    "BLUF",
+    "Optimized Task",
+    "Output Contract",
+    "Acceptance Criteria",
+    "Approval Gate",
+    "Next Step"
+  ],
+  "approval_gate_required_when": [
+    "broad repository changes",
+    "release metadata changes",
+    "file deletion"
+  ],
+  "default_max_iterations": 3
+}
+```
+
+#### Roadmap Acceptance Criteria
+
+- Reuse v0.5.0 taxonomy.
+- Do not introduce preset logic before schemas and validators stabilize.
+- Keep presets optional.
+
+---
+
+### P2-04 — Marketplace Publishing Guide
+
+#### Purpose
+
+A future marketplace guide may document packaging and publishing workflow.
+
+#### Future File
+
+```text
+docs/marketplace-publishing.md
+```
+
+#### Boundary
+
+This should remain roadmap-only until official marketplace requirements and authoritative plugin schema validation are confirmed.
+
+#### Roadmap Acceptance Criteria
+
+- No unsupported compliance claim.
+- Clearly distinguish local package validation from official marketplace acceptance.
+- Include manual reviewer checklist only after authoritative requirements are known.
+
+---
+
+### P2-05 — v1.0.0 Behavior Freeze Preparation
+
+#### Purpose
+
+v1.0.0 should freeze stable behavior, schema names, mode taxonomy, and compatibility guarantees.
+
+#### Future Work
+
+1. freeze base modes;
+2. freeze modifier vocabulary;
+3. freeze schema field names;
+4. freeze contract section order;
+5. define migration policy;
+6. add compatibility notes;
+7. add stable example outputs;
+8. add versioned schema migration docs.
+
+#### Roadmap Acceptance Criteria
+
+- v0.5.0 does not claim v1.0.0 stability.
+- v0.5.0 produces enough validation evidence to inform v1.0.0.
+- v1.0.0 freeze happens only after behavior has stabilized.
+
+---
+
+### P2-06 — General Multi-Skill Expansion
+
+#### Purpose
+
+Future versions may expand beyond a single `task-contract` Skill into a multi-skill control layer.
+
+#### Boundary
+
+Do not include this in v0.5.0. Multi-skill expansion should wait until:
+
+1. `task-contract` behavior is stable;
+2. subagent boundaries are tested;
+3. preset model is defined;
+4. v1.0.0 compatibility policy is drafted.
+
+---
+
+## 9. Validation Strategy
+
+### 9.1 Local Validation
+
+Run from repository root:
 
 ```bash
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
 python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
 git status
 ```
 
-### 10.2 CI Validation Commands
+### 9.2 CI Validation
 
-CI should run:
+CI should run all non-interactive checks:
 
 ```bash
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
 python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
 ```
 
-CI should not require `git status` as a release blocker unless the workflow explicitly checks for uncommitted sync drift after `sync-plugin-package.sh`.
+### 9.3 Release Validation
 
-### 10.3 Manual Smoke Test
+Before tagging v0.5.0:
 
-Prompt:
-
-```text
-Use $task-contract to clarify this request before editing files: review this repository for v0.4.0 release readiness and stop before making high-impact changes.
+```bash
+bash scripts/sync-plugin-package.sh
+bash scripts/validate-repo.sh
+bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
+python3 scripts/validate-schemas.py
+python3 scripts/validate-docs.py
+python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
+git status
 ```
 
-Expected behavior:
+Release is ready only when:
 
-1. Auto-Skeleton appears first.
-2. Mode is Full Contract or Loop Contract Mode depending on requested iteration.
-3. Optimized Task bounds the repository review.
-4. Output Contract is present.
-5. Approval Gate appears before broad repo changes or release actions.
-6. Loop Contract appears if bounded iteration is requested.
-7. Next Step is clear and singular.
+1. all local validation checks pass;
+2. CI is green;
+3. plugin package sync is clean;
+4. release checklist is complete;
+5. human review confirms behavior-impacting changes;
+6. no unsupported official compliance claim exists.
 
-### 10.4 Subagent Smoke Test
+---
 
-Prompt:
+## 10. Implementation Order
 
-```text
-Use $task-contract to delegate docs/* audit to a subagent. The subagent may read docs/* only, must not edit files, and must not spawn another subagent.
-```
+Follow this order to minimize drift and reduce rework.
 
-Expected behavior:
+### Phase 1 — Release Target and Plan
 
-1. Parent contract defines delegation need.
-2. Subagent contract includes parent ID placeholder, role, scope boundary, constraints, acceptance criteria, recursion lock, approval gate status, and return format.
-3. Parent Loop Log includes only a concise delegation sync entry if Loop Contract Mode is used.
-4. No broad repository edit is authorized.
+1. Replace `IMPLEMENTATION__PLAN.md` with this v0.5.0 plan.
+2. Update `config/release.json` to v0.5.0.
+3. Update plugin manifest to v0.5.0.
+4. Add `docs/v0.5.0-release-checklist.md`.
+5. Update README, AGENTS, CHANGELOG, and roadmap release target references.
+
+### Phase 2 — Mode Taxonomy
+
+6. Update schemas to use `base_mode` and `modifiers`.
+7. Update expected outputs with base mode and modifiers.
+8. Update snapshots with base mode and modifiers.
+9. Update validators to understand taxonomy.
+10. Update schema documentation and behavior contract.
+
+### Phase 3 — Validators
+
+11. Add `scripts/validate-release-consistency.py`.
+12. Add `scripts/validate-contract-semantics.py`.
+13. Update `scripts/validate-repo.py`.
+14. Update `scripts/validate-schemas.py`.
+15. Update `scripts/run-snapshots.py`.
+16. Update loop fixture validation where needed.
+
+### Phase 4 — Fixture Coverage
+
+17. Add `skills/task-contract/tests/FIXTURE_MATRIX.md`.
+18. Ensure every fixture maps to expected output and snapshot.
+19. Add matrix validation to repository validation.
+
+### Phase 5 — Subagent Hardening
+
+20. Strengthen `schemas/subagent-contract.schema.json`.
+21. Update `skills/task-contract/SKILL.md`.
+22. Update `skills/task-contract/references/subagent-delegation-policy.md`.
+23. Update `skills/task-contract/assets/subagent-contract-template.md`.
+24. Update subagent fixture, expected output, and snapshot.
+
+### Phase 6 — Installation and CI
+
+25. Add `scripts/smoke-test-installation.sh`.
+26. Update installation docs.
+27. Update testing docs.
+28. Update CI workflow.
+29. Update pre-commit hook parity.
+30. Run full validation.
+
+### Phase 7 — Final Review
+
+31. Review all docs for unsupported compliance claims.
+32. Review all release version references.
+33. Review all schemas for draft status.
+34. Run final local validation.
+35. Confirm CI is green.
+36. Tag only after human approval.
 
 ---
 
 ## 11. Acceptance Criteria
 
-The implementation is complete when all criteria below pass.
+### 11.1 Release-Level Acceptance
 
-### 11.1 Release Consistency
+- v0.5.0 is the single active release target.
+- v0.4.0 appears only as previous baseline, changelog history, roadmap history, or archive context.
+- `config/release.json` controls active release target and schema version.
+- Plugin manifest version matches config.
+- Active release checklist is `docs/v0.5.0-release-checklist.md`.
+- Local and CI validation sequences are aligned.
+- P2 roadmap items are not release blockers.
 
-- [ ] `config/release.json` exists and defines `0.4.0`.
-- [ ] README identifies v0.4.0 as current release target.
-- [ ] Active release docs identify v0.4.0.
-- [ ] Active release checklist is `docs/v0.4.0-release-checklist.md`.
-- [ ] v0.2.0 and v0.3.0 appear only in historical changelog, archive, or roadmap contexts.
+### 11.2 Schema-Level Acceptance
 
-### 11.2 Core Skill Behavior
+- Schemas use `0.5.0-draft`.
+- Schemas clearly state draft status.
+- Schemas do not claim v1.0.0 stability.
+- Mode taxonomy uses `base_mode` and `modifiers`.
+- Subagent Contract schema includes path, tool, evidence, merge, and failure boundaries.
+- Schema validator reads expected version from `config/release.json`.
 
-- [ ] `SKILL.md` still requires Auto-Skeleton first when invoked.
-- [ ] Task Optimizer requirements remain explicit.
-- [ ] Compact Contract, Full Contract, and Loop Contract Mode remain defined.
-- [ ] Approval Gate triggers remain explicit.
-- [ ] Loop Contract Mode includes objective, loop type, iteration unit, observation method, adjustment strategy, validation method, stop conditions, max iterations, escalation triggers, approval gate, and loop log.
+### 11.3 Behavior-Level Acceptance
 
-### 11.3 Subagent Delegation
+- Auto-Skeleton appears first when the Skill is invoked.
+- Optimized Task preserves intent and bounds scope.
+- Compact Contract remains low-friction.
+- Full Contract includes Decision Points and Approval Gate when appropriate.
+- Loop Contract Mode always includes finite iteration caps and stop conditions.
+- High-impact loops stop before execution unless approved.
+- Subagent Delegation is bounded, non-recursive by default, evidence-driven, and parent-controlled.
+- Final response ends with one clear next step.
+- The Skill does not imply background work, unlimited loops, or unapproved execution.
 
-- [ ] `SKILL.md` includes Multi-Agent Sub-contracting.
-- [ ] `references/subagent-delegation-policy.md` is referenced from `SKILL.md`.
-- [ ] Subagent template aligns with schema.
-- [ ] Subagent expected mode is supported by schema.
-- [ ] Subagent fixture input exists.
-- [ ] Subagent delegation regression or snapshot coverage exists.
+### 11.4 Test-Level Acceptance
 
-### 11.4 Schema Alignment
+- Every fixture has an expected output.
+- Every fixture has a snapshot.
+- Fixture matrix covers all fixtures.
+- Repository validator checks required files and key terms.
+- Release consistency validator catches stale active version references.
+- Semantic validator catches behavior failures.
+- Loop regression runner passes.
+- Snapshot protocol validator passes.
+- Installation smoke test passes.
 
-- [ ] All schema files parse as JSON.
-- [ ] Schema defaults use `0.4.0-draft` or documented release-config-driven values.
-- [ ] `expected-output.schema.json` supports all expected fixture modes.
-- [ ] `plugin-local-invariants.schema.json` does not contradict plugin manifest v0.4.0.
+### 11.5 Documentation-Level Acceptance
 
-### 11.5 Validator Strength
-
-- [ ] Validators fail on active release-target drift.
-- [ ] Validators fail on missing required v0.4.0 files.
-- [ ] Validators fail on missing snapshot coverage.
-- [ ] Validators fail on shallow placeholder-only loop expected outputs.
-- [ ] CI includes loop regression runner.
-- [ ] Pre-commit hook and docs match the local validation sequence.
-
-### 11.6 Plugin Sync
-
-- [ ] Canonical Skill source and packaged Skill copy match after sync.
-- [ ] `plugin.json` version matches `config/release.json`.
-- [ ] Local marketplace metadata points to the correct plugin package path.
-
-### 11.7 Documentation
-
-- [ ] Installation docs include smoke test and troubleshooting.
-- [ ] Testing docs include loop regression runner.
-- [ ] CI docs match workflow.
-- [ ] Release process docs describe v0.4.0.
-- [ ] Roadmap keeps P2 items deferred.
+- README describes v0.5.0 accurately.
+- AGENTS describes v0.5.0 release gates.
+- Usage docs include Subagent Delegation examples.
+- Installation docs include smoke test.
+- Testing docs include all validators.
+- Schema docs explain draft status and taxonomy.
+- CI docs mirror local validation.
+- Roadmap keeps P2 expansion work separate.
+- Plugin docs avoid unsupported official compliance claims.
 
 ---
 
-## 12. Risk and Rollback Notes
+## 12. Out of Scope
 
-### 12.1 Risks
+The following must not be implemented as part of v0.5.0 unless separately approved:
 
-| Risk | Impact | Mitigation |
-|---|---|---|
-| Version drift remains in active files | Release confusion and validator false positives | Add release consistency validator |
-| Schema changes over-constrain natural-language output | Skill becomes brittle | Keep schemas draft and structural only |
-| Snapshot coverage becomes too exact | Model prose variation causes false failures | Validate sections and fields, not exact prose |
-| Subagent delegation over-expands scope | Unsafe or unbounded execution | Require scope boundary, recursion lock, and approval gate |
-| CI diverges from local validation | Release confidence decreases | Keep docs, pre-commit, and CI command list aligned |
-
-### 12.2 Rollback Strategy
-
-If a change breaks validation:
-
-1. Revert the smallest failing change.
-2. Run the relevant validator only.
-3. Re-run full validation after the focused fix.
-4. Do not revert behavior-contract improvements unless they contradict `SKILL.md`.
-5. Preserve historical release docs in archive rather than deleting them.
-
-### 12.3 Safety Boundary
-
-Do not perform these actions without explicit maintainer approval:
-
-- Delete historical release files.
-- Change public plugin name.
-- Change canonical Skill name.
-- Change plugin package path.
-- Claim official Codex/plugin marketplace schema compliance.
-- Tag or publish a release.
-- Push commits, create PRs, or create GitHub releases.
+1. official marketplace publishing;
+2. official plugin schema compliance claim;
+3. v1.0.0 schema freeze;
+4. live model-output golden execution as a required release gate;
+5. network-dependent validation;
+6. autonomous multi-agent runtime;
+7. broad multi-skill orchestration;
+8. destructive cleanup;
+9. large unrelated repository refactors;
+10. dependency-heavy validator rewrites.
 
 ---
 
-## 13. Recommended Commit Breakdown
+## 13. Final Review Checklist
 
-Recommended commits if implementing in Git:
+### Plan Review
 
-1. `chore: add v0.4.0 release config and implementation plan`
-2. `docs: align active release docs to v0.4.0`
-3. `feat: integrate subagent delegation into task-contract skill`
-4. `test: add subagent fixture and snapshot coverage`
-5. `test: expand loop regression coverage`
-6. `chore: strengthen validators for release consistency`
-7. `ci: run loop regression tests in validation workflow`
-8. `chore: sync plugin package for v0.4.0`
+- [ ] `IMPLEMENTATION__PLAN.md` targets v0.5.0.
+- [ ] v0.4.0 is described only as previous baseline.
+- [ ] P0, P1, and P2 are clearly separated.
+- [ ] Every P0 item has Problem, Required Changes, Files, and Acceptance Criteria.
+- [ ] Every P1 item has Problem, Required Changes, Files, and Acceptance Criteria.
+- [ ] P2 items are roadmap-only.
+- [ ] Validation commands are complete.
+- [ ] No unsupported official compliance claim is made.
+
+### Implementation Review
+
+- [ ] `config/release.json` updated to v0.5.0.
+- [ ] Plugin manifest updated to v0.5.0.
+- [ ] Active docs updated to v0.5.0.
+- [ ] v0.5.0 release checklist exists.
+- [ ] Mode taxonomy normalized.
+- [ ] Release consistency validator added.
+- [ ] Semantic contract validator added.
+- [ ] Fixture matrix added.
+- [ ] Subagent schema hardened.
+- [ ] Installation smoke test added.
+- [ ] CI updated.
+- [ ] Pre-commit parity reviewed.
+
+### Validation Review
+
+- [ ] Plugin package sync passes.
+- [ ] Repository validation passes.
+- [ ] Loop fixture validation passes.
+- [ ] Release consistency validation passes.
+- [ ] Schema validation passes.
+- [ ] Documentation validation passes.
+- [ ] Snapshot validation passes.
+- [ ] Loop regression tests pass.
+- [ ] Semantic contract validation passes.
+- [ ] Installation smoke test passes.
+- [ ] `git status` is clean after sync or expected changes are committed.
+
+### Human Review
+
+- [ ] Maintainer reviewed behavior-impacting changes.
+- [ ] Maintainer reviewed release metadata.
+- [ ] Maintainer reviewed schema changes.
+- [ ] Maintainer reviewed subagent safety boundaries.
+- [ ] Maintainer confirmed P2 items are not release blockers.
+- [ ] Maintainer approved tagging only after CI is green.
 
 ---
 
-## 14. Final Review Checklist
+## 14. Tagging Plan
 
-Before release review:
-
-- [ ] Review `IMPLEMENTATION__PLAN.md`.
-- [ ] Review `config/release.json`.
-- [ ] Review active release docs.
-- [ ] Review `SKILL.md` behavior changes.
-- [ ] Review subagent delegation policy and template.
-- [ ] Review schema diffs.
-- [ ] Review validator diffs.
-- [ ] Review fixture and snapshot diffs.
-- [ ] Run local validation.
-- [ ] Confirm CI validation is green.
-- [ ] Confirm plugin package is synced.
-- [ ] Confirm no official plugin schema compliance claim is made.
-- [ ] Confirm P2 items remain in roadmap.
-- [ ] Confirm final diff is acceptable before tagging.
-
----
-
-## 15. Final Validation Command
-
-Run this from repository root:
+Tag only after all required checks pass and human review is complete.
 
 ```bash
-bash scripts/sync-plugin-package.sh \
-  && bash scripts/validate-repo.sh \
-  && bash scripts/validate-loop-contract-fixtures.sh \
-  && python3 scripts/validate-schemas.py \
-  && python3 scripts/validate-docs.py \
-  && python3 scripts/run-snapshots.py \
-  && python3 scripts/test-loop-runner.py \
-  && git status
+git tag v0.5.0
+git push origin main --tags
 ```
 
-Expected final state:
+GitHub Release title:
 
 ```text
-Repository validation passed.
-Plugin sync validation passed.
-Loop fixture validation passed.
-Schema validation passed.
-Documentation validation passed.
-Snapshot protocol validation passed.
-All loop regression tests passed.
-Working tree clean after sync, or expected sync changes are committed.
+v0.5.0 — Behavior Validation, Mode Taxonomy, and Subagent Boundary Hardening
 ```
+
+Suggested release note summary:
+
+```md
+v0.5.0 strengthens codex-task-contract-skill by normalizing contract mode taxonomy, adding semantic contract validation, improving release consistency checks, introducing fixture coverage mapping, hardening subagent delegation boundaries, adding installation smoke testing, and aligning local/CI validation for safer Codex repository workflows.
+```
+
+---
+
+## 15. Next Step
+
+Review and approve the first implementation phase: release target, central config, plugin manifest, release checklist, and active documentation updates.
