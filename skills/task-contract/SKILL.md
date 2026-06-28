@@ -37,13 +37,20 @@ Do not use this skill when:
 
 ## Mode Selection
 
-Choose exactly one mode unless the user explicitly asks for a comparison.
+Choose exactly one base mode and any applicable modifiers based on complexity:
 
-| Mode | Select When | Required Output |
-|---|---|---|
-| Compact Contract | The task is simple, low impact, and only slightly underspecified. | Auto-Skeleton, Optimized Task, Output Contract, Next Step. |
-| Full Contract | The task is multi-step, ambiguous, repo-level, public-facing, or high impact. | Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate, Next Step. |
-| Loop Contract Mode | The task requires bounded iteration through action, observation, adjustment, validation, and safe stopping. | Full Contract plus Loop Contract, Loop Procedure, Loop Log, Validation Method, Stop Conditions, Escalation Triggers, Approval Gate, Next Step. |
+- **Base Modes**:
+  - `Compact Contract`: For simple, low-risk requests.
+  - `Full Contract`: For multi-step, ambiguous, public-facing, or high-impact tasks.
+  - `Loop Contract Mode`: For tasks requiring multiple iterations of action, observation, adjustment, validation, and safe stopping.
+- **Modifiers**:
+  - `approval_gate`: Applied when high-impact execution must block for user confirmation.
+  - `subagent_delegation`: Applied when tasks are delegated to subagents.
+
+Required outputs:
+- **Compact Contract**: Auto-Skeleton, Optimized Task, Output Contract, Next Step.
+- **Full Contract**: Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate (if `approval_gate` modifier is present), Next Step.
+- **Loop Contract Mode**: Full Contract requirements plus Loop Objective, Loop Type, Iteration Unit, Observation Method, Adjustment Strategy, Validation Method, Stop Conditions, Max Iterations, Escalation Triggers, Approval Gate, Loop Log, Next Step.
 
 Escalate from Compact to Full when a choice may change the outcome. Escalate from Full to Loop Contract Mode when progress depends on observing results across multiple cycles.
 
@@ -214,12 +221,21 @@ Delegate tasks to specialized subagents to divide complexity and isolate context
 Every subagent contract must define:
 - `parent_conversation_id`: The identifier of the spawning conversation.
 - `subagent_role`: The specialized function of the subagent.
-- `scope_boundary`: Strict list of allowed paths and tools.
+- `scope_boundary`: General isolation boundary of the subagent.
+- `allowed_paths`: Bounded directories or files where editing/reading is allowed.
+- `forbidden_paths`: Directories or files that the subagent must not touch.
+- `allowed_tools`: Set of specific tools the subagent is permitted to use.
+- `forbidden_tools`: Set of tools the subagent must not execute.
+- `handoff_input`: Optional input parameters passed to the subagent.
 - `constraints`: Specific runtime limitations.
-- `recursion_lock`: True/False setting for child spawning.
+- `recursion_lock`: True/False setting for child spawning (defaults to `true`).
 - `approval_gate`: Required status, reason, blocked action, safe default, and reply template.
 - `acceptance_criteria`: Machine-verifiable definitions of completion.
+- `evidence_required`: Concrete evidence (e.g. tests, logs, diffs) required from the subagent.
 - `return_format`: Structured format for the subagent's report.
+- `return_schema`: Optional return structure definition.
+- `merge_policy`: Parent-controlled merge behavior (`parent_only`, `parent_review_required`, or `no_merge_allowed`).
+- `failure_policy`: Handling of subagent errors (`escalate_to_parent`, `stop_without_retry`, or `retry_with_parent_approval`).
 
 ### 4. Scope Boundary
 Subagents must be bounded to a narrow subset of files or directories (e.g., `docs/` or `scratch/`). They must not run commands or access paths outside their defined boundary.
@@ -274,7 +290,7 @@ Before acting, verify:
 - [ ] Decision Points are present when needed.
 - [ ] Approval Gate is applied when needed.
 - [ ] Loop contracts have objective, observation, adjustment, validation, stop conditions, escalation triggers, and iteration caps.
-- [ ] Subagent contracts define scope boundaries, constraints, recursion lock, and approval gates.
+- [ ] Subagent contracts define scope boundaries, allowed/forbidden paths and tools, constraints, recursion lock, evidence required, merge policy, failure policy, and approval gates.
 - [ ] Loop Log is present when Loop Contract Mode is used.
 - [ ] Private reasoning is not revealed.
 - [ ] Background or open-ended execution is not implied.

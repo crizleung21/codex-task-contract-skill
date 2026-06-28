@@ -1,8 +1,12 @@
 # Snapshot: Loop Dangerous Task
 
-## Expected Mode
+## Expected Base Mode
 
-Loop Contract Mode with Approval Gate
+Loop Contract Mode
+
+## Expected Modifiers
+
+- approval_gate
 
 ## Required Sections
 

@@ -6,9 +6,9 @@ The included `task-contract` Skill converts vague, multi-step, high-impact, or i
 
 ## Status
 
-Current release target: **v0.4.0**
+Current release target: **v0.5.0**
 
-v0.4.0 adds validation, tooling, draft schemas, CI, Git pre-commit hooks, loop regression tests, subagent delegation policies, and stronger release-readiness gates.
+v0.5.0 strengthens execution reliability and maintainability by improving mode taxonomy consistency, semantic contract validation, fixture coverage visibility, release consistency checks, subagent boundaries, installation smoke testing, and local/CI validation parity.
 
 ## What It Provides
 
@@ -48,7 +48,7 @@ skills/task-contract/assets/      Output templates and examples
 skills/task-contract/tests/       Manual behavior fixtures and snapshots
 plugin/codex-task-contract-skill/ Installable Codex Plugin package
 docs/                             Human-facing and maintainer documentation
-schemas/                          v0.4.0 draft schemas
+schemas/                          v0.5.0 draft schemas
 scripts/                          Maintenance, sync, and validation scripts
 .github/workflows/                CI validation workflow
 ```
@@ -83,13 +83,17 @@ Run the full local validation sequence before release review:
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
+python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
 git status
 ```
 
-The validators check required files, local plugin manifest invariants, canonical/plugin sync drift, version consistency, terminology consistency, fixture determinism, loop fixture coverage, schema structure, documentation inventory, and snapshot protocol readiness.
+The validators check required files, local plugin manifest invariants, canonical/plugin sync drift, version consistency, terminology consistency, fixture determinism, loop fixture coverage, schema structure, documentation inventory, snapshot protocol readiness, contract semantics, and installation smoke test correctness.
 
 ## CI
 
@@ -101,18 +105,21 @@ GitHub Actions validation is defined in:
 
 The workflow runs the same release-readiness checks used locally.
 
-## v0.4.0 Release Check
+## v0.5.0 Release Check
 
-Before tagging v0.4.0:
+Before tagging v0.5.0:
 
 ```bash
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
 python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
 git status
 ```
 

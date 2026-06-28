@@ -15,7 +15,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "default": "0.4.0-draft"
+      "default": "0.5.0-draft"
     },
     "plugin_name": {
       "type": "string",
@@ -23,7 +23,7 @@
     },
     "plugin_version": {
       "type": "string",
-      "pattern": "^0\\.4\\.0(-[A-Za-z0-9.-]+)?$"
+      "pattern": "^0\\.5\\.0(-[A-Za-z0-9.-]+)?$"
     },
     "skills_path": {
       "type": "string",

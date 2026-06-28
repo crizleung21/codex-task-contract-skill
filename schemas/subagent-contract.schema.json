@@ -9,16 +9,23 @@
     "parent_conversation_id",
     "subagent_role",
     "scope_boundary",
+    "allowed_paths",
+    "forbidden_paths",
+    "allowed_tools",
+    "forbidden_tools",
     "acceptance_criteria",
     "constraints",
     "recursion_lock",
     "approval_gate",
-    "return_format"
+    "evidence_required",
+    "return_format",
+    "merge_policy",
+    "failure_policy"
   ],
   "properties": {
     "schema_version": {
       "type": "string",
-      "default": "0.4.0-draft"
+      "default": "0.5.0-draft"
     },
     "parent_conversation_id": {
       "type": "string",
@@ -32,6 +39,26 @@
       "type": "array",
       "items": { "type": "string", "minLength": 1 },
       "minItems": 1
+    },
+    "allowed_paths": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "forbidden_paths": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "allowed_tools": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "forbidden_tools": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "handoff_input": {
+      "type": "object"
     },
     "acceptance_criteria": {
       "type": "array",
@@ -61,9 +88,33 @@
         "reply_template": { "type": "string" }
       }
     },
+    "evidence_required": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
     "return_format": {
       "type": "string",
       "minLength": 1
+    },
+    "return_schema": {
+      "type": "object"
+    },
+    "merge_policy": {
+      "type": "string",
+      "enum": [
+        "parent_only",
+        "parent_review_required",
+        "no_merge_allowed"
+      ]
+    },
+    "failure_policy": {
+      "type": "string",
+      "enum": [
+        "escalate_to_parent",
+        "stop_without_retry",
+        "retry_with_parent_approval"
+      ]
     }
   }
 }

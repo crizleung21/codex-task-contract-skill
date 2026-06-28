@@ -8,10 +8,14 @@ Clarify before action. The agent must convert vague, multi-step, high-impact, or
 
 ## Mode Selection
 
-Choose exactly one mode for the contract output based on complexity:
-- **Compact Contract**: For simple, slightly vague, low-risk requests.
-- **Full Contract**: For multi-step, ambiguous, public-facing, or high-impact tasks.
-- **Loop Contract Mode**: For tasks requiring multiple iterations of action, observation, adjustment, validation, and safe stopping.
+The task-contract Skill uses a structured mode taxonomy consisting of a base mode and optional behavior modifiers:
+- **Base Modes**:
+  - `Compact Contract`: For simple, low-risk requests.
+  - `Full Contract`: For multi-step, ambiguous, public-facing, or high-impact tasks.
+  - `Loop Contract Mode`: For tasks requiring multiple iterations of action, observation, adjustment, validation, and safe stopping.
+- **Modifiers**:
+  - `approval_gate`: Applied when high-impact execution must block for user confirmation.
+  - `subagent_delegation`: Applied when tasks are delegated to subagents.
 
 ## Auto-Skeleton Requirements
 
@@ -75,9 +79,11 @@ If a stop condition is met or required context is missing, the agent must escala
 
 ## Multi-Agent Sub-contracting Requirements
 
-When delegating tasks:
-- Use a Subagent Contract defining `parent_conversation_id`, `subagent_role`, `scope_boundary`, `constraints`, `recursion_lock`, `approval_gate`, `acceptance_criteria`, and `return_format`.
-- Enforce the recursion lock (`recursion_lock: true`) to prevent nested loops.
+When delegating tasks to subagents:
+- Use a Subagent Contract defining `parent_conversation_id`, `subagent_role`, `scope_boundary`, `allowed_paths`, `forbidden_paths`, `allowed_tools`, `forbidden_tools`, `handoff_input`, `constraints`, `recursion_lock`, `approval_gate`, `acceptance_criteria`, `evidence_required`, `return_format`, `return_schema`, `merge_policy`, and `failure_policy`.
+- Enforce the recursion lock (`recursion_lock: true` by default) to prevent nested subagent spawning.
+- Restrict file and tool access using `allowed_paths`, `forbidden_paths`, `allowed_tools`, and `forbidden_tools`.
+- Control integration and errors using explicit `merge_policy` (e.g. `parent_only`) and `failure_policy` (e.g. `escalate_to_parent`).
 - Log the delegation as a single iteration in the parent Loop Log.
 
 ## Final Response Requirements

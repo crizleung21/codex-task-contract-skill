@@ -25,7 +25,7 @@ def main():
         print('FAIL: failed to parse config/release.json')
         return 1
 
-    version_tag = config.get('release_tag', 'v0.4.0')
+    version_tag = config.get('release_tag', 'v0.5.0')
 
     if not SNAPSHOT_DIR.is_dir():
         issues.append('missing snapshot directory')
@@ -36,7 +36,7 @@ def main():
 
     if SNAPSHOT_README.is_file():
         text = SNAPSHOT_README.read_text(encoding='utf-8')
-        for term in ['expected mode', 'required sections', 'approval requirements']:
+        for term in ['expected base mode', 'expected modifiers', 'required sections', 'approval requirements']:
             if term not in text:
                 issues.append('snapshot README missing term: ' + term)
 
@@ -59,7 +59,8 @@ def main():
                 content = snapshot_path.read_text(encoding='utf-8')
                 required_headers = [
                     '# Snapshot:',
-                    '## Expected Mode',
+                    '## Expected Base Mode',
+                    '## Expected Modifiers',
                     '## Required Sections',
                     '## Required Fields',
                     '## Required Checks',

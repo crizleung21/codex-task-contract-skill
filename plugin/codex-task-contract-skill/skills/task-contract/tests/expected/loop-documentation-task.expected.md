@@ -1,6 +1,8 @@
 # Expected: Loop Documentation Task
 
 Mode: Loop Contract Mode
+Base Mode: Loop Contract Mode
+Modifiers: []
 
 ## Required Sections
 

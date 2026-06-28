@@ -5,8 +5,17 @@
 ```yaml
 parent_conversation_id: [parent-id]
 subagent_role: [role]
-scope_boundary:
-  - [allowed read/write path or command]
+scope_boundary: [boundary]
+allowed_paths:
+  - [path]
+forbidden_paths:
+  - [path]
+allowed_tools:
+  - [tool]
+forbidden_tools:
+  - [tool]
+handoff_input:
+  [param]: [value]
 constraints:
   - [constraint]
 max_iterations: [number]
@@ -19,7 +28,13 @@ approval_gate:
   reply_template: [template]
 acceptance_criteria:
   - [criteria]
+evidence_required:
+  - [evidence]
 return_format: [format]
+return_schema:
+  [property]: [type]
+merge_policy: parent_only
+failure_policy: escalate_to_parent
 ```
 
 ## Scope Boundary

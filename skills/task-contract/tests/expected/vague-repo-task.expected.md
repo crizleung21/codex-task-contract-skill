@@ -1,6 +1,8 @@
 # Expected: Vague Repo Task
 
 Mode: Full Contract
+Base Mode: Full Contract
+Modifiers: []
 
 ## Required Sections
 

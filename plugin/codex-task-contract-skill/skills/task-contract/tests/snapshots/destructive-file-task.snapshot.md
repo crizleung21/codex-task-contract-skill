@@ -1,8 +1,12 @@
 # Snapshot: Destructive File Task
 
-## Expected Mode
+## Expected Base Mode
 
-Full Contract with Approval Gate
+Full Contract
+
+## Expected Modifiers
+
+- approval_gate
 
 ## Required Sections
 

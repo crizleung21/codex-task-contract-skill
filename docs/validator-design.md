@@ -1,8 +1,8 @@
 # Validator Design
 
-This document records the local validation scope for v0.4.0.
+This document records the local validation scope for v0.5.0.
 
-v0.4.0 validators are release-readiness checks. They are not a substitute for human review.
+v0.5.0 validators are release-readiness checks. They are not a substitute for human review.
 
 ## Configuration-Driven Validation
 
@@ -15,12 +15,13 @@ All validator scripts must read version targets, schema versions, and directory 
 - Skill metadata;
 - plugin manifest local invariants;
 - plugin version matches `config/release.json` release target;
-- fixture mode consistency;
+- fixture mode consistency (using `base_mode` and `modifiers` taxonomy);
 - template inventory;
 - schema inventory;
-- release checklist inventory (matching active `v0.4.0-release-checklist.md`);
+- release checklist inventory (matching active `v0.5.0-release-checklist.md`);
 - CI workflow inventory;
-- snapshot protocol inventory.
+- snapshot protocol inventory;
+- fixture matrix file `FIXTURE_MATRIX.md`.
 
 ## Plugin Sync Validator
 
@@ -42,6 +43,15 @@ All validator scripts must read version targets, schema versions, and directory 
 - Approval Gate appears for high-impact fixtures;
 - open-ended loop phrasing is absent;
 - no sections are empty or contain placeholder values (e.g. `...`, `[placeholder]`, `TBD`, `TODO`).
+
+## Release Consistency Validator
+
+`validate-release-consistency.py` should check:
+- plugin manifest version matches release configuration;
+- schema version defaults match release configuration;
+- active release checklist exists;
+- active documentation and scripts do not contain stale release gate or check references to previous versions;
+- CI validation steps include all v0.5.0 checks.
 
 ## Schema Validator
 
@@ -68,6 +78,7 @@ All validator scripts must read version targets, schema versions, and directory 
 - snapshot README exists;
 - snapshot testing documentation exists;
 - every expected fixture has a corresponding snapshot file in `skills/task-contract/tests/snapshots/`;
+- snapshot headers check for `## Expected Base Mode` and `## Expected Modifiers`;
 - no snapshot file contains placeholder content or empty required sections.
 
 ## Loop Regression Test Runner
@@ -77,6 +88,24 @@ All validator scripts must read version targets, schema versions, and directory 
 - the execution correctly evaluates stop conditions (e.g., success, max iterations, approval required, or repeated error);
 - recursion locks and subagent delegation logs are verified;
 - high-impact loops stop after one iteration when approval is required.
+
+## Semantic Contract Validator
+
+`validate-contract-semantics.py` should check:
+- every fixture output has an Auto-Skeleton first;
+- every fixture output ends with a singular clear next step;
+- high-risk tasks require Approval Gates;
+- loop fixtures specify max iteration caps and stop conditions;
+- subagent delegation contracts require all boundary metadata (recursion locks, allowed/forbidden paths and tools, evidence required, merge and failure policies).
+
+## Installation Smoke Tester
+
+`smoke-test-installation.sh` should check:
+- packaged plugin folder structure exists;
+- plugin manifest matches configuration;
+- local marketplace plugins list matches target;
+- plugin sync validation passes;
+- release consistency checks pass.
 
 ## Boundary
 

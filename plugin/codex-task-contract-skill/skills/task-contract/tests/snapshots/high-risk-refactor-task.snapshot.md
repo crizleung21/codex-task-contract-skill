@@ -1,8 +1,12 @@
 # Snapshot: High Risk Refactor Task
 
-## Expected Mode
+## Expected Base Mode
 
-Full Contract with Approval Gate
+Full Contract
+
+## Expected Modifiers
+
+- approval_gate
 
 ## Required Sections
 

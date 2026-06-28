@@ -7,28 +7,35 @@
   "additionalProperties": false,
   "required": [
     "fixture_name",
-    "expected_mode",
+    "expected_base_mode",
+    "expected_modifiers",
     "required_sections",
     "required_checks"
   ],
   "properties": {
     "schema_version": {
       "type": "string",
-      "default": "0.4.0-draft"
+      "default": "0.5.0-draft"
     },
     "fixture_name": { "type": "string", "minLength": 1 },
-    "expected_mode": {
+    "expected_base_mode": {
       "type": "string",
       "enum": [
         "Compact Contract",
         "Full Contract",
-        "Full Contract with Approval Gate",
-        "Full Contract with Subagent Delegation",
-        "Loop Contract Mode",
-        "Loop Contract Mode with Approval Gate",
-        "Loop Contract Mode with Subagent Delegation",
-        "Loop Contract Mode with Approval Gate and Subagent Delegation"
+        "Loop Contract Mode"
       ]
+    },
+    "expected_modifiers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "approval_gate",
+          "subagent_delegation"
+        ]
+      },
+      "uniqueItems": true
     },
     "risk_class": {
       "type": "string",
