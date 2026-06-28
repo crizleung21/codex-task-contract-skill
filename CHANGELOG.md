@@ -6,9 +6,25 @@ All notable changes to this project will be documented in this file.
 
 ### Planned
 
-- P2 roadmap items for v0.5.0 and later: official plugin schema validation, marketplace publishing guidance, full golden-output execution harness, automated changelog generation, and multi-skill expansion after v1.0.0 behavior freeze.
+- P2 roadmap items for v0.6.0 and later: official plugin schema validation, marketplace publishing guidance, full golden-output execution harness, automated changelog generation, and multi-skill expansion after v1.0.0 behavior freeze.
 
-## [0.4.0] - Release Candidate
+## [0.5.0] - Release Candidate
+
+### Added
+- Semantic contract validator script `scripts/validate-contract-semantics.py`.
+- Release consistency validator script `scripts/validate-release-consistency.py`.
+- Installation smoke test script `scripts/smoke-test-installation.sh`.
+- Fixture matrix mapping document `skills/task-contract/tests/FIXTURE_MATRIX.md`.
+- Subagent delegation usage examples to documentation.
+
+### Changed
+- Upgraded release target and all active files to v0.5.0.
+- Normalized contract mode taxonomy across schemas, validators, fixtures, docs, and snapshots using `base_mode` and `modifiers`.
+- Strengthened `schemas/subagent-contract.schema.json` with allowed/forbidden paths and tools, handoff inputs, evidence requirements, merge policy, and failure policy.
+- Hardened Subagent delegation policy and template in `skills/task-contract/references/subagent-delegation-policy.md` and `skills/task-contract/assets/subagent-contract-template.md`.
+- Improved CI and local validation parity by aligning validator scripts and execution order.
+
+## [0.4.0] - Released
 
 ### Added
 - Multi-agent sub-contracting integration into the canonical task-contract Skill.

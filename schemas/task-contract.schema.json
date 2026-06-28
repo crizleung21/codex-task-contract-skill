@@ -2,11 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.local/codex-task-contract-skill/schemas/task-contract.schema.json",
   "title": "Task Contract Draft Schema",
-  "description": "Draft structural schema for v0.4.0 task-contract outputs. This is not a v1.0.0 frozen schema.",
+  "description": "Draft structural schema for v0.5.0 task-contract outputs. This is not a v1.0.0 frozen schema.",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "mode",
+    "base_mode",
+    "modifiers",
     "auto_skeleton",
     "optimized_task",
     "output_contract",
@@ -16,15 +17,26 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "default": "0.4.0-draft"
+      "default": "0.5.0-draft"
     },
-    "mode": {
+    "base_mode": {
       "type": "string",
       "enum": [
         "Compact Contract",
         "Full Contract",
         "Loop Contract Mode"
       ]
+    },
+    "modifiers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "approval_gate",
+          "subagent_delegation"
+        ]
+      },
+      "uniqueItems": true
     },
     "auto_skeleton": {
       "type": "object",

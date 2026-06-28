@@ -1,8 +1,12 @@
 # Snapshot: Simple Writing Task
 
-## Expected Mode
+## Expected Base Mode
 
 Compact Contract
+
+## Expected Modifiers
+
+[]
 
 ## Required Sections
 

@@ -45,5 +45,23 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+python3 scripts/validate-release-consistency.py
+if [ $? -ne 0 ]; then
+  echo "ERROR: Release consistency validation failed."
+  exit 1
+fi
+
+python3 scripts/validate-contract-semantics.py
+if [ $? -ne 0 ]; then
+  echo "ERROR: Semantic contract validation failed."
+  exit 1
+fi
+
+bash scripts/smoke-test-installation.sh
+if [ $? -ne 0 ]; then
+  echo "ERROR: Installation smoke test failed."
+  exit 1
+fi
+
 echo "All pre-commit checks passed successfully!"
 exit 0

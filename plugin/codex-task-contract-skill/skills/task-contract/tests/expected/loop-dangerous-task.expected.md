@@ -1,6 +1,9 @@
 # Expected: Loop High-Impact Task
 
 Mode: Loop Contract Mode with Approval Gate
+Base Mode: Loop Contract Mode
+Modifiers:
+  - approval_gate
 
 ## Required Sections
 

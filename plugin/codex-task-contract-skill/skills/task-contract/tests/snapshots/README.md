@@ -1,12 +1,13 @@
 # Snapshot Directory
 
-Status: v0.4.0 snapshot protocol directory.
+Status: v0.5.0 snapshot protocol directory.
 
 This directory records structural snapshot expectations for `task-contract` fixture review.
 
 Snapshots may document:
 
-- expected mode;
+- expected base mode;
+- expected modifiers;
 - required sections;
 - required fields;
 - required checks;

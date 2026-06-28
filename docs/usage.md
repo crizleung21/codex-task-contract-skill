@@ -8,11 +8,17 @@ Use $task-contract to clarify this task first.
 
 ## Mode Selection
 
-| Mode | Use When | Output |
+The task-contract Skill uses a structured mode taxonomy consisting of a base mode and optional behavior modifiers:
+
+| Base Mode | Select When | Output |
 |---|---|---|
 | Compact Contract | The task is simple and low impact. | Auto-Skeleton, Optimized Task, Output Contract, Next Step. |
 | Full Contract | The task is complex, ambiguous, repo-level, or high impact. | Auto-Skeleton, BLUF, Optimized Task, Assumptions, Constraints, Decision Points, Output Contract, Execution Plan, Acceptance Criteria, Approval Gate, Next Step. |
 | Loop Contract Mode | The task needs bounded iteration through observation, adjustment, validation, and safe stopping. | Full Contract plus Loop Contract, Loop Log, Validation Method, Stop Conditions, Escalation Triggers, Approval Gate when needed. |
+
+Available modifiers:
+- `approval_gate`: Applied when high-impact execution must block for user confirmation.
+- `subagent_delegation`: Applied when tasks are delegated to subagents.
 
 ## Compact Contract Example Prompt
 
@@ -20,7 +26,7 @@ Use $task-contract to clarify this task first.
 Rewrite this README introduction so it is clearer and more professional.
 ```
 
-Expected mode: Compact Contract.
+Expected mode: Compact Contract (no modifiers).
 
 ## Full Contract Example Prompt
 
@@ -28,7 +34,7 @@ Expected mode: Compact Contract.
 Review this repository and prepare it for public release.
 ```
 
-Expected mode: Full Contract with Decision Points and Approval Gate before high-impact work.
+Expected base mode: Full Contract (with `approval_gate` modifier before high-impact work).
 
 ## Loop Contract Example Prompt
 
@@ -36,7 +42,7 @@ Expected mode: Full Contract with Decision Points and Approval Gate before high-
 Run the checks, adjust the failing area, and repeat within a bounded loop until validation passes or the loop stops.
 ```
 
-Expected mode: Loop Contract Mode.
+Expected base mode: Loop Contract Mode.
 
 Required loop fields:
 
@@ -51,6 +57,35 @@ Required loop fields:
 - Escalation Triggers
 - Approval Gate
 - Loop Log
+
+## Subagent Delegation Example Prompt
+
+```text
+Use $task-contract to split this repository audit into bounded subagent contracts:
+1. docs auditor
+2. schema auditor
+3. CI validator
+
+Do not edit files until I approve the parent plan.
+```
+
+Expected mode:
+
+```text
+Base Mode: Full Contract
+Modifiers:
+  - subagent_delegation
+  - approval_gate
+```
+
+Expected behavior:
+
+1. Produce a parent Full Contract.
+2. Identify bounded subagent contracts.
+3. Define allowed paths and tools per subagent.
+4. Set recursion lock to true by default.
+5. Require evidence from each subagent.
+6. Block broad execution until parent approval.
 
 ## Approval Gate
 
@@ -70,4 +105,5 @@ A good task contract:
 - adds Decision Points when choices matter;
 - uses an Approval Gate when needed;
 - uses bounded Loop Contract Mode when iteration is required;
+- uses bounded Subagent Contract when delegating;
 - ends with one clear next step.

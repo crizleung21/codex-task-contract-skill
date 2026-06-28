@@ -1,8 +1,12 @@
 # Snapshot: Loop Documentation Task
 
-## Expected Mode
+## Expected Base Mode
 
 Loop Contract Mode
+
+## Expected Modifiers
+
+[]
 
 ## Required Sections
 

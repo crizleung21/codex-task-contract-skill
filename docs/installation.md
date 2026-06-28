@@ -32,7 +32,13 @@ Local marketplace metadata:
 
 ## Verification
 
-After installation, invoke:
+After installation, you can verify the layout using the local smoke test:
+
+```bash
+bash scripts/smoke-test-installation.sh
+```
+
+To verify the behavior in Codex, invoke:
 
 ```text
 Use $task-contract to clarify this request before editing files.

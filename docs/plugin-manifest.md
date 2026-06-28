@@ -1,6 +1,6 @@
 # Plugin Manifest
 
-This document records local manifest expectations for the v0.4.0 plugin package.
+This document records local manifest expectations for the v0.5.0 plugin package.
 
 ## Manifest Path
 
@@ -13,7 +13,7 @@ plugin/codex-task-contract-skill/.codex-plugin/plugin.json
 | Field | Expected Value |
 |---|---|
 | `name` | `codex-task-contract-skill` |
-| `version` | `0.4.0` |
+| `version` | `0.5.0` |
 | `skills` | `./skills/` |
 
 ## Schema Note

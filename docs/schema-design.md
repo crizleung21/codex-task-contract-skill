@@ -1,6 +1,6 @@
 # Schema Design
 
-Status: v0.4.0 draft schema documentation.
+Status: v0.5.0 draft schema documentation.
 
 The schemas in `schemas/` describe the structural expectations for task contracts, Loop Contract Mode, subagent delegation contracts, expected fixture outputs, and local plugin package invariants.
 
@@ -23,6 +23,12 @@ These schemas are draft artifacts. They are not v1.0.0 frozen public contracts a
 3. Keep schemas strict enough for maintainers and flexible enough for practical output variation.
 4. Avoid official plugin schema compliance claims until an authoritative schema source is verified.
 5. Centralize schema versioning through `config/release.json`.
+
+## Mode Taxonomy
+
+v0.5.0 normalizes the representation of task-contract modes from long arbitrary strings to a structured model:
+- `base_mode` (enum): `"Compact Contract"`, `"Full Contract"`, `"Loop Contract Mode"`
+- `modifiers` (array of enums): `"approval_gate"`, `"subagent_delegation"`
 
 ## Required Top-Level Schema Fields
 
@@ -47,4 +53,4 @@ The validator checks required schema files, JSON parsing, required top-level fie
 
 ## Release Boundary
 
-v0.4.0 refines draft schemas and adds subagent contract validation. v1.0.0 is the appropriate target for freezing a stable external contract schema.
+v0.5.0 refines draft schemas by normalizing mode taxonomy into `base_mode` and `modifiers`, and hardening subagent contract boundaries. v1.0.0 is the appropriate target for freezing a stable external contract schema.

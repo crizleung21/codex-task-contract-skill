@@ -1,6 +1,9 @@
 # Expected: File Cleanup Task
 
 Mode: Full Contract with Approval Gate
+Base Mode: Full Contract
+Modifiers:
+  - approval_gate
 
 ## Required Sections
 

@@ -1,6 +1,8 @@
 # Expected: Simple Writing Task
 
 Mode: Compact Contract
+Base Mode: Compact Contract
+Modifiers: []
 
 ## Required Sections
 

@@ -5,19 +5,55 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 
-EXPECTED_MODES = {
-    'simple-writing-task.expected.md': 'Mode: Compact Contract',
-    'vague-repo-task.expected.md': 'Mode: Full Contract',
-    'high-risk-refactor-task.expected.md': 'Mode: Full Contract with Approval Gate',
-    'documentation-task.expected.md': 'Mode: Full Contract',
-    'research-task.expected.md': 'Mode: Full Contract',
-    'destructive-file-task.expected.md': 'Mode: Full Contract with Approval Gate',
-    'loop-debug-task.expected.md': 'Mode: Loop Contract Mode',
-    'loop-research-task.expected.md': 'Mode: Loop Contract Mode',
-    'loop-documentation-task.expected.md': 'Mode: Loop Contract Mode',
-    'loop-dangerous-task.expected.md': 'Mode: Loop Contract Mode with Approval Gate',
-    'loop-repo-maintenance-task.expected.md': 'Mode: Loop Contract Mode',
-    'subagent-delegation-task.expected.md': 'Mode: Full Contract with Subagent Delegation',
+EXPECTED_TAXONOMY = {
+    'simple-writing-task.expected.md': {
+        'Base Mode': 'Compact Contract',
+        'Modifiers': []
+    },
+    'vague-repo-task.expected.md': {
+        'Base Mode': 'Full Contract',
+        'Modifiers': []
+    },
+    'high-risk-refactor-task.expected.md': {
+        'Base Mode': 'Full Contract',
+        'Modifiers': ['approval_gate']
+    },
+    'documentation-task.expected.md': {
+        'Base Mode': 'Full Contract',
+        'Modifiers': []
+    },
+    'research-task.expected.md': {
+        'Base Mode': 'Full Contract',
+        'Modifiers': []
+    },
+    'destructive-file-task.expected.md': {
+        'Base Mode': 'Full Contract',
+        'Modifiers': ['approval_gate']
+    },
+    'loop-debug-task.expected.md': {
+        'Base Mode': 'Loop Contract Mode',
+        'Modifiers': []
+    },
+    'loop-research-task.expected.md': {
+        'Base Mode': 'Loop Contract Mode',
+        'Modifiers': []
+    },
+    'loop-documentation-task.expected.md': {
+        'Base Mode': 'Loop Contract Mode',
+        'Modifiers': []
+    },
+    'loop-dangerous-task.expected.md': {
+        'Base Mode': 'Loop Contract Mode',
+        'Modifiers': ['approval_gate']
+    },
+    'loop-repo-maintenance-task.expected.md': {
+        'Base Mode': 'Loop Contract Mode',
+        'Modifiers': []
+    },
+    'subagent-delegation-task.expected.md': {
+        'Base Mode': 'Full Contract',
+        'Modifiers': ['subagent_delegation']
+    },
 }
 
 SCHEMA_FILES = [
@@ -75,8 +111,8 @@ def main():
         fail('failed to parse config/release.json: ' + str(exc), failures)
         return 1
 
-    version_tag = config.get('release_tag', 'v0.4.0')
-    version_target = config.get('release_target', '0.4.0')
+    version_tag = config.get('release_tag', 'v0.5.0')
+    version_target = config.get('release_target', '0.5.0')
     checklist_rel_path = f'docs/{version_tag}-release-checklist.md'
 
     required_files = [
@@ -129,6 +165,11 @@ def main():
         'scripts/install-git-hooks.sh',
         'scripts/test-loop-runner.py',
         'skills/task-contract/tests/loop-regression-tests.json',
+        # v0.5.0 added files
+        'scripts/validate-release-consistency.py',
+        'scripts/validate-contract-semantics.py',
+        'scripts/smoke-test-installation.sh',
+        'skills/task-contract/tests/FIXTURE_MATRIX.md',
     ]
 
     for file in required_files:
@@ -154,14 +195,19 @@ def main():
             fail('plugin manifest skills path mismatch', failures)
 
     expected_dir = ROOT / 'skills/task-contract/tests/expected'
-    for filename, mode in EXPECTED_MODES.items():
+    for filename, taxonomy in EXPECTED_TAXONOMY.items():
         path = expected_dir / filename
         if not path.is_file():
             fail('missing expected fixture: ' + filename, failures)
             continue
         text = path.read_text(encoding='utf-8')
-        if mode not in text:
-            fail(filename + ' missing deterministic mode: ' + mode, failures)
+        base_mode_line = f"Base Mode: {taxonomy['Base Mode']}"
+        if base_mode_line not in text:
+            fail(f"{filename} missing deterministic Base Mode: {taxonomy['Base Mode']}", failures)
+        for modifier in taxonomy['Modifiers']:
+            modifier_line = f"  - {modifier}"
+            if modifier_line not in text:
+                fail(f"{filename} missing modifier: {modifier}", failures)
 
     schema_dir = ROOT / 'schemas'
     for filename in SCHEMA_FILES:

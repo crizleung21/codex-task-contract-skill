@@ -53,7 +53,7 @@ Status: released.
 
 ## v0.4.0 — Core Subagent Delegation and Loop Validation
 
-Status: release candidate.
+Status: released.
 
 Release goal: integrate multi-agent subagent delegation support, incorporate loop regression testing in CI, centralize versioning, and complete snapshot test coverage.
 
@@ -65,13 +65,26 @@ Release goal: integrate multi-agent subagent delegation support, incorporate loo
 - Complete snapshot test coverage (12 files).
 - Loop regression runner in CI.
 
-## Deferred (Roadmap for v0.5.0 and later)
+## v0.5.0 — Behavior Validation, Mode Taxonomy, and Subagent Boundary Hardening
+
+Status: release candidate.
+
+Release goal: normalize contract mode taxonomy, implement semantic contract validation, centralize release target validation, verify installation with smoke testing, and harden subagent boundaries.
+
+- Normalized contract mode taxonomy into `base_mode` and `modifiers`.
+- Release consistency validator script to detect version target drift.
+- Semantic contract validator to enforce behavior-level rules.
+- Fixture coverage mapping with `FIXTURE_MATRIX.md`.
+- Upgraded `subagent-contract.schema.json` with path, tool, evidence, merge, and failure boundaries.
+- Hardened Subagent delegation policy and markdown templates.
+- Installation smoke test script for packaging verification.
+
+## Deferred (Roadmap for v0.6.0 and later)
 
 - Official plugin schema validation after authoritative source confirmation.
 - Marketplace publishing guide.
-- Full live execution integration.
+- Full live execution integration (Golden Output Harness).
 - Automated changelog generator.
-- Marketplace install smoke test.
 - Contract schema freeze (target: v1.0.0).
 - General multi-skill orchestration.
 

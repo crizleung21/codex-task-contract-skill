@@ -1,6 +1,8 @@
 # Expected: Research Task
 
 Mode: Full Contract
+Base Mode: Full Contract
+Modifiers: []
 
 ## Required Sections
 

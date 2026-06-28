@@ -40,7 +40,7 @@ Score each item 0, 1, or 2.
 
 Total: 24 points.
 
-## v0.4.0 Release Threshold
+## v0.5.0 Release Threshold
 
 - Each stable loop fixture must score at least 20 / 24.
 - High-impact fixtures must pass Approval Gate regardless of score.
@@ -50,6 +50,9 @@ Total: 24 points.
 - Documentation validation must pass.
 - Snapshot protocol validation must pass.
 - Loop regression test runner must pass.
+- Release consistency validation must pass.
+- Semantic contract validation must pass.
+- Installation smoke test must pass.
 - Plugin package sync validation must pass.
 
 ## Automated Checks
@@ -60,46 +63,53 @@ Run:
 bash scripts/sync-plugin-package.sh
 bash scripts/validate-repo.sh
 bash scripts/validate-loop-contract-fixtures.sh
+python3 scripts/validate-release-consistency.py
 python3 scripts/validate-schemas.py
 python3 scripts/validate-docs.py
 python3 scripts/run-snapshots.py
 python3 scripts/test-loop-runner.py
+python3 scripts/validate-contract-semantics.py
+bash scripts/smoke-test-installation.sh
 ```
 
-The validators check required files, plugin sync drift, required Loop Contract fields, high-impact Approval Gate coverage, open-ended loop phrasing, schema structure, documentation inventory, snapshot protocol completeness, and loop regression execution.
+The validators check required files, plugin sync drift, required Loop Contract fields, high-impact Approval Gate coverage, open-ended loop phrasing, schema structure, documentation inventory, snapshot protocol completeness, loop regression execution, release target consistency, contract semantics, and installation correctness.
 
 ## Fixture Coverage
 
-| Fixture | Expected Mode |
-|---|---|
-| `simple-writing-task.md` | Compact Contract |
-| `vague-repo-task.md` | Full Contract |
-| `high-risk-refactor-task.md` | Full Contract with Approval Gate |
-| `documentation-task.md` | Full Contract |
-| `research-task.md` | Full Contract |
-| `destructive-file-task.md` | Full Contract with Approval Gate |
-| `loop-debug-task.md` | Loop Contract Mode |
-| `loop-research-task.md` | Loop Contract Mode |
-| `loop-documentation-task.md` | Loop Contract Mode |
-| `loop-dangerous-task.md` | Loop Contract Mode with Approval Gate |
-| `loop-repo-maintenance-task.md` | Loop Contract Mode |
-| `subagent-delegation-task.md` | Full Contract with Subagent Delegation |
+Fixture mapping and metadata are centralized in `skills/task-contract/tests/FIXTURE_MATRIX.md`.
+
+| Fixture | Base Mode | Modifiers |
+|---|---|---|
+| `simple-writing-task.md` | Compact Contract | [] |
+| `vague-repo-task.md` | Full Contract | [] |
+| `high-risk-refactor-task.md` | Full Contract | [`approval_gate`] |
+| `documentation-task.md` | Full Contract | [] |
+| `research-task.md` | Full Contract | [] |
+| `destructive-file-task.md` | Full Contract | [`approval_gate`] |
+| `loop-debug-task.md` | Loop Contract Mode | [] |
+| `loop-research-task.md` | Loop Contract Mode | [] |
+| `loop-documentation-task.md` | Loop Contract Mode | [] |
+| `loop-dangerous-task.md` | Loop Contract Mode | [`approval_gate`] |
+| `loop-repo-maintenance-task.md` | Loop Contract Mode | [] |
+| `subagent-delegation-task.md` | Full Contract | [`subagent_delegation`] |
 
 ## Expected Output File Format
 
 Each expected output file should include:
 
 1. Mode
-2. Required Sections
-3. Required Fields
-4. Required Checks
-5. Forbidden Patterns, when useful
+2. Base Mode
+3. Modifiers
+4. Required Sections
+5. Required Fields
+6. Required Checks
+7. Forbidden Patterns, when useful
 
 ## Snapshot Protocol
 
 Snapshot protocol is documented in `docs/snapshot-testing.md` and `skills/task-contract/tests/snapshots/README.md`.
 
-v0.4.0 snapshot validation checks that snapshot files exist for all fixtures and contain no placeholder content. A full automated model-output runtime execution harness remains deferred.
+v0.5.0 snapshot validation checks that snapshot files exist for all fixtures and contain no placeholder content. A full automated model-output runtime execution harness remains deferred.
 
 ## Git Pre-commit Hook Integration
 
@@ -114,10 +124,13 @@ Once installed, executing `git commit` triggers the following automated validati
 1. **Plugin Package Sync check**: Copy canonical files and verify no package sync drift.
 2. **Repository Validator**: Verify file inventories and key configurations.
 3. **Loop Fixture Validator**: Inspect loop contract formatting, stops, and safe boundaries.
-4. **Schema Validator**: Confirm schema drafts parse correctly.
-5. **Documentation Validator**: Check heading syntax and document inventory.
-6. **Snapshot Runner**: Validate versioned snapshots and protocols.
-7. **Loop Regression Test Runner**: Verify loop contract trajectories using mock state sequences.
+4. **Release Consistency Validator**: Detect version target drift and checklist consistency.
+5. **Schema Validator**: Confirm schema drafts parse correctly.
+6. **Documentation Validator**: Check heading syntax and document inventory.
+7. **Snapshot Runner**: Validate versioned snapshots and protocols.
+8. **Loop Regression Test Runner**: Verify loop contract trajectories using mock state sequences.
+9. **Semantic Contract Validator**: Verify behavior-level semantic constraints.
+10. **Installation Smoke Tester**: Smoke test packaged plugin layout correctness.
 
 If any check fails, the commit is blocked and the error is printed.
 

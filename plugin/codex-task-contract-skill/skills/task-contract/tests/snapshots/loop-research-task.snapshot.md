@@ -1,8 +1,12 @@
 # Snapshot: Loop Research Task
 
-## Expected Mode
+## Expected Base Mode
 
 Loop Contract Mode
+
+## Expected Modifiers
+
+[]
 
 ## Required Sections
 

@@ -1,6 +1,8 @@
 # Expected: Loop Research Task
 
 Mode: Loop Contract Mode
+Base Mode: Loop Contract Mode
+Modifiers: []
 
 ## Required Sections
 

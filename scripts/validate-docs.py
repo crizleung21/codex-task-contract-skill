@@ -21,7 +21,7 @@ def main():
         print('FAIL: failed to parse config/release.json')
         return 1
 
-    version_tag = config.get('release_tag', 'v0.4.0')
+    version_tag = config.get('release_tag', 'v0.5.0')
     checklist_rel_path = f'docs/{version_tag}-release-checklist.md'
 
     required_docs = [
@@ -58,7 +58,7 @@ def main():
             if term not in text:
                 issues.append(f'release checklist missing term: {term}')
 
-    # Validate release target consistency (detect stale references to v0.3.0 as current release gates in active files)
+    # Validate release target consistency (detect stale references to v0.4.0 as current release gates in active files)
     active_gate_docs = [
         'README.md',
         'AGENTS.md',
@@ -69,8 +69,9 @@ def main():
         path = ROOT / rel
         if path.is_file():
             content = path.read_text(encoding='utf-8')
-            if 'v0.3.0 release gate' in content.lower() or 'v0.3.0 release check' in content.lower():
-                issues.append(f'{rel} refers to v0.3.0 as the current release gate')
+            prev_ver = 'v0.4.0'
+            if f'{prev_ver} release gate' in content.lower() or f'{prev_ver} release check' in content.lower():
+                issues.append(f'{rel} refers to {prev_ver} as the current release gate')
 
     if issues:
         for item in issues:

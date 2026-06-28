@@ -1,8 +1,12 @@
 # Snapshot: Vague Repo Task
 
-## Expected Mode
+## Expected Base Mode
 
 Full Contract
+
+## Expected Modifiers
+
+[]
 
 ## Required Sections
 

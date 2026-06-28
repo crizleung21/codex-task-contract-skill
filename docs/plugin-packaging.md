@@ -19,7 +19,7 @@ Update canonical source first. Then sync the package copy before release review.
 | Item | Value |
 |---|---|
 | Plugin name | `codex-task-contract-skill` |
-| Plugin version | `0.4.0` |
+| Plugin version | `0.5.0` |
 | Skills path | `./skills/` |
 | Canonical Skill | `skills/task-contract/` |
 | Packaged Skill | `plugin/codex-task-contract-skill/skills/task-contract/` |
